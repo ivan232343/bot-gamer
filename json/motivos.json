@@ -1,0 +1,68 @@
+{
+    "categoria": {
+        "gamer": {
+            "Label": "Latencias-PacketLoss",
+            "Descripcion": "Ping elevado o perdida de paquetes",
+            "value": "gamer",
+            "emoji": "🎮"
+        },
+        "appweb": {
+            "Label": "App-Web",
+            "Descripcion": "Problemas de acceso en ciertas apps o págs. web",
+            "value": "appweb",
+            "emoji": "🌐"
+        },
+        "anchobanda": {
+            "Label": "Ancho de banda",
+            "Descripcion": "No está llegando a lo contratado",
+            "value": "anchobanda",
+            "emoji": "🏴"
+        },
+        "intermitencias": {
+            "Label": "Intermitencias",
+            "Descripcion": "Cortes constantes por cable de red o wifi",
+            "value": "intermitencias",
+            "emoji": "🎢"
+        },
+        "lentitud": {
+            "Label": "Lentitud",
+            "Descripcion": "Tiempos de carga muy elevada en págs. o reproducción de contenido",
+            "value": "lentitud",
+            "emoji": "🕑"
+        },
+        "perdidaTotal": {
+            "Label": "Perdida Total",
+            "Descripcion": "No carga ningún contenido",
+            "value": "perdidaTotal",
+            "emoji": "❌"
+        },
+        "otro": {
+            "Label": "Otro",
+            "Descripcion": "Otros inconvenientes - consultas",
+            "value": "otro",
+            "emoji": "⚙"
+        }
+    },
+    "planes": [
+        {
+            "label": "Nuevo Plan Gamer 250Mbps",
+            "value": "250",
+            "emoji": "🛵"
+        },
+        {
+            "label": "Nuevo Plan Gamer 350Mbps",
+            "value": "350",
+            "emoji": "🚗"
+        },
+        {
+            "label": "Nuevo Plan Gamer 400Mbps",
+            "value": "400",
+            "emoji": "🚌"
+        },
+        {
+            "label": "Nuevo Plan Gamer 600Mbps",
+            "value": "600",
+            "emoji": "🚄"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+config.json
+database/nose.bat
+database/*.csv
+src/uploads/*
+node_modules/*
+src/buildscripts/jdd.bat
+src/uploads/numeracionGlobal.csv
+src/generate/reportes/*.*
+descartados/*
+src/generate/chats/*
