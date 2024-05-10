@@ -1,13 +1,12 @@
 const { EmbedBuilder, WebhookClient } = require('discord.js')
 const { inspect } = require('util');
 const webhook = new WebhookClient({
-    url: 'https://discord.com/api/webhooks/1210800600795582495/J85ZnniSqZEkFfVT3upjH1XOL6BIFSeVLHa-h29NTd3SGWeYVwBd2IprvMmrboJMM_yH'
+    url: 'https://discord.com/api/webhooks/1237160113777807501/1UM1hAq_pu1okA9x39nSeE2FPrQaV4BpdzBAtfbLArrqVcDmRw906fZRWcbh2q1AM1kF'
 });
 
 module.exports = {
     name: "warning",
     async execute(warn) {
-        console.log(warn, "uwu")
         const embed = new EmbedBuilder()
             .setTitle("Uncaught Exception Monitor Warning")
             .setURL("https://nodejs.org/api/process.html#event-warning")

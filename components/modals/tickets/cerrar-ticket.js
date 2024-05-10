@@ -1,6 +1,5 @@
 const transcripts = require("discord-html-transcripts");
 const { bkChats } = require("../../../json/canales.json");
-const { get } = require('../../../modules/conectbd');
 const { toUTC } = require('../../../modules/utclocalconverter');
 const fs = require('fs');
 const path = require('path');
@@ -8,9 +7,7 @@ const { ticketbtns } = require("../../../modules/builder");
 const { ActionRowBuilder } = require("discord.js");
 const { sp_close_ticket } = require("../../../modules/peticionesbd");
 module.exports = {
-    data: {
-        name: 'cerrar-ticket'
-    },
+    data: { name: 'cerrar-ticket' },
     async execute(interaction, client) {
 
         const closetkt = interaction.fields.getTextInputValue("idregistro");
@@ -18,6 +15,7 @@ module.exports = {
 
         if (/[A-Z]{2}-[0-9]{7,9}/.test(closetkt)) {
             const close = await sp_close_ticket({ interaction: interaction.user.id, cerrar: closetkt, id: currentID })
+            console.log(close)
             if (close.execute) {
                 const date = new Date();
                 let time = toUTC(date)
@@ -35,10 +33,8 @@ module.exports = {
                     }
                     const rutaArchivo = path.join(OUT_DIR, nombreArchivo);
                     const writeStream = fs.createWriteStream(rutaArchivo);
-
                     // Escribe el contenido HTML en el archivo
                     console.log(writeStream.write(stringGenerate));
-
                     // Cierra el flujo de escritura
                     writeStream.end();
                     console.log(close.data.documento)
@@ -47,7 +43,7 @@ module.exports = {
                         components: [new ActionRowBuilder().addComponents(ticketbtns(`${close.data.documento}/${nombreArchivo.split(".")[0]}`).closeurlticket)]
                     });
                     await interaction.reply({ content: `El archivo se genero Correctamente en ${rutaArchivo}`, ephemeral: true })
-                    return interaction.editReply({ content: `El canal se cierrara en 5 seg`, ephemeral: true })
+                    return interaction.editReply({ content: `El canal se cerrara en 5 seg`, ephemeral: true })
                         .then(() => {
                             setTimeout(() => {
                                 interaction.channel.delete();

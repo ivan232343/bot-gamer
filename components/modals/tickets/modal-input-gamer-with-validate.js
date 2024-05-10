@@ -1,5 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, StringSelectMenuOptionBuilder
-    , StringSelectMenuBuilder } = require('discord.js');
+const { ActionRowBuilder, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require('discord.js');
 const { planes } = require('../../../json/motivos.json');
 module.exports = {
     data: {
@@ -15,7 +14,6 @@ module.exports = {
                 .setEmoji(el.emoji)
             return tempCategoria
         })
-        console.log("aca se tiene que hacer una validacion del nombre dni, se puede traer con el dni el plan de servicio para validar")
         const motivo = new ActionRowBuilder().addComponents(
             new StringSelectMenuBuilder()
                 .setCustomId(`validate-service_${dni}_${nombreCl.replaceAll(" ", "-")}`)

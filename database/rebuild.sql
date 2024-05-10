@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Versión del servidor:         11.1.3-MariaDB - mariadb.org binary distribution
 -- SO del servidor:              Win64
--- HeidiSQL Versión:             12.3.0.6589
+-- HeidiSQL Versión:             12.6.0.6765
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -15,347 +15,174 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Volcando estructura de base de datos para bd_numeracion
-DROP DATABASE IF EXISTS `bd_numeracion`;
-CREATE DATABASE IF NOT EXISTS `bd_numeracion` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `bd_numeracion`;
+-- Volcando estructura de base de datos para bd_gamer_data
+CREATE DATABASE IF NOT EXISTS `bd_gamer_data` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `bd_gamer_data`;
 
--- Volcando estructura para tabla bd_numeracion.tb_distrito
-DROP TABLE IF EXISTS `tb_distrito`;
-CREATE TABLE IF NOT EXISTS `tb_distrito` (
-  `_id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre_distrito` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- La exportación de datos fue deseleccionada.
-
--- Volcando estructura para tabla bd_numeracion.tb_gamers_win
-DROP TABLE IF EXISTS `tb_gamers_win`;
+-- Volcando estructura para tabla bd_gamer_data.tb_gamers_win
 CREATE TABLE IF NOT EXISTS `tb_gamers_win` (
-  `_id` int(8) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `codPedido` varchar(20) DEFAULT NULL,
-  `doc` varchar(15) DEFAULT NULL,
+  `_id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `doc` varchar(15) NOT NULL DEFAULT '0',
+  `cod_pedido` char(15) NOT NULL DEFAULT '0',
   PRIMARY KEY (`_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8192 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1395804 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='tabla temporal con los DNI de gamer ';
 
 -- La exportación de datos fue deseleccionada.
 
--- Volcando estructura para tabla bd_numeracion.tb_log
-DROP TABLE IF EXISTS `tb_log`;
-CREATE TABLE IF NOT EXISTS `tb_log` (
-  `id_Trasnc` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `type_operation` varchar(50) DEFAULT NULL,
-  `execute_timestamp` timestamp NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id_Trasnc`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- La exportación de datos fue deseleccionada.
-
--- Volcando estructura para tabla bd_numeracion.tb_microwisp
-DROP TABLE IF EXISTS `tb_microwisp`;
-CREATE TABLE IF NOT EXISTS `tb_microwisp` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `estado` varchar(50) DEFAULT NULL,
-  `nombre` varchar(50) DEFAULT NULL,
-  `cedula` varchar(50) DEFAULT NULL,
-  `instalado` varchar(50) DEFAULT NULL,
-  `plan` varchar(50) DEFAULT NULL,
-  `correo` varchar(50) DEFAULT NULL,
-  `movil` varchar(10) DEFAULT NULL,
-  `direccion` varchar(50) DEFAULT NULL,
-  `contratista` varchar(50) DEFAULT NULL,
-  `pppuser` varchar(50) DEFAULT NULL,
-  `mac` varchar(50) DEFAULT NULL,
-  `potencia` varchar(50) DEFAULT NULL,
-  `codigocliente` varchar(50) DEFAULT NULL,
-  `mesh1` varchar(50) DEFAULT NULL,
-  `mesh2` varchar(50) DEFAULT NULL,
-  `mesh3` varchar(50) DEFAULT NULL,
-  `mesh4` varchar(50) DEFAULT NULL,
-  `box` varchar(50) DEFAULT NULL,
-  `phone` varchar(50) DEFAULT NULL,
-  `nodo` varchar(50) DEFAULT NULL,
-  `caja_nap` varchar(50) DEFAULT NULL,
-  `puerto_nap` varchar(50) DEFAULT NULL,
-  `puerto_logico` varchar(50) DEFAULT NULL,
-  `modelo_ont` varchar(50) DEFAULT NULL,
-  `SN` varchar(50) DEFAULT NULL,
-  `sipuser` varchar(50) DEFAULT NULL,
-  `tel` varchar(50) DEFAULT NULL,
-  `instalacion` varchar(50) DEFAULT NULL,
-  `plan_voip` varchar(50) DEFAULT NULL,
-  `zona` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=622248 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- La exportación de datos fue deseleccionada.
-
--- Volcando estructura para tabla bd_numeracion.tb_nodo
-DROP TABLE IF EXISTS `tb_nodo`;
-CREATE TABLE IF NOT EXISTS `tb_nodo` (
-  `_id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) DEFAULT NULL,
-  `locacion_fisica` varchar(50) DEFAULT NULL,
+-- Volcando estructura para tabla bd_gamer_data.tb_registro_atencion
+CREATE TABLE IF NOT EXISTS `tb_registro_atencion` (
+  `_id` int(20) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `estado` varchar(15) NOT NULL DEFAULT 'pendiente',
+  `document` char(15) NOT NULL DEFAULT '0',
+  `user_i-id_init` char(25) NOT NULL DEFAULT '0',
+  `time_create` timestamp NOT NULL DEFAULT current_timestamp(),
+  `adviser_i-id_init` char(25) DEFAULT NULL,
+  `time_init` timestamp NULL DEFAULT NULL,
+  `adviser_i-id_close` char(25) DEFAULT NULL,
+  `time_close` timestamp NULL DEFAULT NULL,
+  `channel_id` char(35) DEFAULT NULL,
+  `ticket_crm_assoc` char(20) DEFAULT NULL,
+  `motivo` varchar(50) DEFAULT NULL,
+  `observaciones` varchar(450) DEFAULT NULL,
   PRIMARY KEY (`_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='tabla que guarda el registro de las atenciones que se hayan creado por discord';
 
 -- La exportación de datos fue deseleccionada.
 
--- Volcando estructura para tabla bd_numeracion.tb_numeracion_win
-DROP TABLE IF EXISTS `tb_numeracion_win`;
-CREATE TABLE IF NOT EXISTS `tb_numeracion_win` (
-  `_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cliente` varchar(100) DEFAULT NULL,
-  `documento` char(13) DEFAULT NULL,
-  `numero` char(11) DEFAULT NULL,
-  `estado` varchar(50) DEFAULT NULL,
-  `departamento` varchar(50) DEFAULT NULL,
-  `fecha_alta` varchar(15) DEFAULT NULL,
-  `operador` varchar(50) DEFAULT NULL,
-  `pass_uc` varchar(25) DEFAULT NULL,
-  `observacion` varchar(150) DEFAULT 'sin observaciones',
-  `tipo` varchar(15) DEFAULT NULL,
+-- Volcando estructura para tabla bd_gamer_data.tb_user_dni
+CREATE TABLE IF NOT EXISTS `tb_user_dni` (
+  `_id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `interactionID` varchar(25) DEFAULT NULL,
+  `doc` char(15) DEFAULT NULL,
   PRIMARY KEY (`_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80813 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Vincula el documento de identidad con el Interaction ID del usuario que haya ingresado';
 
 -- La exportación de datos fue deseleccionada.
 
--- Volcando estructura para tabla bd_numeracion.tb_tokens_mail
-DROP TABLE IF EXISTS `tb_tokens_mail`;
-CREATE TABLE IF NOT EXISTS `tb_tokens_mail` (
-  `_id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) DEFAULT NULL,
-  `token` blob DEFAULT NULL,
-  `real_pswd` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- La exportación de datos fue deseleccionada.
-
--- Volcando estructura para tabla bd_numeracion.tb_users
-DROP TABLE IF EXISTS `tb_users`;
-CREATE TABLE IF NOT EXISTS `tb_users` (
-  `_id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL DEFAULT '0',
-  `apellido` varchar(50) NOT NULL DEFAULT '0',
-  `id_user_discord` varchar(50) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- La exportación de datos fue deseleccionada.
-
--- Volcando estructura para tabla bd_numeracion.tb_users_mail
-DROP TABLE IF EXISTS `tb_users_mail`;
-CREATE TABLE IF NOT EXISTS `tb_users_mail` (
-  `_id` int(11) NOT NULL AUTO_INCREMENT,
-  `correo` varchar(50) DEFAULT NULL,
-  `password` varchar(50) DEFAULT NULL,
-  `recovery_q` varchar(50) DEFAULT NULL,
-  `created` timestamp NULL DEFAULT current_timestamp(),
-  `last_modified` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- La exportación de datos fue deseleccionada.
-
--- Volcando estructura para tabla bd_numeracion.tb_users_role
-DROP TABLE IF EXISTS `tb_users_role`;
-CREATE TABLE IF NOT EXISTS `tb_users_role` (
-  `_id` int(11) NOT NULL AUTO_INCREMENT,
-  `role` varchar(50) DEFAULT NULL,
-  `id_rol` int(11) DEFAULT NULL,
-  PRIMARY KEY (`_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- La exportación de datos fue deseleccionada.
-
--- Volcando estructura para procedimiento bd_numeracion.sp_cr_last_connection
-DROP PROCEDURE IF EXISTS `sp_cr_last_connection`;
+-- Volcando estructura para procedimiento bd_gamer_data.sp_close_ticket
 DELIMITER //
-CREATE PROCEDURE `sp_cr_last_connection`()
-    READS SQL DATA
-    SQL SECURITY INVOKER
+CREATE PROCEDURE `sp_close_ticket`(
+	IN `idAsesor` CHAR(25),
+	IN `ticket` CHAR(20),
+	IN `currentId` INT
+)
+    COMMENT 'cierra el ticket del cliente'
 BEGIN
-DECLARE hola int;
-SELECT DATEDIFF(CURRENT_TIMESTAMP(),`fun_get_last_connection`()) INTO hola;
-if hola <> 0 THEN
-INSERT INTO tb_log(tb_log.type_operation) VALUES ('INIT_BOT_ON_DAY');
-SELECT FALSE AS 'session';
+UPDATE tb_registro_atencion SET 
+tb_registro_atencion.`adviser_i-id_close` = idAsesor, 
+tb_registro_atencion.estado = "cerrado",
+tb_registro_atencion.ticket_crm_assoc = ticket,
+tb_registro_atencion.time_close = CURRENT_TIMESTAMP() 
+WHERE tb_registro_atencion._id = currentId;
+SELECT documento FROM tb_registro_atencion WHERE _id = currentId;
+
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento bd_gamer_data.sp_init_ticket
+DELIMITER //
+CREATE PROCEDURE `sp_init_ticket`(
+	IN `ch` CHAR(35),
+	IN `doc` CHAR(15),
+	IN `motivo` VARCHAR(50),
+	IN `detalles` VARCHAR(450),
+	IN `clientId` CHAR(25)
+)
+    COMMENT 'inicia el ticket de atencion con el canal documento motivo detalles e interaction ID'
+BEGIN
+INSERT INTO tb_registro_atencion
+(channel_id,document,motivo,observaciones,tb_registro_atencion.`user_i-id_init`) 
+VALUES (ch,doc,motivo,detalles,clientId);
+SELECT LAST_INSERT_ID() AS 'current_insert';
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento bd_gamer_data.sp_register_interaction-doc
+DELIMITER //
+CREATE PROCEDURE `sp_register_interaction-doc`(
+	IN `discordID` VARCHAR(50),
+	IN `document` CHAR(15)
+)
+    COMMENT 'asocia la interaccion id del usuario a un dni '
+BEGIN
+INSERT INTO tb_user_dni(interactionID,doc) VALUE (discordID,document);
+SELECT LAST_INSERT_ID() AS 'current_id';
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento bd_gamer_data.sp_update_ticket-atention
+DELIMITER //
+CREATE PROCEDURE `sp_update_ticket-atention`(
+	IN `idAsesor` CHAR(25),
+	IN `currentId` INT
+)
+    COMMENT 'actualiza con la info del asesor que atendra al cliente'
+BEGIN
+UPDATE tb_registro_atencion 
+SET 
+tb_registro_atencion.`adviser_i-id_init` = idAsesor ,
+tb_registro_atencion.estado = "en atencion" ,
+tb_registro_atencion.time_init = current_timestamp()
+WHERE tb_registro_atencion._id = currentId;
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento bd_gamer_data.sp_validate_interaction-doc
+DELIMITER //
+CREATE PROCEDURE `sp_validate_interaction-doc`(
+	IN `document` CHAR(15),
+	IN `interaction` CHAR(25)
+)
+    COMMENT 'valida si existe alguna interaccion por el documento ingresado'
+BEGIN
+DECLARE registrogamerxdoc INT;
+DECLARE registrogamerxinteraction INT;
+SET registrogamerxdoc = (SELECT COUNT(*) FROM tb_user_dni WHERE doc = document);
+SET registrogamerxinteraction = (SELECT COUNT(*) FROM tb_user_dni WHERE interactionID = interaction);
+if (registrogamerxdoc = 1) OR (registrogamerxinteraction = 1)
+then  SELECT TRUE AS "validate",registrogamerxdoc AS "ret_doc",registrogamerxinteraction AS "ret_interaction";
+ELSEIF (registrogamerxdoc = 0 ) OR (registrogamerxinteraction = 0)
+then SELECT FALSE AS "validate";
 ELSE
-SELECT TRUE AS 'session';
-END IF;
+SELECT "error" AS "validate",tb_user_dni.interactionID AS 'interaccion' FROM tb_user_dni WHERE tb_user_dni.doc = document ;
+END if;
 END//
 DELIMITER ;
 
--- Volcando estructura para procedimiento bd_numeracion.sp_dnitocodcl
-DROP PROCEDURE IF EXISTS `sp_dnitocodcl`;
+-- Volcando estructura para procedimiento bd_gamer_data.sp_validate_serv-gamer
 DELIMITER //
-CREATE PROCEDURE `sp_dnitocodcl`(
-	IN `dni` VARCHAR(50)
+CREATE PROCEDURE `sp_validate_serv-gamer`(
+	IN `document` CHAR(15)
 )
+    COMMENT 'valida si el usuario que coloco el dni es gamer '
 BEGIN
-SELECT tb_microwisp.pppuser AS 'coduser' ,tb_microwisp.nombre FROM tb_microwisp WHERE tb_microwisp.cedula = dni;
+DECLARE isgamer INT;
+SET isgamer = (SELECT COUNT(*) FROM tb_gamers_win WHERE doc = document);
+if isgamer = 1 then SELECT TRUE AS 'validate';
+ELSE SELECT FALSE AS 'validate';
+END if;
 END//
 DELIMITER ;
 
--- Volcando estructura para procedimiento bd_numeracion.sp_get_client_info
-DROP PROCEDURE IF EXISTS `sp_get_client_info`;
+-- Volcando estructura para procedimiento bd_gamer_data.sp_validate_tktpendiente
 DELIMITER //
-CREATE PROCEDURE `sp_get_client_info`(
-	IN `dni` VARCHAR(20)
+CREATE PROCEDURE `sp_validate_tktpendiente`(
+	IN `doc` CHAR(15)
 )
-    READS SQL DATA
-    SQL SECURITY INVOKER
+    COMMENT 'valida si el usuario que ingreso el dni tiene un duplicado de canales'
 BEGIN
+
 SELECT 
-	tb_microwisp.nombre 
-FROM tb_microwisp 
-WHERE LPAD(tb_microwisp.cedula,8,'0') = dni;
-END//
-DELIMITER ;
-
--- Volcando estructura para procedimiento bd_numeracion.sp_get_last_update
-DROP PROCEDURE IF EXISTS `sp_get_last_update`;
-DELIMITER //
-CREATE PROCEDURE `sp_get_last_update`(
-	IN `tb` VARCHAR(50)
-)
-BEGIN
-SELECT execute_timestamp from tb_log WHERE id_Trasnc = fun_get_last_modified(tb);
-END//
-DELIMITER ;
-
--- Volcando estructura para procedimiento bd_numeracion.sp_read_dnixmw
-DROP PROCEDURE IF EXISTS `sp_read_dnixmw`;
-DELIMITER //
-CREATE PROCEDURE `sp_read_dnixmw`(
-	IN `dni` VARCHAR(150)
-)
-BEGIN
-SELECT
-tb_microwisp.nombre ,
-tb_microwisp.cedula AS 'cedula',
-tb_microwisp.mac AS 'mac',
-tb_microwisp.nodo AS 'nodo',
-tb_microwisp.caja_nap AS 'cto'
-from tb_microwisp 
-WHERE 
-tb_microwisp.cedula = dni OR  
-tb_microwisp.mac  = dni OR
-tb_microwisp.movil  = dni OR
-tb_microwisp.caja_nap = dni OR 
-tb_microwisp.nodo  LIKE  CONCAT('%',dni,'%') OR 
-tb_microwisp.nombre LIKE  CONCAT('%',dni,'%') OR 
-tb_microwisp.pppuser = dni
-LIMIT 10
+tb_registro_atencion.channel_id ,
+tb_registro_atencion.time_create ,
+tb_registro_atencion.`adviser_i-id_init`,
+tb_registro_atencion.time_init
+FROM tb_registro_atencion
+WHERE	
+tb_registro_atencion.estado = "en atencion" OR
+tb_registro_atencion.estado = "pendiente" AND
+tb_registro_atencion.document = doc  
 ;
-END//
-DELIMITER ;
-
--- Volcando estructura para procedimiento bd_numeracion.sp_read_docxname_all
-DROP PROCEDURE IF EXISTS `sp_read_docxname_all`;
-DELIMITER //
-CREATE PROCEDURE `sp_read_docxname_all`(
-	IN `dni` VARCHAR(200)
-)
-    READS SQL DATA
-    SQL SECURITY INVOKER
-BEGIN
-SELECT tb_numeracion_win.*,`log`.execute_timestamp AS lastexecute
-from tb_numeracion_win 
-INNER JOIN tb_log AS `log` 
-WHERE `log`.id_Trasnc = fun_get_last_modified("NUMERACION_WIN") and tb_numeracion_win.cliente LIKE CONCAT('%',dni,'%') LIMIT 5;
-
-END//
-DELIMITER ;
-
--- Volcando estructura para procedimiento bd_numeracion.sp_read_num
-DROP PROCEDURE IF EXISTS `sp_read_num`;
-DELIMITER //
-CREATE PROCEDURE `sp_read_num`(
-	IN `dni` VARCHAR(50)
-)
-    READS SQL DATA
-    COMMENT 'retorna los datos del dni en consulta'
-BEGIN
-SELECT tb_numeracion_win.*
-from tb_numeracion_win 
-WHERE tb_numeracion_win.documento = dni 
-OR tb_numeracion_win.cliente LIKE CONCAT('%',dni,'%')
-LIMIT 9
-;
-END//
-DELIMITER ;
-
--- Volcando estructura para procedimiento bd_numeracion.sp_save_user
-DROP PROCEDURE IF EXISTS `sp_save_user`;
-DELIMITER //
-CREATE PROCEDURE `sp_save_user`(
-	IN `_mail_user` VARCHAR(50),
-	IN `_pass_user` VARCHAR(50),
-	IN `_gen_token` VARCHAR(50)
-)
-    MODIFIES SQL DATA
-BEGIN
-INSERT INTO tb_users_mail(tb_users_mail.correo,tb_users_mail.`password`,tb_users_mail._token_pwd) VALUES 
-(_mail_user,_pass_user,PASSWORD(_gen_token));
-END//
-DELIMITER ;
-
--- Volcando estructura para procedimiento bd_numeracion.sp_validate_gamer
-DROP PROCEDURE IF EXISTS `sp_validate_gamer`;
-DELIMITER //
-CREATE PROCEDURE `sp_validate_gamer`(
-	IN `dni` VARCHAR(20)
-)
-    READS SQL DATA
-    SQL SECURITY INVOKER
-BEGIN
-SELECT * FROM tb_gamers_win WHERE tb_gamers_win.doc = dni;
-END//
-DELIMITER ;
-
--- Volcando estructura para procedimiento bd_numeracion.sp_validate_user
-DROP PROCEDURE IF EXISTS `sp_validate_user`;
-DELIMITER //
-CREATE PROCEDURE `sp_validate_user`(
-	IN `_token_pass` VARCHAR(50),
-	IN `_mail` VARCHAR(50)
-)
-BEGIN
-if EXISTS(SELECT * FROM tb_users_mail WHERE tb_users_mail._token_pwd = PASSWORD(_token_pass) AND tb_users_mail.correo = _mail)
-THEN
-SELECT 1 AS 'validate';
-ELSE
-SELECT 0 AS 'validate';
-END IF;
-
-END//
-DELIMITER ;
-
--- Volcando estructura para función bd_numeracion.fun_get_last_connection
-DROP FUNCTION IF EXISTS `fun_get_last_connection`;
-DELIMITER //
-CREATE FUNCTION `fun_get_last_connection`() RETURNS datetime
-BEGIN
-DECLARE ultimo DATETIME;
-SELECT tb_log.execute_timestamp INTO ultimo FROM tb_log WHERE tb_log.type_operation = "INIT_BOT_ON_DAY" ORDER BY id_Trasnc DESC LIMIT 1;
-RETURN ultimo;
-END//
-DELIMITER ;
-
--- Volcando estructura para función bd_numeracion.fun_get_last_modified
-DROP FUNCTION IF EXISTS `fun_get_last_modified`;
-DELIMITER //
-CREATE FUNCTION `fun_get_last_modified`(`tb` VARCHAR(50)
-) RETURNS int(11)
-    READS SQL DATA
-    SQL SECURITY INVOKER
-BEGIN
-DECLARE ultimo INT;
-SELECT tb_log.id_Trasnc INTO ultimo FROM tb_log WHERE tb_log.type_operation = CONCAT("REFRESH_DATA_TB_",tb,"_WIN") ORDER BY id_Trasnc DESC LIMIT 1;
-RETURN ultimo;
 END//
 DELIMITER ;
 

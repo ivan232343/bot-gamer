@@ -46,30 +46,9 @@ module.exports = {
                 // Select the style that will be used to fill the text in
                 context.fillStyle = '#ffffff';
 
-                // // Actually fill the text with a solid color
-                // context.fillText(interaction.user.displayName, canvas.width / 2.5, canvas.height / 1.8);
-
                 // Draw a rectangle with the dimensions of the entire canvas
                 context.strokeRect(0, 0, canvas.width, canvas.height);
 
-
-                // Add an exclamation point here and below
-                // context.font = applyText(canvas, `${interaction.user.displayName}!`);
-
-                // context.font = '75px sans-serif';
-                // context.fillStyle = '#ffffff';
-                // context.textAlign = "center"
-                // context.fillText(`${member.user.displayName}!`, canvas.width / 1.35, canvas.height / 1.125);
-                // // Slightly smaller text placed above the member's display name
-                // context.font = '40px sans-serif';
-                // context.fillStyle = '#ffffff';
-                // context.fillText('Bienvenid@', canvas.width / 1.35, canvas.height / 1.350);
-
-                // // Slightly smaller text placed above the member's display name
-                // context.font = '23px sans-serif';
-                // context.fillStyle = '#ffffff';
-                // context.fillText('Disfruta tu instancia en el servidor', canvas.width / 2.5, canvas.height / 1.3);
-                // Pick up the pen
                 context.beginPath();
 
                 // Start the arc to form a circle
@@ -94,11 +73,6 @@ module.exports = {
 
                 // Use the helpful Attachment class structure to process the file for you
                 const attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'profile-image.png' });
-                // const embedWelcome = new EmbedBuilder()
-                //     .setTitle("🎉 ¡Bienvenido/a winner! 🎉")
-                //     .setDescription(`¡Hola <@${member.user.id}>! Esperamos que disfrutes tu estancia en nuestro servidor.\n\n-Pasate por <#${bienvenidas.rules}> para ver las reglas y guias del servidor.\n\n-¿Tienes problemas con el servicio? Genera un ticket de atencion en <#${bienvenidas.atencion}> y te atenderemos a la brevedad.`)
-                //     .setImage(`attachment://profile-image.png`)
-                //     .setColor('Orange')
                 welcomeChannel.send({
                     content: `¡<@${member.user.id}>!`,
                     files: [attachment],

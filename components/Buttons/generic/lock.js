@@ -3,12 +3,8 @@ module.exports = {
     data: {
         name: 'lock'
     },
-    async execute(interaction, client, args) {
-        // console.log(client)
-        // const user = client.users.cache.get(interaction.customId.split("_")[1])
+    async execute(interaction) {
         const mainuser = interaction.customId.split("_")[1];
-
-        // console.log(user, mainuser)
         if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator) && !interaction.member.roles.cache.has("1169343480552755231")) return interaction.reply({ content: `No tienes permisos necesarios para utilizar este boton`, ephemeral: true });
         try {
             await interaction.channel.permissionOverwrites.create(mainuser, {

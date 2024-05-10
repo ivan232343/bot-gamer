@@ -24,6 +24,12 @@ module.exports = {
             .setImage(`attachment://profile-image.png`)
             .setColor('Orange')
     ,
+    errorDuplicado: (query = { interaction, mode }) =>
+        new EmbedBuilder()
+            .setTitle(`Error, ${query.mode === 1 ? "Documento de Indentidad ya registrado" : "Ya se encuentra registrado"}`)
+            .setDescription(`Lo sentimos <@${query.interaction}>, ${query.mode === 1 ? "el documento que acaba de colocar ya esta registrado por otro usuario 😌" : "Usted ya esta registrado en nuestro sistema"}`)
+            .setColor('DarkPurple')
+    ,
     staticsEmbeds: {
         CreateTicket: new EmbedBuilder()
             .setTitle('Bienvenido al panel de tickets')
