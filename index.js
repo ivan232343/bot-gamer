@@ -3,7 +3,7 @@ const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js"
 const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits
 const { Message, GuildMember, User, ThreadMember } = Partials
 const { token } = require('./config.json');
-const { selectLoader, eventsLoader, commandsLoader, buttonLoader, modalLoader } = require("../modules/Eventsloader");
+const { selectLoader, eventsLoader, commandsLoader, buttonLoader, modalLoader } = require("./modules/Eventsloader");
 
 
 // AREA BOT LOADER 
