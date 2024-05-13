@@ -1,6 +1,6 @@
 @echo off
 ECHO "Iniciando la instalacion de modulos" 
-start npm install
+start /min npm install
 ECHO "Inicializando config.json" 
 SET /p TOKEN_BOT=Introduzca el token del bot: 
 SET /p BD_USER=Introduzca el usuario de la base de datos: 
