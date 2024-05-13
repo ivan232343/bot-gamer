@@ -4,7 +4,6 @@ const {
     ButtonStyle,
     EmbedBuilder
 } = require("discord.js");
-const { _BASE_URL_ } = require("../app/configs/base");
 
 
 // const { ButtonBuilder, ButtonStyle } = require('discord.js')
@@ -96,7 +95,7 @@ module.exports = {
                 .setLabel("Visualizar chat")
                 .setEmoji('🌐')
                 .setStyle(ButtonStyle.Link)
-                .setURL(`${_BASE_URL_}get/${id}`)
+                .setURL(`about:blank`)
         }
     },
     SelectMotivo: function () {
