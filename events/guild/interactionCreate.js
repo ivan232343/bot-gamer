@@ -1,8 +1,18 @@
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Este evento es el que gestiona si un usuario envia un mensaje, 
+ * presiona un boton, seleciona alguna opcion del select, etc.
+ * primero se valida que tipo de interaccion es y dependiendo ello se estaria procesando 
+ * segun el customId de la interaccion
+ */
+
 const { Events, EmbedBuilder, WebhookClient } = require("discord.js");
 const { inspect } = require("util");
-const webhook = new WebhookClient({
-  url: 'https://discord.com/api/webhooks/1237160113777807501/1UM1hAq_pu1okA9x39nSeE2FPrQaV4BpdzBAtfbLArrqVcDmRw906fZRWcbh2q1AM1kF'
-});
+const { ch_webhook, url_utiles } = require("../../json/recursos.json")
+const webhook = new WebhookClient({ url: ch_webhook });
 
 module.exports = {
   name: Events.InteractionCreate,
@@ -10,32 +20,28 @@ module.exports = {
     if (interaction.isChatInputCommand()) {
       try {
         const command = interaction.client.commands.get(interaction.commandName);
-
         if (!command) {
           console.error(`No command matching ${interaction.commandName} was found.`);
           return;
         }
-
         try {
           await command.execute(interaction, client);
         } catch (error) {
           console.error(`Error executing ${interaction.commandName}`);
           console.error(error);
           const embed = new EmbedBuilder()
-            .setColor("Red");
-          embed
+            .setColor("Red")
             .setTitle("Discord API error")
-            .setURL("https://discordjs.guide/popular-topics/errors.html#api-errors")
+            .setURL(url_utiles.discordjs_error)
             .setDescription(`\`\`\`${inspect(error, { depth: 0 }).slice(0, 1000)}\`\`\``)
             .setTimestamp();
           return webhook.send({ embeds: [embed] });
         }
       } catch (error) {
         const embed = new EmbedBuilder()
-          .setColor("Red");
-        embed
+          .setColor("Red")
           .setTitle("Discord API error")
-          .setURL("https://discordjs.guide/popular-topics/errors.html#api-errors")
+          .setURL(url_utiles.discordjs_error)
           .setDescription(`\`\`\`${inspect(error, { depth: 0 }).slice(0, 1000)}\`\`\``)
           .setTimestamp();
         return webhook.send({ embeds: [embed] }) && console.log(error);

@@ -1,3 +1,11 @@
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * evento que gestiona que hara el bot al momento de iniciarse o prenderse
+ */
+
 const { Events, ActivityType } = require("discord.js");
 module.exports = {
   name: Events.ClientReady,
@@ -8,7 +16,7 @@ module.exports = {
     console.log(`Ready! Logged in as ${client.user.tag}`);
 
     client.user.setPresence({
-      activities: [{ name: "jugando con los planes gamer", type: ActivityType.Custom }],
+      activities: [{ name: "con los planes gamer", type: ActivityType.Playing }],
     })
   },
 };

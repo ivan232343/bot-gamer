@@ -1,16 +1,24 @@
-const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, } = require('discord.js')
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Boton inicia un modal para comenzar con la creacion del canal para la atencion
+ * solitando el nombre completo del titular y su dni como parte de la validacion
+ */
+const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js')
 module.exports = {
     data: { name: 'create-ticket-with-validate' },
     async execute(interaction) {
-        const modal = new ModalBuilder()
+        const MODAL = new ModalBuilder()
             .setCustomId('modal-input-gamer-with-validate')
             .setTitle('Genera tu ticket de atencion');
-        const nombreCliente = new TextInputBuilder()
+        const NOMBRE_CLIENTE = new TextInputBuilder()
             .setCustomId('namecliente')
             .setLabel('Ingrese el nombre del titular')
             .setRequired(true)
             .setStyle(TextInputStyle.Short)
-        const dnicliente = new TextInputBuilder()
+        const DNI_CLIENTE = new TextInputBuilder()
             .setCustomId('dnicliente')
             .setLabel("Documento de identidad del titular")
             .setRequired(true)
@@ -18,10 +26,10 @@ module.exports = {
             .setMaxLength(15)
             .setStyle(TextInputStyle.Short);
 
-        const firstActionRow = new ActionRowBuilder().addComponents(dnicliente);
-        const secondActionRow = new ActionRowBuilder().addComponents(nombreCliente);
+        const PRIMERA_FILA = new ActionRowBuilder().addComponents(DNI_CLIENTE);
+        const SEGUNDA_FILA = new ActionRowBuilder().addComponents(NOMBRE_CLIENTE);
 
-        modal.addComponents(firstActionRow, secondActionRow);
-        await interaction.showModal(modal);
+        MODAL.addComponents(PRIMERA_FILA, SEGUNDA_FILA);
+        await interaction.showModal(MODAL);
     }
 }

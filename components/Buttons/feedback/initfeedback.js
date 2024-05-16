@@ -1,46 +1,39 @@
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Estructura del modal para el boton de initfeedback.
+ * aun en desarrollo
+ */
 const { TextInputStyle, TextInputBuilder, ModalBuilder, ActionRowBuilder } = require("discord.js");
 
 module.exports = {
-    data: {
-        name: 'initfeedback'
-    },
+    data: { name: 'initfeedback' },
     async execute(interaction) {
-        // Create the modal
-        const modal = new ModalBuilder()
+        const MODAL = new ModalBuilder()
             .setCustomId('modal-feedback')
             .setTitle('Ayudanos a mejorar');
 
-        // Create the text input components
-        const dnicliente = new TextInputBuilder()
+        const DNI_CLIENTE_INPT = new TextInputBuilder()
             .setCustomId('dnicliente')
-            // The label is the prompt the user sees for this input
             .setLabel("Documento de identidad del titular")
             .setRequired(true)
-            // Short means only a single line of text
             .setStyle(TextInputStyle.Short)
             .setMinLength(8)
-            .setMaxLength(11)
-            ;
-        const recomendacion = new TextInputBuilder()
+            .setMaxLength(11);
+        const RECOMENDACION_INPT = new TextInputBuilder()
             .setCustomId('recofeedback')
-            // The label is the prompt the user sees for this input
             .setLabel("Comentarios de mejora")
             .setRequired(true)
-            // Short means only a single line of text
             .setStyle(TextInputStyle.Paragraph)
             .setMinLength(8)
-            .setMaxLength(5000)
+            .setMaxLength(5000);
 
-            ;
+        const PRIMERA_FILA = new ActionRowBuilder().addComponents(DNI_CLIENTE_INPT);
+        const SEGUNDA_FILA = new ActionRowBuilder().addComponents(RECOMENDACION_INPT);
 
-        // so you need one action row per text input.
-        const firstActionRow = new ActionRowBuilder().addComponents(dnicliente);
-        const secondActionRow = new ActionRowBuilder().addComponents(recomendacion);
-
-        // Add inputs to the modal
-        modal.addComponents(firstActionRow, secondActionRow);
-        // Show the modal to the user
-        await interaction.showModal(modal);
-        // await interaction.reply({ content: 'Hola Cliente' })
+        MODAL.addComponents(PRIMERA_FILA, SEGUNDA_FILA);
+        await interaction.showModal(MODAL);
     }
 }

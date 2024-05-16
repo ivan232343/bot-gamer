@@ -1,3 +1,10 @@
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Modulo donde estan los cargadores de los eventos del proyecto
+ */
 const fs = require("node:fs");
 const path = require("node:path");
 const { loadFiles } = require('../modules/fileLoader')

@@ -1,8 +1,8 @@
 module.exports = {
-    dividirArray: (array, tamañoGrupo) => {
+    dividirArray: (array, tamanioGrupo) => {
         let resultado = [];
-        for (let i = 0; i < array.length; i += tamañoGrupo) {
-            let grupo = array.slice(i, i + tamañoGrupo);
+        for (let i = 0; i < array.length; i += tamanioGrupo) {
+            let grupo = array.slice(i, i + tamanioGrupo);
             resultado.push(grupo);
         }
         return resultado;

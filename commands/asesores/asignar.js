@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
+const role = require('../../json/roles.json')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("asignar")
@@ -10,9 +11,9 @@ module.exports = {
         ),
     category: "asesores",
     async execute(interaction) {
-        const cliente = interaction.guild.members.cache.get(interaction.options.getUser('cliente').id);
-        if (cliente.roles.cache.has('1215716246172213402')) {
-            await interaction.channel.permissionOverwrites.create(cliente, {
+        const client_id = interaction.guild.members.cache.get(interaction.options.getUser('cliente').id);
+        if (client_id.roles.cache.has(role.cliente)) {
+            await interaction.channel.permissionOverwrites.create(client_id, {
                 SendMessages: true,
                 ViewChannel: true,
                 ReadMessageHistory: true

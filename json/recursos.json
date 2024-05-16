@@ -1,0 +1,12 @@
+{
+    "ch_webhook": "https://discord.com/api/webhooks/1237160113777807501/1UM1hAq_pu1okA9x39nSeE2FPrQaV4BpdzBAtfbLArrqVcDmRw906fZRWcbh2q1AM1kF",
+    "images": {
+        "card": "https://win-internet.com.pe/img/card/plan-gamer.webp"
+    },
+    "url_utiles": {
+        "web": "https://bit.ly/info-plan-gamer-win",
+        "wsp": "https://bit.ly/whatsapp-win-gamer",
+        "discordjs_error": "https://discordjs.guide/popular-topics/errors.html#api-errors",
+        "nodejs_error": "https://nodejs.org/api/process.html#"
+    }
+}

@@ -28,8 +28,8 @@ module.exports = {
     },
     sp_validate_interaction_doc: async (query = { interaction, dni }) => {
         const peticion = await get(`CALL \`sp_validate_interaction-doc\`('${query.dni}','${query.interaction}')`)
-            .then(res => typeof res.resultados !== 'undefined' ? res.resultados[0].length >= 1 ? { f: res.resultados[0][0], find: true } : { f: `No se encontro datos para '${query.interaction}', '${query.dni}'`, find: false } : { f: `Ocurrio un error: ${res.errores.code} /  '${query.interaction}', '${query.dni}'`, find: false, error: res })
-            .catch(res => { return { msg: "Ocurrio un error interno", find: false, code: res } })
+            .then(res => typeof res.resultados !== 'undefined' ? res.resultados[0].length >= 1 ? { f: res.resultados[0][0], execute: true } : { f: `No se encontro datos para '${query.interaction}', '${query.dni}'`, execute: false } : { f: `Ocurrio un error: ${res.errores.code} /  '${query.interaction}', '${query.dni}'`, execute: false, error: res })
+            .catch(res => { return { msg: "Ocurrio un error interno", execute: false, code: res } })
         return peticion
     },
     sp_validate_serv_gamer: async (query) => {

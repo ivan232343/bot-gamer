@@ -1,3 +1,10 @@
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Modulo donde se encuentra todos los Embed del proyecto
+ */
 const { EmbedBuilder } = require("discord.js");
 const { bienvenidas } = require('../json/canales.json');
 module.exports = {
@@ -5,7 +12,7 @@ module.exports = {
         new EmbedBuilder()
             .setTitle("Cliente Gamer 🎮")
             .setDescription(`Genial <@${query.interaction}>, Se pudo validar correctamente que usted es cliente gamer,\nEn instantes se le asignara el rol "Gamer Win" y asi disfrutar del servidor.`)
-            .setThumbnail("https://win.pe/img/preguntas-frecuentes/gamer.png")
+            .setThumbnail("attachment://logowingamer.png")
             .setTimestamp()
     ,
     assignRegular: (query = { interaction }) =>
@@ -40,14 +47,7 @@ Si desea realizar una consulta o tienes algún problema con tu servicio y eres e
             .setThumbnail('https://win-internet.com.pe/img/card/plan-gamer.webp'),
         validateUser: new EmbedBuilder()
             .setTitle('Validacion cliente con los nuevos planes Gamer de WIN')
-            .setDescription('¡Hola Winner! Para registrarte debes ingresar tu documento de identidad en \`\`Ingresar Documento\`\`')
-        ,
-        //             .setDescription(`Hola Winner, para poder brindarle la experiencia completa del servidor requerimos que ingrese su documento de identidad para validar que cuente con el servicio gamer de win.
-        // Luego de hacer la validación, podrás acceder a los siguientes canales:
-        // - <#1215716247568912429> -> En este canal generaria ticket si tiene algun incoveniente con el servicio Gamer de win **(Debe tener servicio __GAMER__ obligatorio y el inconveniente debe ser en ese servicio)**.
-        // - Todos los canales de "Zona gamer" para ingresar a una comunidad de jugadores y unirse a las partidas.
-
-        // **Tenga en cuenta que este servidor tiene canales exclusivos para clientes gamer por lo cual se recomienda colocar el dni del titular del servicio para realizar la validacion correcta y pueda tener una experiencia completa.**`),
+            .setDescription('¡Hola Winner! Para registrarte debes ingresar tu documento de identidad en \`\`Ingresar Documento\`\`'),
         validateAsesor: new EmbedBuilder()
             .setTitle("Registro de asesor gamer")
             .setDescription("Hola asesor, necesitamos que rellenes el formulario para llevar a cabo su registro, no tomara mucho tiempo")

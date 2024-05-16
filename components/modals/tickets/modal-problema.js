@@ -1,29 +1,28 @@
-const { ActionRowBuilder, Client, EmbedBuilder, ChannelType, PermissionsBitField, WebhookClient } = require('discord.js');
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Despues que el cliente coloque que inconveniente esta teniendo, se guardara en la base de datos la fecha
+ * y hora, el interaction id del cliente, el id del canal que se genero,despues se generara un canal donde 
+ * solo estara el asesor(cuando haga click en atrapar ticket dentro de tickets-pendiente) y el cliente
+ */
+
+const { ActionRowBuilder, EmbedBuilder, ChannelType, PermissionsBitField } = require('discord.js');
 const { parenClients } = require("../../../json/canales.json");
-const { staff, cliente } = require("../../../json/roles.json");
+const { cliente } = require("../../../json/roles.json");
 const { ticketbtns } = require('../../../modules/builder');
 const { sp_init_ticket } = require('../../../modules/peticionesbd');
 
 module.exports = {
-    data: {
-        name: 'modal-problema'
-    },
+    data: { name: 'modal-problema' },
     async execute(interaction) {
-        const ret = interaction.customId.split("_")
-        const data = {
-            dni: ret[1],
-            name: ret[2],
-            servicio: ret[3],
-            categoriaPicked: ret[4]
-        }
-        const motivo = interaction.customId.split("_")[2];
-        const dni = interaction.customId.split("_")[1];
-        const problematica = interaction.fields.getTextInputValue("resumenProblema");
-        // aca ira el codigo para generar otro canal y eso 
+        const MOTIVO_INPT = interaction.customId.split("_")[2];
+        const DNI_CLIENTE = interaction.customId.split("_")[1];
+        const DETALLER_INPT = interaction.fields.getTextInputValue("resumenProblema");
         await interaction.reply({ content: 'Estamos generando su ticket...', ephemeral: true })
-        const staffs = interaction.guild.roles.cache.get(staff)
-        const channel = await interaction.guild.channels.create({
-            name: `ticket-${dni}-${interaction.user.username}`,
+        const CHANNEL_CREATED = await interaction.guild.channels.create({
+            name: `ticket-${DNI_CLIENTE}-${interaction.user.username}`,
             type: ChannelType.GuildText,
             parent: parenClients,
             permissionOverwrites: [{
@@ -42,40 +41,36 @@ module.exports = {
                 ]
             }]
         })
-        const init = await sp_init_ticket({ channel: channel.id, dni: dni, motivo: motivo, problema: problematica, interaction: interaction.user.id })
-        console.log(init)
-        if (init.execute) {
-            const webhook = interaction.guild.channels.cache.find((ch) => ch.name === 'tickets-pendientes');
-            const currentID = init.data.current_insert
-            const embedB = new EmbedBuilder()
-                .setTitle(`Bienvenido a su ticket de atencion.`)
-                .setDescription(`<@${interaction.user.id}>, en instantes un asesor se pondra en contacto contigo para poder ayudarte con tu servicio  ${typeof motivo !== 'undefined' ? "\nMotivo de consulta:\n```" + motivo + "```" : ''} ${problematica !== '' ? "\nResumen del problema:\n```" + problematica + "```" : ''}`)
-            const embedAnunciement = new EmbedBuilder()
-                .setTitle("Nuevo cliente solicitando atencion")
-                .setDescription(`El cliente <@${interaction.user.id}> esta solicitando atencion en <#${channel.id}>\nDocumento del cliente\n\`\`\`${dni}\`\`\`  ${motivo !== '' ? "\nMotivo de consulta:\n```" + motivo + "```" : ''} ${problematica !== '' ? "\nResumen del problema:\n```" + problematica + "```" : ''}`)
+        const INIT_TICKET = await sp_init_ticket({ channel: CHANNEL_CREATED.id, dni: DNI_CLIENTE, motivo: MOTIVO_INPT, problema: DETALLER_INPT, interaction: interaction.user.id })
 
-            const btnsGetTicket = new ActionRowBuilder().addComponents(
-                ticketbtns(`${dni}_${currentID}_${channel.id}`).catchTicket
-            )
-            const buttons = new ActionRowBuilder().addComponents(
-                ticketbtns(interaction.user.id).lock,
-                ticketbtns(interaction.user.id).unlock,
-                ticketbtns(currentID).close
-            )
-            await interaction.member.roles.add(cliente);
-            const mensaje = await channel.send({ embeds: [embedB], components: [buttons] });
-            mensaje.pin()
-                .then(() => {
-                    console.log('Mensaje anclado con éxito.');
-                })
-                .catch((error) => {
-                    console.error('Error al anclar el mensaje:', error);
-                });
-            await webhook.send({ embeds: [embedAnunciement], components: [btnsGetTicket] });
-            await interaction.editReply({ content: `Tu ticket fue creado en <#${channel.id}>`, ephemeral: true });
-        } else {
-            await interaction.editReply({ content: `Ocurrio un problema al generar su ticket, por favor intentelo mas tarde`, ephemeral: true });
-        }
-        // console.log(setData)
+        if (!INIT_TICKET.execute) return await interaction.editReply({ content: `Ocurrio un problema al generar su ticket, por favor intentelo mas tarde`, ephemeral: true });
+        const CHANNEL_SEND_TP = interaction.guild.channels.cache.find((ch) => ch.name === 'tickets-pendientes');
+        const CURRENT_ID_BD = INIT_TICKET.data.current_insert
+        const EMBED_CH_ATENCION = new EmbedBuilder()
+            .setTitle(`Bienvenido a su ticket de atencion.`)
+            .setDescription(`<@${interaction.user.id}>, en instantes un asesor se pondra en contacto contigo para poder ayudarte con tu servicio  ${typeof MOTIVO_INPT !== 'undefined' ? "\nMotivo de consulta:\n```" + MOTIVO_INPT + "```" : ''} ${DETALLER_INPT !== '' ? "\nResumen del problema:\n```" + DETALLER_INPT + "```" : ''}`)
+        const EMBED_CH_ANUNCIOS = new EmbedBuilder()
+            .setTitle("Nuevo cliente solicitando atencion")
+            .setDescription(`El cliente <@${interaction.user.id}> esta solicitando atencion en <#${CHANNEL_CREATED.id}>\nDocumento del cliente\n\`\`\`${DNI_CLIENTE}\`\`\`  ${MOTIVO_INPT !== '' ? "\nMotivo de consulta:\n```" + MOTIVO_INPT + "```" : ''} ${DETALLER_INPT !== '' ? "\nResumen del problema:\n```" + DETALLER_INPT + "```" : ''}`)
+
+        const BTNS_EMBED_ANUNCIOS = new ActionRowBuilder().addComponents(
+            ticketbtns(`${DNI_CLIENTE}_${CURRENT_ID_BD}_${CHANNEL_CREATED.id}`).catchTicket
+        )
+        const buttons = new ActionRowBuilder().addComponents(
+            ticketbtns(interaction.user.id).lock,
+            ticketbtns(interaction.user.id).unlock,
+            ticketbtns(CURRENT_ID_BD).close
+        )
+        await interaction.member.roles.add(cliente);
+        const MENSAJE_GENERATE = await CHANNEL_CREATED.send({ embeds: [EMBED_CH_ATENCION], components: [buttons] });
+        MENSAJE_GENERATE.pin()
+            .then(() => {
+                console.log('Mensaje anclado con éxito.');
+            })
+            .catch((error) => {
+                console.error('Error al anclar el mensaje:', error);
+            });
+        await CHANNEL_SEND_TP.send({ embeds: [EMBED_CH_ANUNCIOS], components: [BTNS_EMBED_ANUNCIOS] });
+        await interaction.editReply({ content: `Tu ticket fue creado en <#${CHANNEL_CREATED.id}>`, ephemeral: true });
     }
 }

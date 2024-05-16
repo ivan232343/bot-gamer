@@ -1,10 +1,10 @@
--- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Versión del servidor:         11.1.3-MariaDB - mariadb.org binary distribution
--- SO del servidor:              Win64
--- HeidiSQL Versión:             12.6.0.6765
--- --------------------------------------------------------
-
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * backup de la base de datos, estrutura base de la base de datos,las tablas y stored procedure
+ */
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;

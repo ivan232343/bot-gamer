@@ -1,5 +1,16 @@
-const transcripts = require("discord-html-transcripts");
-const { bkChats } = require("../../../json/canales.json");
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Despues de hacer click en el boton de cerrar ticket en el chat generado y colocar el id del ticket generado en CRM, 
+ * se valida primero que el el ticket ingresado cumpla con el formato establecido, luego se guarda en base de datos
+ * la interaction id del asesor, el id del ticket, y la hora que se estaria cerrando,
+ * despues se genera la transcripcion del canal y guardarlo en un archivo .html dentro de "src/generate/chats/"
+ * al finalizar con la transcripcion, se procede con el cierre del canal y el borrado del mismo
+ */
+const TRANSCRIPTS_TO_HTML = require("discord-html-transcripts");
+const { CHANNEL_BACKUP_CHAT } = require("../../../json/canales.json");
 const { toUTC } = require('../../../modules/utclocalconverter');
 const fs = require('fs');
 const path = require('path');
@@ -10,53 +21,45 @@ module.exports = {
     data: { name: 'cerrar-ticket' },
     async execute(interaction, client) {
 
-        const closetkt = interaction.fields.getTextInputValue("idregistro");
-        const currentID = interaction.customId.split("_")[1]
+        const TICKET_CRM = interaction.fields.getTextInputValue("idregistro");
+        const CURRENT_ID_BD = interaction.customId.split("_")[1]
 
-        if (/[A-Z]{2}-[0-9]{7,9}/.test(closetkt)) {
-            const close = await sp_close_ticket({ interaction: interaction.user.id, cerrar: closetkt, id: currentID })
-            console.log(close)
-            if (close.execute) {
-                const date = new Date();
-                let time = toUTC(date)
-                const channel = interaction.channel;
-                const channelbk = await client.channels.cache.get(bkChats);
-                const stringGenerate = await transcripts.createTranscript(channel, {
-                    returnType: 'string'
-                })
-                try {
-                    const OUT_DIR = `src/generate/chats/${close.data.documento}`;
-                    // Construye la ruta hacia el archivo de salida
-                    const nombreArchivo = `${closetkt}-${interaction.channel.id}-${(time.getUTCDate()).toString().padStart(2, '0')}-${(time.getUTCMonth() + 1).toString().padStart(2, '0')}-${time.getFullYear()}_${(time.getUTCHours()).toString().padStart(2, '0')}--${(time.getUTCMinutes()).toString().padStart(2, '0')}.html`; // Nombre del archivo HTML
-                    if (!fs.existsSync(OUT_DIR)) {
-                        fs.mkdirSync(OUT_DIR);
-                    }
-                    const rutaArchivo = path.join(OUT_DIR, nombreArchivo);
-                    const writeStream = fs.createWriteStream(rutaArchivo);
-                    // Escribe el contenido HTML en el archivo
-                    console.log(writeStream.write(stringGenerate));
-                    // Cierra el flujo de escritura
-                    writeStream.end();
-                    console.log(close.data.documento)
-                    await channelbk.send({
-                        content: `Backup del canal ${channel.name} cerrado el dia ${(time.getUTCDate()).toString().padStart(2, '0')} del ${(time.getUTCMonth() + 1).toString().padStart(2, '0')} del año ${time.getFullYear()} a las ${(time.getUTCHours()).toString().padStart(2, '0')}:${(time.getUTCMinutes()).toString().padStart(2, '0')}:${(time.getUTCSeconds()).toString().padStart(2, '0')} `,
-                        components: [new ActionRowBuilder().addComponents(ticketbtns(`${close.data.documento}/${nombreArchivo.split(".")[0]}`).closeurlticket)]
-                    });
-                    await interaction.reply({ content: `El archivo se genero Correctamente en ${rutaArchivo}`, ephemeral: true })
-                    return interaction.editReply({ content: `El canal se cerrara en 5 seg`, ephemeral: true })
-                        .then(() => {
-                            setTimeout(() => {
-                                interaction.channel.delete();
-                            }, 5000)
-                        })
-                } catch (error) {
-                    console.error('Error al guardar el archivo:', error);
+        if (!/[A-Z]{2}-[0-9]{7,9}/.test(TICKET_CRM)) return await interaction.reply({ content: "El ticket ingresado no cumple con la estructura AT-XXXXXXX", ephemeral: true })
+        const CLOSE_PROCESS = await sp_close_ticket({ interaction: interaction.user.id, cerrar: TICKET_CRM, id: CURRENT_ID_BD })
+        if (CLOSE_PROCESS.execute) {
+            const FECHA_NOW = new Date();
+            let time = toUTC(FECHA_NOW)
+            const CHANNEL_HERE = interaction.channel;
+            const CHANNEL_BACKUP = await client.channels.cache.get(CHANNEL_BACKUP_CHAT);
+            const HTML_GENERATE = await TRANSCRIPTS_TO_HTML.createTranscript(CHANNEL_HERE, {
+                returnType: 'string'
+            })
+            try {
+                const OUT_DIR = `src/generate/chats/${CLOSE_PROCESS.data.documento}`;
+                const ARCHIVO_GENERDO_LABEL = `${TICKET_CRM}-${interaction.channel.id}-${(time.getUTCDate()).toString().padStart(2, '0')}-${(time.getUTCMonth() + 1).toString().padStart(2, '0')}-${time.getFullYear()}_${(time.getUTCHours()).toString().padStart(2, '0')}--${(time.getUTCMinutes()).toString().padStart(2, '0')}.html`; // Nombre del archivo HTML
+                if (!fs.existsSync(OUT_DIR)) {
+                    fs.mkdirSync(OUT_DIR);
                 }
-            } else {
-                await interaction.reply({ content: `${interaction.user} -> ${close.msg}`, ephemeral: true })
+                const RUTA_ARCHIVO_GENERADO = path.join(OUT_DIR, ARCHIVO_GENERDO_LABEL);
+                const writeStream = fs.createWriteStream(RUTA_ARCHIVO_GENERADO);
+                writeStream.end();
+                await CHANNEL_BACKUP.send({
+                    content: `Backup del canal ${CHANNEL_HERE.name} cerrado el dia ${(time.getUTCDate()).toString().padStart(2, '0')} del ${(time.getUTCMonth() + 1).toString().padStart(2, '0')} del año ${time.getFullYear()} a las ${(time.getUTCHours()).toString().padStart(2, '0')}:${(time.getUTCMinutes()).toString().padStart(2, '0')}:${(time.getUTCSeconds()).toString().padStart(2, '0')} `,
+
+                });
+                await interaction.reply({ content: `El archivo se genero Correctamente en ${RUTA_ARCHIVO_GENERADO}`, ephemeral: true })
+                return interaction.editReply({ content: `El canal se cerrara en 5 seg`, ephemeral: true })
+                    .then(() => {
+                        setTimeout(() => {
+                            interaction.channel.delete();
+                        }, 5000)
+                    })
+            } catch (error) {
+                console.error('Error al guardar el archivo:', error);
+                await interaction.reply({ content: `Error al guardar el archivo`, ephemeral: true })
             }
         } else {
-            await interaction.reply({ content: "El ticket ingresado no cumple con la estructura AT-XXXXXXX", ephemeral: true })
+            await interaction.reply({ content: `${interaction.user} -> ${close.msg}`, ephemeral: true })
         }
     }
 }

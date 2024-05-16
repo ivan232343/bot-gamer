@@ -1,12 +1,16 @@
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Modulo donde se encuentra los botones para los embeds, un generador de select y un borrador de roles
+ */
 const {
     StringSelectMenuOptionBuilder,
     ButtonBuilder,
-    ButtonStyle,
-    EmbedBuilder
+    ButtonStyle
 } = require("discord.js");
-
-
-// const { ButtonBuilder, ButtonStyle } = require('discord.js')
+const { url_utiles } = require('../json/recursos.json')
 module.exports = {
     adsWinBtns: function (argT = "") {
         return {
@@ -24,12 +28,12 @@ module.exports = {
                 .setLabel('Ir a win.pe')
                 .setEmoji('🌐')
                 .setStyle(ButtonStyle.Link)
-                .setURL("https://bit.ly/info-plan-gamer-win"),
+                .setURL(url_utiles.web),
             wsp: new ButtonBuilder()
                 .setLabel("Whatsapp")
                 .setEmoji('📞')
                 .setStyle(ButtonStyle.Link)
-                .setURL("https://bit.ly/whatsapp-win-gamer"),
+                .setURL(url_utiles.wsp),
             initTicket: new ButtonBuilder()
                 .setCustomId('create-ticket')
                 .setLabel('Con otro documento')
@@ -109,35 +113,6 @@ module.exports = {
             return tempCategoria
         })
         return categoriasBuild;
-    },
-    embedsB: function () {
-        return {
-            CreateTicket: new EmbedBuilder()
-                .setTitle('Bienvenido al panel de tickets')
-                .setDescription(`
-        Hola Winner, para ayudarle con la consulta o el problema coloque su documento de identidad en el boton "Ingresar Documento"
-        Si desea realizar la consulta a su servicio por favor haga click en "Con mi documento"      
-      
-        **Tenga en cuenta que este servicio es exclusivo para clientes con los nuevos planes gamer si desea contar con el servicio haga click en uno de las opciones de la segunda fila**`)
-                .setThumbnail('https://win-internet.com.pe/img/card/plan-gamer.webp'),
-            validateUser: new EmbedBuilder()
-                .setTitle('Validacion cliente con los nuevos planes Gamer de WIN')
-                .setDescription(`Hola Winner, para poder brindarle la experiencia completa del servidor requerimos que ingrese su documento de identidad para validar que cuente con el servicio gamer de win.
-        Despues de validar podrá acceder a los siguientes canales:
-- <#1215716247568912429> -> En este canal generaria ticket si tiene algun incoveniente con el servicio Gamer de win (Debe tener servicio GAMER obligatorio y el inconveniente debe ser en ese servicio).
-- Todos los canales de "Zona gamer" para ingresar a una comunidad de jugadores y unirse a las partidas.
-
-**Tenga en cuenta que este servidor tiene canales exclusivos para clientes gamer por lo cual se recomienda colocar el dni del titular del servicio para realizar la validacion correcta y pueda tener una experiencia completa.**`),
-            validateAsesor: new EmbedBuilder()
-                .setTitle("Registro de asesor gamer")
-                .setDescription("Hola asesor, necesitamos que rellenes el formulario para llevar a cabo su registro, no tomara mucho tiempo")
-                .setColor("Orange"),
-            notGamer: new EmbedBuilder()
-                .setTitle(`Ups, no tienes planes gamer de WIN`)
-                .setDescription("Actualmente el Discord es un beneficio exclusivo para nuestra comunidad de Planes Gamer. Pero puede contratarlo llamando a Atencion al cliente win o ingresando a los links que le dejare a continuación:")
-                .setImage("https://win.pe/img/share/wingamer.jpg")
-                .setColor("Orange")
-        }
     },
     removeUserRoles: async ({ interaction }) => {
         const roles = {
