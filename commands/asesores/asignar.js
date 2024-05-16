@@ -1,3 +1,10 @@
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Comando para asignar a un usuario dentro del canal de texto
+ */
 const { SlashCommandBuilder } = require("discord.js");
 const role = require('../../json/roles.json')
 module.exports = {
@@ -11,9 +18,9 @@ module.exports = {
         ),
     category: "asesores",
     async execute(interaction) {
-        const client_id = interaction.guild.members.cache.get(interaction.options.getUser('cliente').id);
-        if (client_id.roles.cache.has(role.cliente)) {
-            await interaction.channel.permissionOverwrites.create(client_id, {
+        const CLIENTE_ID = interaction.guild.members.cache.get(interaction.options.getUser('cliente').id);
+        if (CLIENTE_ID.roles.cache.has(role.cliente)) {
+            await interaction.channel.permissionOverwrites.create(CLIENTE_ID, {
                 SendMessages: true,
                 ViewChannel: true,
                 ReadMessageHistory: true

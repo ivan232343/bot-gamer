@@ -1,3 +1,10 @@
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Modulo que hace las peticiones de la BD y les da un tratamiento previo
+ */
 const { get } = require("./conectbd")
 
 module.exports = {

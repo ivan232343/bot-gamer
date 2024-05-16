@@ -1,3 +1,10 @@
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Modulo de la funcion para convertir el tiempo a UTC
+ */
 module.exports = {
     toUTC: function (datetime) {
         const date = new Date(datetime);
@@ -9,6 +16,5 @@ module.exports = {
         const utcTime = localTime + offset;
         // Crear una nueva fecha a partir de la hora UTC -5:00
         return new Date(utcTime);
-
     }
 }

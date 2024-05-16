@@ -1,4 +1,10 @@
-
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
+ * fecha: 15/05/2024
+ * motivo: 
+ * Archivo raiz
+ */
 const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
 const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits
 const { Message, GuildMember, User, ThreadMember } = Partials
