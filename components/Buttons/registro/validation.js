@@ -15,17 +15,23 @@ module.exports = {
             .setCustomId('modal-validate-gamer')
             .setTitle('Registro de cliente');
 
+        const NOMBRE_CLIENTE = new TextInputBuilder()
+            .setCustomId('namecliente')
+            .setLabel('Ingrese el nombre del titular')
+            .setRequired(true)
+            .setStyle(TextInputStyle.Short)
         const DNI_CLIENTE = new TextInputBuilder()
             .setCustomId('dnicliente')
             .setLabel("Documento de identidad del titular")
             .setRequired(true)
-            .setStyle(TextInputStyle.Short)
             .setMinLength(8)
-            .setMaxLength(11);
+            .setMaxLength(15)
+            .setStyle(TextInputStyle.Short);
 
         const PRIMERA_FILA = new ActionRowBuilder().addComponents(DNI_CLIENTE);
+        const SEGUNDA_FILA = new ActionRowBuilder().addComponents(NOMBRE_CLIENTE);
 
-        MODAL.addComponents(PRIMERA_FILA);
+        MODAL.addComponents(PRIMERA_FILA, SEGUNDA_FILA);
         await interaction.showModal(MODAL);
     }
 }

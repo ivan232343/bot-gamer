@@ -18,7 +18,7 @@ module.exports = {
     assignRegular: (query = { interaction }) =>
         new EmbedBuilder()
             .setTitle("Cliente regular")
-            .setDescription(`Ups <@${query.interaction}>, Se valida que no es cliente gamer, pero aún así podrá disfrutar del servidor de manera limitada. \nSi crees que se trata de un error, no dude en contactarse con atención al cliente para resolver el inconveniente o contratar el servicio. \nLes dejamos nuestros canales de atención por whatsapp, página web o nuestro número de atención (01) 7073000.`)
+            .setDescription(`Ups <@${query.interaction}>, Se valida que no es cliente gamer, pero aún así podrá disfrutar del servidor de manera limitada. \nSi crees que se trata de un error, puede volver a seleccionar su plan en el campo que esta antes de este mensaje para volverlo a intentar.\nLes dejamos nuestros canales de atención por whatsapp, página web o nuestro número de atención (01) 7073000.`)
             .setTimestamp()
             .setColor('Red')
     ,
