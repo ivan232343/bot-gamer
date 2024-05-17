@@ -1,3 +1,4 @@
 config.json
 node_modules/*
 src/generate/chats/*/
+database/data.sql
