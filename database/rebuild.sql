@@ -1,11 +1,10 @@
-/**
- * Nombre de usuario: Ivan Gabriel Pulache Chiroque
- * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
- * fecha: 15/05/2024
- * motivo: 
- * backup de la base de datos, estrutura base de la base de datos,las tablas y stored procedure
- */
- 
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Versión del servidor:         11.1.3-MariaDB - mariadb.org binary distribution
+-- SO del servidor:              Win64
+-- HeidiSQL Versión:             12.7.0.6850
+-- --------------------------------------------------------
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
@@ -59,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `tb_user_dni` (
   `interactionID` varchar(25) DEFAULT NULL,
   `doc` char(15) DEFAULT NULL,
   PRIMARY KEY (`_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Vincula el documento de identidad con el Interaction ID del usuario que haya ingresado';
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Vincula el documento de identidad con el Interaction ID del usuario que haya ingresado';
 
 -- La exportación de datos fue deseleccionada.
 
@@ -109,6 +108,9 @@ CREATE PROCEDURE `sp_register_interaction-doc`(
 )
     COMMENT 'asocia la interaccion id del usuario a un dni '
 BEGIN
+DECLARE duplicado INT;
+SET duplicado = (SELECT COUNT(*) FROM tb_user_dni WHERE tb_user_dni.interactionID = discordID OR tb_user_dni.doc = document);
+if duplicado > 0 then DELETE FROM tb_user_dni where tb_user_dni.interactionID = discordID; END if;
 INSERT INTO tb_user_dni(interactionID,doc) VALUE (discordID,document);
 SELECT LAST_INSERT_ID() AS 'current_id';
 END//
