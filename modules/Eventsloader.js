@@ -21,7 +21,7 @@ module.exports = {
                 if (event.once) {
                     process.once(event.name, (...args) => event.execute(...args));
                 } else {
-                    console.log('----', event.name, '----')
+                    // console.log('----', event.name, '----')
                     process.on(event.name, (...args) => event.execute(...args));
                 }
             } catch (error) {
@@ -41,7 +41,7 @@ module.exports = {
                 if (event.once) {
                     client.once(event.name, (...args) => event.execute(...args));
                 } else {
-                    console.log('----', event.name, '----')
+                    // console.log('----', event.name, '----')
                     client.on(event.name, (...args) => event.execute(...args));
                 }
             } catch (error) {
@@ -75,7 +75,7 @@ module.exports = {
                 if (event.once) {
                     client.once(event.name, execute);
                 } else {
-                    console.log('----', event.name, '----')
+                    // console.log('----', event.name, '----')
                     client.on(event.name, execute);
                 }
             } catch (error) {
@@ -88,7 +88,7 @@ module.exports = {
                 if (event.once) {
                     process.once(event.name, (...args) => event.execute(...args));
                 } else {
-                    console.log('----', event.name, '----')
+                    // console.log('----', event.name, '----')
                     process.on(event.name, (...args) => event.execute(...args));
                 }
             } catch (error) {
