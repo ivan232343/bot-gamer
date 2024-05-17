@@ -45,9 +45,29 @@
     },
     "planes": [
         {
+            "label": "Nuevo Plan Gamer 100Mbps",
+            "value": "100",
+            "emoji": "🛹"
+        },
+        {
+            "label": "Nuevo Plan Gamer 150Mbps",
+            "value": "150",
+            "emoji": "🛴"
+        },
+        {
+            "label": "Nuevo Plan Gamer 200Mbps",
+            "value": "200",
+            "emoji": "🚲"
+        },
+        {
             "label": "Nuevo Plan Gamer 250Mbps",
             "value": "250",
             "emoji": "🛵"
+        },
+        {
+            "label": "Nuevo Plan Gamer 300Mbps",
+            "value": "300",
+            "emoji": "🏍"
         },
         {
             "label": "Nuevo Plan Gamer 350Mbps",
@@ -57,12 +77,17 @@
         {
             "label": "Nuevo Plan Gamer 400Mbps",
             "value": "400",
-            "emoji": "🚌"
+            "emoji": "🚙"
         },
         {
             "label": "Nuevo Plan Gamer 600Mbps",
             "value": "600",
-            "emoji": "🚄"
+            "emoji": "🚚"
+        },
+        {
+            "label": "Nuevo Plan Gamer 800Mbps",
+            "value": "800",
+            "emoji": "🚀"
         }
     ]
 }
