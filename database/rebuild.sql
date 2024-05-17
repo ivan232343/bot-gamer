@@ -5,6 +5,7 @@
  * motivo: 
  * backup de la base de datos, estrutura base de la base de datos,las tablas y stored procedure
  */
+ 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
@@ -22,16 +23,19 @@ USE `bd_gamer_data`;
 -- Volcando estructura para tabla bd_gamer_data.tb_gamers_win
 CREATE TABLE IF NOT EXISTS `tb_gamers_win` (
   `_id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `doc` varchar(15) NOT NULL DEFAULT '0',
-  `cod_pedido` char(15) NOT NULL DEFAULT '0',
+  `numdoc` char(15) NOT NULL DEFAULT '0',
+  `nombre` varchar(200) NOT NULL DEFAULT '0',
+  `correo` varchar(100) NOT NULL DEFAULT '0',
+  `tipo_plan` varchar(100) NOT NULL DEFAULT '0',
+  `velocidad_plan` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1395804 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='tabla temporal con los DNI de gamer ';
+) ENGINE=InnoDB AUTO_INCREMENT=9125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='tabla temporal con los DNI de gamer ';
 
 -- La exportación de datos fue deseleccionada.
 
 -- Volcando estructura para tabla bd_gamer_data.tb_registro_atencion
 CREATE TABLE IF NOT EXISTS `tb_registro_atencion` (
-  `_id` int(20) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `_id` int(20) unsigned NOT NULL AUTO_INCREMENT,
   `estado` varchar(15) NOT NULL DEFAULT 'pendiente',
   `document` char(15) NOT NULL DEFAULT '0',
   `user_i-id_init` char(25) NOT NULL DEFAULT '0',
@@ -45,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `tb_registro_atencion` (
   `motivo` varchar(50) DEFAULT NULL,
   `observaciones` varchar(450) DEFAULT NULL,
   PRIMARY KEY (`_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='tabla que guarda el registro de las atenciones que se hayan creado por discord';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='tabla que guarda el registro de las atenciones que se hayan creado por discord';
 
 -- La exportación de datos fue deseleccionada.
 
@@ -55,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `tb_user_dni` (
   `interactionID` varchar(25) DEFAULT NULL,
   `doc` char(15) DEFAULT NULL,
   PRIMARY KEY (`_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Vincula el documento de identidad con el Interaction ID del usuario que haya ingresado';
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Vincula el documento de identidad con el Interaction ID del usuario que haya ingresado';
 
 -- La exportación de datos fue deseleccionada.
 
@@ -74,7 +78,7 @@ tb_registro_atencion.estado = "cerrado",
 tb_registro_atencion.ticket_crm_assoc = ticket,
 tb_registro_atencion.time_close = CURRENT_TIMESTAMP() 
 WHERE tb_registro_atencion._id = currentId;
-SELECT documento FROM tb_registro_atencion WHERE _id = currentId;
+SELECT document FROM tb_registro_atencion WHERE _id = currentId;
 
 END//
 DELIMITER ;
@@ -127,6 +131,26 @@ WHERE tb_registro_atencion._id = currentId;
 END//
 DELIMITER ;
 
+-- Volcando estructura para procedimiento bd_gamer_data.sp_validate_gamer-to-init
+DELIMITER //
+CREATE PROCEDURE `sp_validate_gamer-to-init`(
+	IN `name_input` VARCHAR(200),
+	IN `document` CHAR(15),
+	IN `plan_input` INT
+)
+    COMMENT 'valida la identidad del cliente en generar un ticket'
+BEGIN
+DECLARE name_client VARCHAR(200);
+DECLARE plan_contratado INT;
+SET name_client = (SELECT tb_gamers_win.nombre FROM tb_gamers_win WHERE tb_gamers_win.numdoc = document);
+SET plan_contratado = (SELECT tb_gamers_win.velocidad_plan FROM tb_gamers_win WHERE tb_gamers_win.numdoc = document);
+if name_client = name_input AND plan_contratado = plan_input
+then SELECT TRUE AS 'validate';
+ELSE SELECT FALSE AS 'validate', name_client,plan_contratado;
+END if;
+END//
+DELIMITER ;
+
 -- Volcando estructura para procedimiento bd_gamer_data.sp_validate_interaction-doc
 DELIMITER //
 CREATE PROCEDURE `sp_validate_interaction-doc`(
@@ -138,13 +162,12 @@ BEGIN
 DECLARE registrogamerxdoc INT;
 DECLARE registrogamerxinteraction INT;
 SET registrogamerxdoc = (SELECT COUNT(*) FROM tb_user_dni WHERE doc = document);
-SET registrogamerxinteraction = (SELECT COUNT(*) FROM tb_user_dni WHERE interactionID = interaction);
-if (registrogamerxdoc = 1) OR (registrogamerxinteraction = 1)
+SET registrogamerxinteraction = (SELECT COUNT(*) FROM tb_user_dni WHERE tb_user_dni.interactionID = interaction);
+if (registrogamerxdoc > 0) OR (registrogamerxinteraction > 0)
 then  SELECT TRUE AS "validate",registrogamerxdoc AS "ret_doc",registrogamerxinteraction AS "ret_interaction";
-ELSEIF (registrogamerxdoc = 0 ) OR (registrogamerxinteraction = 0)
-then SELECT FALSE AS "validate";
-ELSE
-SELECT "error" AS "validate",tb_user_dni.interactionID AS 'interaccion' FROM tb_user_dni WHERE tb_user_dni.doc = document ;
+ELSEif (registrogamerxdoc = 0) OR (registrogamerxinteraction = 0)
+then  SELECT FALSE AS "validate",registrogamerxdoc AS "ret_doc",registrogamerxinteraction AS "ret_interaction";
+ELSE SELECT "error" AS "validate",tb_user_dni.interactionID AS 'interaccion' FROM tb_user_dni WHERE tb_user_dni.doc = document ;
 END if;
 END//
 DELIMITER ;
@@ -157,8 +180,8 @@ CREATE PROCEDURE `sp_validate_serv-gamer`(
     COMMENT 'valida si el usuario que coloco el dni es gamer '
 BEGIN
 DECLARE isgamer INT;
-SET isgamer = (SELECT COUNT(*) FROM tb_gamers_win WHERE doc = document);
-if isgamer = 1 then SELECT TRUE AS 'validate';
+SET isgamer = (SELECT COUNT(*) FROM tb_gamers_win WHERE tb_gamers_win.numdoc = document);
+if isgamer > 1 then SELECT TRUE AS 'validate';
 ELSE SELECT FALSE AS 'validate';
 END if;
 END//
