@@ -23,6 +23,7 @@ module.exports = {
         if (!REGISTRAR_USUARIO.execute) return await interaction.editReply({ content: "Ocurrio un error intentelo mas adelante", });
         await removeUserRoles({ interaction }).then(async roles => {
             await interaction.reply({ content: "Espere un momento...", ephemeral: true })
+            console.log(CHECK_GAMER);
             setTimeout(async () => {
                 if (CHECK_GAMER.find && CHECK_GAMER.f.validate === 1) {
                     await interaction.member.roles.add(roles.gamerWinRole)

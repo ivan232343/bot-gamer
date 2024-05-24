@@ -5,6 +5,9 @@
  * motivo: 
  * backup de la base de datos,  crea usuario y brinda permisos necesarios
  */
+ 
+CREATE USER 'ejecutor-gamer'@'localhost' IDENTIFIED BY 'vi1uMa2AXu67';
+GRANT USAGE ON *.* TO 'ejecutor-gamer'@'localhost';
 GRANT SELECT  ON TABLE `bd_gamer_data`.`tb_gamers_win` TO 'ejecutor-gamer'@'localhost';
 GRANT SELECT, INSERT, UPDATE  ON TABLE `bd_gamer_data`.`tb_registro_atencion` TO 'ejecutor-gamer'@'localhost';
 GRANT SELECT, INSERT, UPDATE  ON TABLE `bd_gamer_data`.`tb_user_dni` TO 'ejecutor-gamer'@'localhost';

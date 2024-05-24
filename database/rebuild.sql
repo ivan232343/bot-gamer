@@ -1,10 +1,10 @@
-/**
- * Nombre de usuario: Ivan Gabriel Pulache Chiroque
- * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
- * fecha: 17/05/2024
- * motivo: 
- * backup de la base de datos, crea el esquema y los procedimientos almacenados
- */
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Versión del servidor:         11.1.3-MariaDB - mariadb.org binary distribution
+-- SO del servidor:              Win64
+-- HeidiSQL Versión:             12.7.0.6850
+-- --------------------------------------------------------
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
@@ -18,19 +18,6 @@
 -- Volcando estructura de base de datos para bd_gamer_data
 CREATE DATABASE IF NOT EXISTS `bd_gamer_data` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `bd_gamer_data`;
-
--- Volcando estructura para tabla bd_gamer_data.tb_gamers_win
-CREATE TABLE IF NOT EXISTS `tb_gamers_win` (
-  `_id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `numdoc` char(15) NOT NULL DEFAULT '0',
-  `nombre` varchar(200) NOT NULL DEFAULT '0',
-  `correo` varchar(100) NOT NULL DEFAULT '0',
-  `tipo_plan` varchar(100) NOT NULL DEFAULT '0',
-  `velocidad_plan` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='tabla temporal con los DNI de gamer ';
-
--- La exportación de datos fue deseleccionada.
 
 -- Volcando estructura para tabla bd_gamer_data.tb_registro_atencion
 CREATE TABLE IF NOT EXISTS `tb_registro_atencion` (
@@ -133,26 +120,6 @@ WHERE tb_registro_atencion._id = currentId;
 END//
 DELIMITER ;
 
--- Volcando estructura para procedimiento bd_gamer_data.sp_validate_gamer-to-init
-DELIMITER //
-CREATE PROCEDURE `sp_validate_gamer-to-init`(
-	IN `name_input` VARCHAR(200),
-	IN `document` CHAR(15),
-	IN `plan_input` INT
-)
-    COMMENT 'valida la identidad del cliente en generar un ticket'
-BEGIN
-DECLARE name_client VARCHAR(200);
-DECLARE plan_contratado INT;
-SET name_client = (SELECT tb_gamers_win.nombre FROM tb_gamers_win WHERE tb_gamers_win.numdoc = document);
-SET plan_contratado = (SELECT tb_gamers_win.velocidad_plan FROM tb_gamers_win WHERE tb_gamers_win.numdoc = document);
-if name_client = name_input AND plan_contratado = plan_input
-then SELECT TRUE AS 'validate';
-ELSE SELECT FALSE AS 'validate', name_client,plan_contratado;
-END if;
-END//
-DELIMITER ;
-
 -- Volcando estructura para procedimiento bd_gamer_data.sp_validate_interaction-doc
 DELIMITER //
 CREATE PROCEDURE `sp_validate_interaction-doc`(
@@ -170,21 +137,6 @@ then  SELECT TRUE AS "validate",registrogamerxdoc AS "ret_doc",registrogamerxint
 ELSEif (registrogamerxdoc = 0) OR (registrogamerxinteraction = 0)
 then  SELECT FALSE AS "validate",registrogamerxdoc AS "ret_doc",registrogamerxinteraction AS "ret_interaction";
 ELSE SELECT "error" AS "validate",tb_user_dni.interactionID AS 'interaccion' FROM tb_user_dni WHERE tb_user_dni.doc = document ;
-END if;
-END//
-DELIMITER ;
-
--- Volcando estructura para procedimiento bd_gamer_data.sp_validate_serv-gamer
-DELIMITER //
-CREATE PROCEDURE `sp_validate_serv-gamer`(
-	IN `document` CHAR(15)
-)
-    COMMENT 'valida si el usuario que coloco el dni es gamer '
-BEGIN
-DECLARE isgamer INT;
-SET isgamer = (SELECT COUNT(*) FROM tb_gamers_win WHERE tb_gamers_win.numdoc = document);
-if isgamer > 1 then SELECT TRUE AS 'validate';
-ELSE SELECT FALSE AS 'validate';
 END if;
 END//
 DELIMITER ;
