@@ -95,11 +95,11 @@ module.exports = {
                 .setEmoji('👈')
                 .setStyle(ButtonStyle.Success)
                 .setCustomId(`catch-ticket_${id}`)/**id del canal y dni del cliente */,
-            closeurlticket: new ButtonBuilder()
-                .setLabel("Visualizar chat")
-                .setEmoji('🌐')
-                .setStyle(ButtonStyle.Link)
-                .setURL(`about:blank`)
+            // closeurlticket: new ButtonBuilder()
+            //     .setLabel("Visualizar chat")
+            //     .setEmoji('🌐')
+            //     .setStyle(ButtonStyle.Link)
+            //     .setURL(`about:blank`)
         }
     },
     SelectMotivo: function () {
