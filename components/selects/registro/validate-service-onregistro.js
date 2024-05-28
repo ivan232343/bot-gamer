@@ -20,7 +20,7 @@ module.exports = {
         const DATA_RES = { doc: GET_DATA[1], namecl: GET_DATA[2].replace(/-/g, " ").toUpperCase(), planPicked: interaction.values[0] }
         const REGISTRAR_USUARIO = await sp_register_interaction_doc({ dni: DATA_RES.doc, interaction: interaction.user.id })
         const CHECK_GAMER = await sp_validate_gamer_to_init(DATA_RES)
-        if (!REGISTRAR_USUARIO.execute) return await interaction.editReply({ content: "Ocurrio un error intentelo mas adelante", });
+        if (!REGISTRAR_USUARIO.execute) return await interaction.reply({ content: "Ocurrio un error intentelo mas adelante", });
         await removeUserRoles({ interaction }).then(async roles => {
             await interaction.reply({ content: "Espere un momento...", ephemeral: true })
             console.log(CHECK_GAMER);
