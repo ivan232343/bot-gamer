@@ -24,8 +24,8 @@ module.exports = {
         const DATA_SEND = { interaction: interaction.user.id, dni: DNI_CLIENTE }
         const VALIDAR_DUPLICADO = await sp_validate_interaction_doc(DATA_SEND);
         console.log(VALIDAR_DUPLICADO)
-        if (!VALIDAR_DUPLICADO.execute) return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: 1 })], ephemeral: true });
-        if (VALIDAR_DUPLICADO.f.validate === 1) return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: VALIDAR_DUPLICADO.f.ret_interaction >= 1 ? 2 : 1 })], ephemeral: true });
+        /*if (VALIDAR_DUPLICADO.execute) {return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: 1 })], ephemeral: true });*/
+        /*if (VALIDAR_DUPLICADO.f.validate === 1) { return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: VALIDAR_DUPLICADO.f.ret_interaction >= 1 ? 2 : 1 })], ephemeral: true });*/
         const OPTIONS_SELECT = planes.map(el => {
             const CATEGORIA_TEMP = new StringSelectMenuOptionBuilder()
                 .setLabel(el.label)
@@ -33,6 +33,7 @@ module.exports = {
                 .setEmoji(el.emoji)
             return CATEGORIA_TEMP
         })
+
         const SELECT_MOTIVO = new ActionRowBuilder().addComponents(
             new StringSelectMenuBuilder()
                 .setCustomId(`validate-service-onregistro_${DNI_CLIENTE}_${NOMBRE_CLIENTE.replaceAll(" ", "-")}`)
