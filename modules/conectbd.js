@@ -5,20 +5,22 @@
  * motivo: 
  * modulo conector para la base de datos *mysql*
  */
-const { LOCAL_HOST, LOCAL_USER, LOCAL_PASSWORD, LOCAL_DB } = require('../config.json');
-const { REMOTE_HOST, REMOTE_USER, REMOTE_PASSWORD, REMOTE_DB } = require('../config.json');
+const { LOCAL_HOST, LOCAL_USER, LOCAL_PASSWORD, LOCAL_DB, LOCAL_PORT } = require('../config.json');
+const { REMOTE_HOST, REMOTE_USER, REMOTE_PASSWORD, REMOTE_DB, REMOTE_PORT } = require('../config.json');
 const mysql = require('mysql');
 const LOCAL_CREDENTIALS = {
     host: LOCAL_HOST,
     user: LOCAL_USER,
     password: LOCAL_PASSWORD,
-    database: LOCAL_DB
+    database: LOCAL_DB,
+    port: LOCAL_PORT
 }
 const REMOTE_CREDENTIALS = {
     host: REMOTE_HOST,
     user: REMOTE_USER,
     password: REMOTE_PASSWORD,
-    database: REMOTE_DB
+    database: REMOTE_DB,
+    port: REMOTE_PORT
 }
 const myObject = {
     local: function (querybd) {
