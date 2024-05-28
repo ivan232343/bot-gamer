@@ -45,7 +45,7 @@ DECLARE name_client VARCHAR(200);
 DECLARE plan_contratado INT;
 SET name_client = (SELECT usuarios_gamer_discord.NOMBRE FROM usuarios_gamer_discord WHERE usuarios_gamer_discord.NUMDOC = document);
 SET plan_contratado = (SELECT usuarios_gamer_discord.velocidad_plan FROM usuarios_gamer_discord WHERE usuarios_gamer_discord.numdoc = document);
-if name_client = name_input AND plan_contratado = plan_input
+if name_client = name_input 
 then SELECT TRUE AS 'validate';
 ELSE SELECT FALSE AS 'validate', name_client,plan_contratado;
 END if;
