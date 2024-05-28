@@ -22,7 +22,7 @@ module.exports = {
         return peticion
     },
     sp_register_interaction_doc: async (query = { interaction, dni }) => {
-        const peticion = await local(`call \`sp_register_interaction-doc\`('${query.interaction}','${query.dni}')`)
+        const peticion = await local(`call \`sp_register_interaction_doc\`('${query.interaction}','${query.dni}')`)
             .then(res => typeof res.resultados !== 'undefined' ? res.resultados[1].affectedRows >= 1 ? { msg: "Iniciado correctamente", execute: true, data: res.resultados[0][0] } : { msg: `No se encontro ID o hubo algun error`, execute: false } : { msg: `Ocurrio un error: ${res.errores.code} / '${query.interaction}', '${query.dni}'`, execute: false })
             .catch(res => { return { msg: "Ocurrio un error interno", execute: false, code: res } })
         return peticion
