@@ -21,11 +21,6 @@ module.exports = {
         const DNI_CLIENTE = interaction.fields.getTextInputValue("dnicliente");
         const NOMBRE_CLIENTE = interaction.fields.getTextInputValue("namecliente");
         if (!/[0-9]/.test(DNI_CLIENTE)) return await interacion.reply({ content: "Tipo de dato invalido, pofavor intentelo nuevamente con numeros", ephemeral: true }).then(msg => { setTimeout(() => { msg.delete() }, 2500) })
-        const DATA_SEND = { interaction: interaction.user.id, dni: DNI_CLIENTE }
-        const VALIDAR_DUPLICADO = await sp_validate_interaction_doc(DATA_SEND);
-        console.log(VALIDAR_DUPLICADO)
-        /*if (VALIDAR_DUPLICADO.execute) {return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: 1 })], ephemeral: true });*/
-        /*if (VALIDAR_DUPLICADO.f.validate === 1) { return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: VALIDAR_DUPLICADO.f.ret_interaction >= 1 ? 2 : 1 })], ephemeral: true });*/
         const OPTIONS_SELECT = planes.map(el => {
             const CATEGORIA_TEMP = new StringSelectMenuOptionBuilder()
                 .setLabel(el.label)
