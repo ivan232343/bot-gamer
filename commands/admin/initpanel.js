@@ -30,17 +30,12 @@ module.exports = {
             embeds.push(staticsEmbeds.CreateTicket)
             componentes.push(
                 new ActionRowBuilder().addComponents(
-                    adsWinBtns().first,
-                    adsWinBtns().previusRegisterDoc,
-                    adsWinBtns().initTicket,
+                    adsWinBtns().initTicketWithPrev,
                 ),
                 new ActionRowBuilder().addComponents(
                     adsWinBtns().web,
                     adsWinBtns().wsp
                 ))
-        } else if (init === "feedback") {
-            embeds.push()
-            componentes.push()
         }
         else {
             embeds.push(staticsEmbeds.validateUser)
