@@ -19,7 +19,7 @@ module.exports = {
         const GET_DATA = interaction.customId.split("_")
         const DATA_RES = { doc: GET_DATA[1], namecl: GET_DATA[2].replace(/-/g, " ").toUpperCase(), planPicked: interaction.values[0] }
         const CHECK_GAMER = await sp_validate_gamer_to_init(DATA_RES)
-consolé.log(CHECK_GAMER);
+console.log(CHECK_GAMER);
         if (!CHECK_GAMER.find) return await interaction.reply({ content: `Ups <@${interaction.user.id}>, No se pudo validar su identidad, si crees que se trata de un error intententelo nuevamente o de lo contrario no dude de reportarlo en <#1223357670975733963> para validar el inconveniente.`, ephemeral: true })
         const CHECK_PENDIENTE = await sp_validate_tktpendiente(DATA_RES.doc)
         if (!CHECK_PENDIENTE.find) {
