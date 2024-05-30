@@ -15,7 +15,7 @@ module.exports = {
             .setTitle('Genera tu ticket de atencion');
         const NOMBRE_CLIENTE = new TextInputBuilder()
             .setCustomId('namecliente')
-            .setLabel('Ingrese el nombre del titular')
+            .setLabel('Ingrese el nombre completo del titular')
             .setRequired(true)
             .setStyle(TextInputStyle.Short)
         const DNI_CLIENTE = new TextInputBuilder()
