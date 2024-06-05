@@ -21,7 +21,8 @@ module.exports = {
             await CHANNEL_DATA.permissionOverwrites.create(asesor, {
                 SendMessages: false,
                 ViewChannel: false,
-                ReadMessageHistory: false
+                ReadMessageHistory: false,
+                UseApplicationCommands: true
             })
             await CHANNEL_DATA.permissionOverwrites.create(interaction.user.id, {
                 SendMessages: true,
