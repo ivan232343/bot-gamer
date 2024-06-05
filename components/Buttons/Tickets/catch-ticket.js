@@ -21,13 +21,13 @@ module.exports = {
             await CHANNEL_DATA.permissionOverwrites.create(asesor, {
                 SendMessages: false,
                 ViewChannel: false,
-                ReadMessageHistory: false,
-                UseApplicationCommands: true
+                ReadMessageHistory: false
             })
             await CHANNEL_DATA.permissionOverwrites.create(interaction.user.id, {
                 SendMessages: true,
                 ViewChannel: true,
-                ReadMessageHistory: true
+                ReadMessageHistory: true,
+                UseApplicationCommands: true
             })
             await CHANNEL_DATA.send({ content: `Seras atendido por: <@${interaction.user.id}>` })
             await interaction.update({ content: `Ticket tomado por <@${interaction.user.id}>`, components: [] })
