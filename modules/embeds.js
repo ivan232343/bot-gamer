@@ -10,44 +10,39 @@ const { bienvenidas } = require('../json/canales.json');
 module.exports = {
     assignWinGamer: (query = { interaction }) =>
         new EmbedBuilder()
-            .setTitle("Cliente Gamer 🎮")
-            .setDescription(`Genial <@${query.interaction}>, Se pudo validar correctamente que usted es cliente gamer,\nEn instantes se le asignara el rol "Gamer Win" y asi disfrutar del servidor.`)
+            .setTitle("Plan Gamer")
+            .setDescription(`## ¡<@${query.interaction}>, eres todo un Gamer!\n*En unos momentos, te asignaremos el rol **"Gamer Win"** para que puedas disfrutar al máximo del servidor.*`)
             .setThumbnail("attachment://logowingamer.png")
             .setTimestamp()
     ,
     assignRegular: (query = { interaction }) =>
         new EmbedBuilder()
-            .setTitle("Cliente regular")
-            .setDescription(`Ups <@${query.interaction}>, Se valida que no es cliente gamer, pero aún así podrá disfrutar del servidor de manera limitada. \nSi crees que se trata de un error, puede volver a seleccionar su plan en el campo que esta antes de este mensaje para volverlo a intentar.\nLes dejamos nuestros canales de atención por whatsapp, página web o nuestro número de atención (01) 7073000.`)
+            .setTitle("Plan Residencial")
+            .setDescription(`<@${query.interaction}>, actualmente, no estás registrado como cliente gamer, pero, no te preocupes, puedes continuar navegando en nuestro servidor.\nEn caso consideres que esto pueda ser un error, puedes seleccionar nuevamente tu plan o contactarnos a través de nuestros canales de atención en __**[Whatsapp](https://wa.me/51940061937)**__, __**[Mi portal WIN](https://miportal.win.pe/)**__ y Call Center (01) 7073000.¡Estamos aquí para ayudarte!`)
             .setTimestamp()
             .setColor('Red')
     ,
     welcomeDiscordMember: (query = { interaction }) =>
         new EmbedBuilder()
             .setTitle("🎉 ¡Bienvenido/a winner! 🎉")
-            .setDescription(`¡Hola <@${query.interaction}>! Esperamos que disfrutes tu estancia en nuestro servidor.\n\n-Pasate por <#${bienvenidas.rules}> para ver las reglas y guias del servidor.\n
-            -Para atenderte y usar el servidor, necesitamos que te registres en <#${bienvenidas.activacion}>\n
-            -¿Tienes problemas con el servicio? Genera un ticket de atencion en <#${bienvenidas.atencion}> y te atenderemos a la brevedad __previamente registrado.__`)
+            .setDescription(`¡Hola <@${query.interaction}>!\nBienvenid@ a WIN. Esperamos que disfrutes tu tiempo en nuestro servidor exclusivo para Winners con Planes Gamer.\nPara interactuar, sigue estos pasos:\n- Revisa las reglas y guías del servidor en <#${bienvenidas.rules}>\n- Regístrate en <#${bienvenidas.activacion}>\n_**¿Tienes inconvenientes con el servicio? Una vez registrad@, genera un ticket de atención en <#${bienvenidas.atencion}> y te ayudaremos lo más pronto posible**_`)
             .setImage(`attachment://profile-image.png`)
             .setColor('Orange')
     ,
     errorDuplicado: (query = { interaction, mode }) =>
         new EmbedBuilder()
             .setTitle(`Error, ${query.mode === 1 ? "Documento de Indentidad ya registrado" : "Ya se encuentra registrado"}`)
-            .setDescription(`Lo sentimos <@${query.interaction}>, ${query.mode === 1 ? "el documento que acaba de colocar ya esta registrado por otro usuario 😌" : "Usted ya esta registrado en nuestro sistema"}`)
+            .setDescription(`Lo sentimos <@${query.interaction}>, ${query.mode === 1 ? "el documento que acaba de colocar ya esta registrado por otro usuario 😌." : "Usted ya esta registrado en nuestro sistema"}`)
             .setColor('DarkPurple')
     ,
     staticsEmbeds: {
         CreateTicket: new EmbedBuilder()
-            .setTitle('Bienvenido al panel de tickets')
-            .setDescription(`
-Si desea realizar una consulta o tienes algún problema con tu servicio y eres el titular deberás presionar el botón \`\`Con mi documento\`\`, si no eres el titular deberás presionar \`\`Con otro documento\`\`.
-**_Este servicio es exclusivo para clientes de Planes Gamer, si desea adquirir el servicio, haga click en alguna opción de la segunda fila._**
-            `)
+            .setTitle('¡Bienvenid@ al Panel de Tickets!')
+            .setDescription(`¿Necesitas soporte técnico? Si eres el titular del servicio, presiona el botón "Generar ticket"\n**Importante**: Este servicio es exclusivo para clientes de Planes Gamer. Si deseas adquirir el Plan Gamer, haz click en “Ir a win.pe” o “WhatsApp”.`)
             .setThumbnail('https://win-internet.com.pe/img/card/plan-gamer.webp'),
         validateUser: new EmbedBuilder()
-            .setTitle('Validacion cliente con los nuevos planes Gamer de WIN')
-            .setDescription('¡Hola Winner! Para registrarte debes ingresar tu documento de identidad en \`\`Ingresar Documento\`\`'),
+            .setTitle('Validación de Planes Gamer WIN')
+            .setDescription('¡Hola Winner! Para registrarte, debes ingresar tu documento de identidad en *Ingresar Documento*'),
         validateAsesor: new EmbedBuilder()
             .setTitle("Registro de asesor gamer")
             .setDescription("Hola asesor, necesitamos que rellenes el formulario para llevar a cabo su registro, no tomara mucho tiempo")
@@ -58,8 +53,8 @@ Si desea realizar una consulta o tienes algún problema con tu servicio y eres e
             .setImage("https://win.pe/img/share/wingamer.jpg")
             .setColor("Orange"),
         feedback: new EmbedBuilder()
-            .setTitle("Panel de feedback")
-            .setDescription("Este servidor es nuevo por ende puede que estemos cometiendo errores, por lo cual nos gustaria mejorar para brindarle una experiencia mas especializada, \n## ***por eso tu opinion es importante***")
+            .setTitle("Panel de envio de feedback")
+            .setDescription(`Tu opinión es importante para nosotros, por lo cual nos gustaria saber su opinion acerca del servidor y/o comentarios de mejora. Haga click en "enviar feedback"`)
             .setColor('Orange')
     }
 }

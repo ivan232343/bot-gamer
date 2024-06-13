@@ -20,10 +20,10 @@ module.exports = {
         if (!CHECK_PENDIENTE.find) {
             const MODAL = new ModalBuilder()
                 .setCustomId(`modal-problema_${DATA_RES.dni}_${DATA_RES.categoriaPicked}_${DATA_RES.servicio}_${DATA_RES.name}`)
-                .setTitle('¿Problema o consulta?');
+                .setTitle('¿Cómo te ayudamos?');
             const DETALLES_PROBLEMA = new TextInputBuilder()
                 .setCustomId('resumenProblema')
-                .setLabel("Describa su problema")
+                .setLabel("Escríbenos tu solicitud.")
                 .setMinLength(15)
                 .setMaxLength(450)
                 .setStyle(TextInputStyle.Paragraph);

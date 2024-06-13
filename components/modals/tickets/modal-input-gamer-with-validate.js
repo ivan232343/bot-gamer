@@ -28,7 +28,7 @@ module.exports = {
                 .addOptions(OPTIONS_SELECT)
         )
         return await interaction.reply({
-            content: `Genial <@${interaction.user.id}>, Para continuar necesitamos que seleccione el plan que tiene actualmente.`,
+            content: `Paso 1. <@${interaction.user.id}> seleccione el plan que tienes actualmente.`,
             ephemeral: true,
             components: [SELECT_MOTIVO]
         })
