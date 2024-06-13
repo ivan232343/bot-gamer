@@ -14,7 +14,7 @@ module.exports = {
         .addUserOption(option =>
             option
                 .setName("cliente")
-                .setDescription("cliente a desasignar")
+                .setDescription("cliente o asesor a desasignar")
                 .setRequired(true)
         )
     ,
