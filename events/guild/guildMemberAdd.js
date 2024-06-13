@@ -11,6 +11,7 @@ const Canvas = require('@napi-rs/canvas');
 const { welcomeDiscordMember } = require("../../modules/embeds");
 const { initRoles } = require('../../json/roles.json');
 const { request } = require('undici');
+const { consoleLog } = require("../../modules/necesarios");
 
 module.exports = {
     name: Events.GuildMemberAdd,
@@ -20,17 +21,17 @@ module.exports = {
             initRoles.forEach(async (e) => {
                 const role = member.guild.roles.cache.get(e)
                 await member.roles.add(e).then(() => {
-                    console.log(`Se asigno el rol "${role.name}" a ${member.user.tag}.`);
+                    consoleLog(`Se asigno el rol "${role.name}" a ${member.user.tag}.`);
                 }).catch((error) => {
-                    console.error("Error al asignar el rol:", error);
+                    consoleLog(`Error al asignar el rol:`, error);
                 });
             })
             if (role) {
                 await member.roles.add(role);
-                console.log(`Rol "${role.name}" asignado a ${member.user.tag}.`);
+                consoleLog(`Rol "${role.name}" asignado a ${member.user.tag}.`);
 
             } else {
-                console.log("El rol no se encontró en el servidor.");
+                consoleLog("El rol no se encontró en el servidor.");
             }
             const welcomeChannel = member.guild.channels.cache.find((channel) => channel.name === "bienvenidas");
 
@@ -67,7 +68,7 @@ module.exports = {
                 });
             }
         } catch (error) {
-            console.error("Error al asignar el rol:", error);
+            consoleLog(`Error al asignar el rol:`, error);
         }
     }
 }

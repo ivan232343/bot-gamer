@@ -13,6 +13,7 @@ const { parenClients } = require("../../../json/canales.json");
 const { cliente } = require("../../../json/roles.json");
 const { ticketbtns } = require('../../../modules/builder');
 const { sp_init_ticket } = require('../../../modules/peticionesbd');
+const { consoleLog } = require('../../../modules/necesarios');
 
 module.exports = {
     data: { name: 'modal-problema' },
@@ -42,7 +43,7 @@ module.exports = {
             }]
         })
         const INIT_TICKET = await sp_init_ticket({ channel: CHANNEL_CREATED.id, dni: DNI_CLIENTE, motivo: MOTIVO_INPT, problema: DETALLER_INPT, interaction: interaction.user.id })
-
+        consoleLog("Iniciando ticket para " + interaction.user, INIT_TICKET)
         if (!INIT_TICKET.execute) return await interaction.editReply({ content: `Ocurrio un problema al generar su ticket, por favor intentelo mas tarde`, ephemeral: true });
         const CHANNEL_SEND_TP = interaction.guild.channels.cache.find((ch) => ch.name === 'tickets-pendientes');
         const CURRENT_ID_BD = INIT_TICKET.data.current_insert
@@ -57,18 +58,18 @@ module.exports = {
             ticketbtns(`${DNI_CLIENTE}_${CURRENT_ID_BD}_${CHANNEL_CREATED.id}`).catchTicket
         )
         const buttons = new ActionRowBuilder().addComponents(
-            ticketbtns(interaction.user.id).lock,
-            ticketbtns(interaction.user.id).unlock,
+            // ticketbtns(interaction.user.id).lock,
+            // ticketbtns(interaction.user.id).unlock, 
             ticketbtns(CURRENT_ID_BD).close
         )
         await interaction.member.roles.add(cliente);
         const MENSAJE_GENERATE = await CHANNEL_CREATED.send({ embeds: [EMBED_CH_ATENCION], components: [buttons] });
         MENSAJE_GENERATE.pin()
             .then(() => {
-                console.log('Mensaje anclado con éxito.');
+                consoleLog('Mensaje anclado con éxito.');
             })
             .catch((error) => {
-                console.error('Error al anclar el mensaje:', error);
+                consoleLog('Error al anclar el mensaje:', error);
             });
         await CHANNEL_SEND_TP.send({ embeds: [EMBED_CH_ANUNCIOS], components: [BTNS_EMBED_ANUNCIOS] });
         await interaction.editReply({ content: `Tu ticket fue creado en <#${CHANNEL_CREATED.id}>`, ephemeral: true });

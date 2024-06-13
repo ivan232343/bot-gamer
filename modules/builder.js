@@ -10,7 +10,8 @@ const {
     ButtonBuilder,
     ButtonStyle
 } = require("discord.js");
-const { url_utiles } = require('../json/recursos.json')
+const { url_utiles } = require('../json/recursos.json');
+const { consoleLog } = require("./necesarios");
 module.exports = {
     adsWinBtns: function (argT = "") {
         return {
@@ -119,9 +120,9 @@ module.exports = {
             Object.getOwnPropertyNames(roles).forEach(async ele => {
                 interaction.member.roles.remove(roles[ele])
                     .then(() => {
-                        console.log(`Se ha quitado el rol "${roles[ele].name}" a ${interaction.member.user.tag}.`);
+                        consoleLog(`Se ha quitado el rol "${roles[ele].name}" a ${interaction.member.user.tag}.`);
                     }).catch((error) => {
-                        console.error("Error al quitar el rol:", error);
+                        consoleLog(`Error al quitar el rol:`, error);
                     });
             })
             resolve(roles)

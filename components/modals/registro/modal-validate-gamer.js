@@ -14,6 +14,7 @@ const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder
 const { sp_validate_interaction_doc } = require("../../../modules/peticionesbd");
 const { planes } = require('../../../json/motivos.json');
 const { errorDuplicado } = require("../../../modules/embeds");
+const { consoleLog } = require("../../../modules/necesarios");
 
 module.exports = {
     data: { name: 'modal-validate-gamer' },
@@ -21,11 +22,15 @@ module.exports = {
         const DNI_CLIENTE = interaction.fields.getTextInputValue("dnicliente");
         const NOMBRE_CLIENTE = interaction.fields.getTextInputValue("namecliente");
         if (!/[0-9]/.test(DNI_CLIENTE)) return await interacion.reply({ content: "Tipo de dato invalido, pofavor intentelo nuevamente con numeros", ephemeral: true }).then(msg => { setTimeout(() => { msg.delete() }, 2500) })
-        // const DATA_SEND = { interaction: interaction.user.id, dni: DNI_CLIENTE }
-        // const VALIDAR_DUPLICADO = await sp_validate_interaction_doc(DATA_SEND);
-        // console.log(VALIDAR_DUPLICADO)
+        const DATA_SEND = { interaction: interaction.user.id, dni: DNI_CLIENTE }
+        const VALIDAR_DUPLICADO = await sp_validate_interaction_doc(DATA_SEND);
+        consoleLog(VALIDAR_DUPLICADO)
         /*if () {return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: 1 })], ephemeral: true });*/
-        if (VALIDAR_DUPLICADO.execute && VALIDAR_DUPLICADO.f.validate === 1) return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: VALIDAR_DUPLICADO.f.ret_interaction >= 1 ? 2 : 1 })], ephemeral: true });
+        if (VALIDAR_DUPLICADO.execute && VALIDAR_DUPLICADO.f.validate === 1 && VALIDAR_DUPLICADO.f.ret_doc > 0) return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: 1 })], ephemeral: true });
+        const LAST_OPT = new StringSelectMenuOptionBuilder()
+            .setLabel("No tengo planes gamer")
+            .setValue("0")
+            .setEmoji("❌")
         const OPTIONS_SELECT = planes.map(el => {
             const CATEGORIA_TEMP = new StringSelectMenuOptionBuilder()
                 .setLabel(el.label)
@@ -33,15 +38,16 @@ module.exports = {
                 .setEmoji(el.emoji)
             return CATEGORIA_TEMP
         })
-
+        OPTIONS_SELECT.push(LAST_OPT)
+        consoleLog("", OPTIONS_SELECT)
         const SELECT_MOTIVO = new ActionRowBuilder().addComponents(
             new StringSelectMenuBuilder()
-                .setCustomId(`validate-service-onregistro_${DNI_CLIENTE}_${NOMBRE_CLIENTE.replaceAll(" ", "-")}`)
+                .setCustomId(`validate-service-onregistro_${DNI_CLIENTE}_${NOMBRE_CLIENTE.replace(/\s+/g, '-')}`)
                 .setPlaceholder('Seleccione el plan que cuenta actualmente')
                 .addOptions(OPTIONS_SELECT)
         )
         return await interaction.reply({
-            content: `Genial <@${interaction.user.id}>, para terminar con el registro es necesario realizar una ultima validacion,\nPorfavor coloque el plan que tiene actualmente en su servicio`,
+            content: `## ¡Genial, <@${interaction.user.id}>!\nPara terminar con el registro, realizaremos una última validación. Por favor, selecciona el plan WIN que tienes contratado.`,
             ephemeral: true,
             components: [SELECT_MOTIVO]
         })

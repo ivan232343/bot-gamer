@@ -11,7 +11,8 @@
 
 const { Events, EmbedBuilder, WebhookClient } = require("discord.js");
 const { inspect } = require("util");
-const { ch_webhook, url_utiles } = require("../../json/recursos.json")
+const { ch_webhook, url_utiles } = require("../../json/recursos.json");
+const { consoleLog } = require("../../modules/necesarios");
 const webhook = new WebhookClient({ url: ch_webhook });
 
 module.exports = {
@@ -21,14 +22,14 @@ module.exports = {
       try {
         const command = interaction.client.commands.get(interaction.commandName);
         if (!command) {
-          console.error(`No command matching ${interaction.commandName} was found.`);
+          consoleLog(`No command matching ${interaction.commandName} was found.`);
           return;
         }
         try {
           await command.execute(interaction, client);
         } catch (error) {
-          console.error(`Error executing ${interaction.commandName}`);
-          console.error(error);
+          consoleLog(`Error executing ${interaction.commandName}`);
+          consoleLog(`\`\`\`${inspect(error, { depth: 0 }).slice(0, 1000)}\`\`\``);
           const embed = new EmbedBuilder()
             .setColor("Red")
             .setTitle("Discord API error")
@@ -38,6 +39,7 @@ module.exports = {
           return webhook.send({ embeds: [embed] });
         }
       } catch (error) {
+        consoleLog(`\`\`\`${inspect(error, { depth: 0 }).slice(0, 1000)}\`\`\``);
         const embed = new EmbedBuilder()
           .setColor("Red")
           .setTitle("Discord API error")
@@ -48,16 +50,14 @@ module.exports = {
 
       }
     } else if (interaction.isButton()) {
-      // console.log(client)
       const { buttons } = client;
       const { customId } = interaction;
-      // console.log(customId)
       const button = buttons.get(customId.split("_")[0]);
       if (!button) return new Error(`Este boton no tiene codigo`);
       try {
         await button.execute(interaction, client)
       } catch (error) {
-        console.error(error)
+        consoleLog(`\`\`\`${inspect(error, { depth: 0 }).slice(0, 1000)}\`\`\``);
       }
     } else if (interaction.isModalSubmit()) {
       const { modals } = client;
@@ -67,7 +67,7 @@ module.exports = {
       try {
         await modal.execute(interaction, client)
       } catch (error) {
-        console.error(error)
+        consoleLog(`\`\`\`${inspect(error, { depth: 0 }).slice(0, 1000)}\`\`\``);
       }
     } else if (interaction.isStringSelectMenu()) {
       const { selects } = client;
@@ -77,7 +77,7 @@ module.exports = {
       try {
         await select.execute(interaction, client)
       } catch (error) {
-        console.error(error)
+        consoleLog(`\`\`\`${inspect(error, { depth: 0 }).slice(0, 1000)}\`\`\``);
       }
     }
     else {

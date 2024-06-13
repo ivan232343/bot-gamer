@@ -8,6 +8,7 @@
  * y el estado de la atencion
  */
 const { asesor } = require('../../../json/roles.json');
+const { consoleLog } = require('../../../modules/necesarios');
 const { sp_update_ticket_atention } = require("../../../modules/peticionesbd");
 
 module.exports = {
@@ -29,6 +30,7 @@ module.exports = {
                 ReadMessageHistory: true,
                 UseApplicationCommands: true
             })
+            consoleLog(`<@${Interaction.user}> atendera en <#${CHANNEL_DATA.id}>`)
             await CHANNEL_DATA.send({ content: `Seras atendido por: <@${interaction.user.id}>` })
             await interaction.update({ content: `Ticket tomado por <@${interaction.user.id}>`, components: [] })
         } else {

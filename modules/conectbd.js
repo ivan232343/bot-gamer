@@ -8,6 +8,7 @@
 const { LOCAL_HOST, LOCAL_USER, LOCAL_PASSWORD, LOCAL_DB, LOCAL_PORT } = require('../config.json');
 const { REMOTE_HOST, REMOTE_USER, REMOTE_PASSWORD, REMOTE_DB, REMOTE_PORT } = require('../config.json');
 const mysql = require('mysql');
+const { consoleLog } = require('./necesarios');
 const LOCAL_CREDENTIALS = {
     host: LOCAL_HOST,
     user: LOCAL_USER,
@@ -28,13 +29,21 @@ const myObject = {
             const CONNECT_BD = mysql.createConnection(LOCAL_CREDENTIALS);
             CONNECT_BD.connect((err) => {
                 if (err) reject(err);
-                console.log('Connected!');
+                consoleLog('Connected local!');
                 CONNECT_BD.query(querybd, (error, results, fields) => {
                     CONNECT_BD.end();
                     try {
-                        resolve({ resultados: results, columnas: fields, errores: error })
+                        const DATA_RES = { resultados: results, columnas: fields, errores: error }
+                        consoleLog("errores:", error)
+                        consoleLog("resultados:", results)
+                        consoleLog("campos:", fields)
+                        resolve(DATA_RES)
+
                     } catch (err) {
-                        reject({ errorC: err, errorQ: error })
+                        const ERROR_RES = { errorC: err, errorQ: error }
+                        consoleLog("error Client:", err)
+                        consoleLog("errorQ", error)
+                        reject(ERROR_RES)
                     }
                 })
             });
@@ -45,13 +54,20 @@ const myObject = {
             const CONNECT_BD = mysql.createConnection(REMOTE_CREDENTIALS);
             CONNECT_BD.connect((err) => {
                 if (err) reject(err);
-                console.log('Connected!');
+                consoleLog('Connected remote!');
                 CONNECT_BD.query(querybd, (error, results, fields) => {
                     CONNECT_BD.end();
                     try {
-                        resolve({ resultados: results, columnas: fields, errores: error })
+                        const DATA_RES = { resultados: results, columnas: fields, errores: error }
+                        consoleLog("errores:", error)
+                        consoleLog("resultados:", results)
+                        consoleLog("campos:", fields)
+                        resolve(DATA_RES)
                     } catch (err) {
-                        reject({ errorC: err, errorQ: error })
+                        const ERROR_RES = { errorC: err, errorQ: error }
+                        consoleLog("error Client:", err)
+                        consoleLog("errorQ", error)
+                        reject(ERROR_RES)
                     }
                 })
             });
