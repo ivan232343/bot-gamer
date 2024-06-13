@@ -17,6 +17,7 @@ const path = require('path');
 const { ticketbtns } = require("../../../modules/builder");
 const { ActionRowBuilder } = require("discord.js");
 const { sp_close_ticket } = require("../../../modules/peticionesbd");
+const { consoleLog } = require("../../../modules/necesarios");
 module.exports = {
     data: { name: 'cerrar-ticket' },
     async execute(interaction, client) {
@@ -31,9 +32,7 @@ module.exports = {
             let time = toUTC(FECHA_NOW)
             const CHANNEL_HERE = interaction.channel;
             const CHANNEL_BACKUP = await client.channels.cache.get(CHANNEL_BACKUP_CHAT);
-            const HTML_GENERATE = await TRANSCRIPTS_TO_HTML.createTranscript(CHANNEL_HERE, {
-                returnType: 'string'
-            })
+            const HTML_GENERATE = await TRANSCRIPTS_TO_HTML.createTranscript(CHANNEL_HERE, { returnType: "string" })
             try {
                 const OUT_DIR = `src/generate/chats/${CLOSE_PROCESS.data.documento}`;
                 const ARCHIVO_GENERDO_LABEL = `${TICKET_CRM}-${interaction.channel.id}-${(time.getUTCDate()).toString().padStart(2, '0')}-${(time.getUTCMonth() + 1).toString().padStart(2, '0')}-${time.getFullYear()}_${(time.getUTCHours()).toString().padStart(2, '0')}--${(time.getUTCMinutes()).toString().padStart(2, '0')}.html`; // Nombre del archivo HTML
@@ -41,21 +40,20 @@ module.exports = {
                     fs.mkdirSync(OUT_DIR);
                 }
                 const RUTA_ARCHIVO_GENERADO = path.join(OUT_DIR, ARCHIVO_GENERDO_LABEL);
-                const writeStream = fs.createWriteStream(RUTA_ARCHIVO_GENERADO);
-                writeStream.end();
+                fs.writeFileSync(RUTA_ARCHIVO_GENERADO, HTML_GENERATE, { flag: 'w' });
                 await CHANNEL_BACKUP.send({
                     content: `Backup del canal ${CHANNEL_HERE.name} cerrado el dia ${(time.getUTCDate()).toString().padStart(2, '0')} del ${(time.getUTCMonth() + 1).toString().padStart(2, '0')} del año ${time.getFullYear()} a las ${(time.getUTCHours()).toString().padStart(2, '0')}:${(time.getUTCMinutes()).toString().padStart(2, '0')}:${(time.getUTCSeconds()).toString().padStart(2, '0')} `,
 
                 });
-                await interaction.reply({ content: `El archivo se genero Correctamente en ${RUTA_ARCHIVO_GENERADO}`, ephemeral: true })
-                return interaction.editReply({ content: `El canal se cerrara en 5 seg`, ephemeral: true })
+                await consoleLog(`El archivo se genero Correctamente en ${RUTA_ARCHIVO_GENERADO}`)
+                return interaction.reply({ content: `El canal se cerrara en 5 seg`, ephemeral: true })
                     .then(() => {
                         setTimeout(() => {
                             interaction.channel.delete();
                         }, 5000)
                     })
             } catch (error) {
-                console.error('Error al guardar el archivo:', error);
+                consoleLog('Error al guardar el archivo:', error);
                 await interaction.reply({ content: `Error al guardar el archivo`, ephemeral: true })
             }
         } else {
