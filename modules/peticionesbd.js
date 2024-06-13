@@ -21,8 +21,8 @@ module.exports = {
             .catch(res => { return { msg: "Ocurrio un error interno", execute: false, code: res } })
         return peticion
     },
-    sp_register_interaction_doc: async (query = { interaction, dni }) => {
-        const peticion = await local(`call \`sp_register_interaction_doc\`('${query.interaction}','${query.dni}')`)
+    sp_register_interaction_doc: async (query = { interaction, dni, nombre }) => {
+        const peticion = await local(`call \`sp_register_interaction_doc\`('${query.interaction}','${query.dni}','${query.nombre}')`)
             .then(res => typeof res.resultados !== 'undefined' ? res.resultados[1].affectedRows >= 1 ? { msg: "Iniciado correctamente", execute: true, data: res.resultados[0][0] } : { msg: `No se encontro ID o hubo algun error`, execute: false } : { msg: `Ocurrio un error: ${res.errores.code} / '${query.interaction}', '${query.dni}'`, execute: false })
             .catch(res => { return { msg: "Ocurrio un error interno", execute: false, code: res } })
         return peticion
@@ -54,7 +54,7 @@ module.exports = {
     },
     sp_validate_gamer_to_init: async (query = { doc, namecl, planPicked }) => {
         const peticion = await remote(`CALL \`sp_validate_gamer\`('${query.namecl}','${query.doc}',${query.planPicked})`)
-            .then(res => typeof res.resultados !== 'undefined' ? res.resultados[0].length >= 1 ? { f: res.resultados[0][0], find: true } : { f: `No se encontro datos para <@${query}>`, find: false } : { f: `Ocurrio un error: ${res.errores.code} / ${query.doc},${query.namecl},${query.planPicked}`, find: false, error: res })
+            .then(res => typeof res.resultados !== 'undefined' ? res.resultados[0].length >= 1 ? { f: res.resultados[0][0], find: true } : { f: `No se encontro datos para ${query}`, find: false } : { f: `Ocurrio un error: ${res.errores.code} / ${query.doc},${query.namecl},${query.planPicked}`, find: false, error: res })
             .catch(res => { return { msg: "Ocurrio un error interno", find: false, code: res } })
         return peticion
     }
