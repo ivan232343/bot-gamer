@@ -7,9 +7,11 @@
  * cambios en la estructura del generador de tickets o validador
  */
 
+const { consoleLog } = require("../../modules/necesarios")
 const { SlashCommandBuilder, ActionRowBuilder } = require("discord.js");
 const { adsWinBtns } = require("../../modules/builder");
 const { staticsEmbeds } = require("../../modules/embeds");
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("initpanel")
@@ -20,10 +22,14 @@ module.exports = {
         ).addSubcommand(childCommand => childCommand
             .setName("regclients")
             .setDescription("Inicia el panel de validacion de los cliente")
+        ).addSubcommand(childCommand => childCommand
+            .setName("feedback")
+            .setDescription("Inicia el panel de validacion de los cliente")
         ),
     category: "admin",
     async execute(interaction) {
         const init = interaction.options.getSubcommand();
+        consoleLog(`la opcion escogida es ${init}`)
         const embeds = []
         const componentes = [];
         if (init === "atgamer") {
@@ -37,13 +43,18 @@ module.exports = {
                     adsWinBtns().wsp
                 ))
         }
-        else {
+        else if (init === "feedback") {
+            embeds.push(staticsEmbeds.feedback)
+            componentes.push(new ActionRowBuilder().addComponents(adsWinBtns().sendfeed))
+
+        } else {
             embeds.push(staticsEmbeds.validateUser)
             componentes.push(new ActionRowBuilder().addComponents(adsWinBtns().validate))
         }
         await interaction.channel.send({ embeds: embeds, components: componentes })
             .then(() => {
                 interaction.reply({ content: "Enviado exitosamente", ephemeral: true })
+                consoleLog(`${interaction.user} uso el comando initpanel/${init} `)
             })
     }
 }
