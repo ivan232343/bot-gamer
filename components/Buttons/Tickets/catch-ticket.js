@@ -30,7 +30,7 @@ module.exports = {
                 ReadMessageHistory: true,
                 UseApplicationCommands: true
             })
-            consoleLog(`<@${Interaction.user}> atendera en <#${CHANNEL_DATA.id}>`)
+            consoleLog(`<@${interaction.user}> atendera en <#${CHANNEL_DATA.id}>`)
             await CHANNEL_DATA.send({ content: `Seras atendido por: <@${interaction.user.id}>` })
             await interaction.update({ content: `Ticket tomado por <@${interaction.user.id}>`, components: [] })
         } else {
