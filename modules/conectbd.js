@@ -36,7 +36,6 @@ const myObject = {
                         const DATA_RES = { resultados: results, columnas: fields, errores: error }
                         consoleLog("errores:", error)
                         consoleLog("resultados:", results)
-                        consoleLog("campos:", fields)
                         resolve(DATA_RES)
 
                     } catch (err) {
@@ -61,7 +60,6 @@ const myObject = {
                         const DATA_RES = { resultados: results, columnas: fields, errores: error }
                         consoleLog("errores:", error)
                         consoleLog("resultados:", results)
-                        consoleLog("campos:", fields)
                         resolve(DATA_RES)
                     } catch (err) {
                         const ERROR_RES = { errorC: err, errorQ: error }
