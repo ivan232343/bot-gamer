@@ -61,7 +61,11 @@ module.exports = {
             sendfeed: new ButtonBuilder()
                 .setCustomId('initfeedback')
                 .setLabel("Enviar feedback")
-                .setStyle(ButtonStyle.Primary)
+                .setStyle(ButtonStyle.Primary),
+            sendEncuesta: new ButtonBuilder()
+                .setURL("https://xc360.app/atenciontecd")
+                .setLabel("Realizar encuesta")
+                .setStyle(ButtonStyle.Link)
         }
     },
     ticketbtns: function (id = "0") {
