@@ -40,7 +40,7 @@ module.exports = {
             })
             const SELECT_MOTIVO = new ActionRowBuilder().addComponents(
                 new StringSelectMenuBuilder()
-                    .setCustomId(`motivo-problema-with-validate_${DATA_RES.doc}_${DATA_RES.namecl}_${DATA_RES.planPicked}`)
+                    .setCustomId(`motivo-problema-with-validate_${DATA_RES.doc}_${DATA_RES.planPicked}_${CHECK_GAMER.f.TIPO_PLAN.replace(/\s/g, "-")}`)
                     .setPlaceholder('Seleccione el motivo de consulta')
                     .addOptions(OPTION_MOTIVO)
             )

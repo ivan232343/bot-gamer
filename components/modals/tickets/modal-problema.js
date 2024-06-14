@@ -20,6 +20,7 @@ module.exports = {
     async execute(interaction) {
         const MOTIVO_INPT = interaction.customId.split("_")[2];
         const DNI_CLIENTE = interaction.customId.split("_")[1];
+        const TIPO_PLAN = interaction.customId.split("_")[3];
         const DETALLER_INPT = interaction.fields.getTextInputValue("resumenProblema");
         await interaction.reply({ content: 'Estamos generando su ticket...', ephemeral: true })
         const CHANNEL_CREATED = await interaction.guild.channels.create({
@@ -49,10 +50,10 @@ module.exports = {
         const CURRENT_ID_BD = INIT_TICKET.data.current_insert
         const EMBED_CH_ATENCION = new EmbedBuilder()
             .setTitle(`Bienvenido a su ticket de atencion.`)
-            .setDescription(`<@${interaction.user.id}>, en instantes un asesor se pondra en contacto contigo para poder ayudarte con tu servicio  ${typeof MOTIVO_INPT !== 'undefined' ? "\nMotivo de consulta:\n```" + MOTIVO_INPT + "```" : ''} ${DETALLER_INPT !== '' ? "\nResumen del problema:\n```" + DETALLER_INPT + "```" : ''}`)
+            .setDescription(`<@${interaction.user.id}>, en instantes un asesor se pondra en contacto contigo para poder ayudarte con tu servicio  \nTipo de plan:\n\`\`\`${TIPO_PLAN.replace(/-/g, " ")}\`\`\`${typeof MOTIVO_INPT !== 'undefined' ? "\nMotivo de consulta:\n```" + MOTIVO_INPT + "```" : ''} ${DETALLER_INPT !== '' ? "\nResumen del problema:\n```" + DETALLER_INPT + "```" : ''}`)
         const EMBED_CH_ANUNCIOS = new EmbedBuilder()
             .setTitle("Nuevo cliente solicitando atencion")
-            .setDescription(`El cliente <@${interaction.user.id}> esta solicitando atencion en <#${CHANNEL_CREATED.id}>\nDocumento del cliente\n\`\`\`${DNI_CLIENTE}\`\`\`  ${MOTIVO_INPT !== '' ? "\nMotivo de consulta:\n```" + MOTIVO_INPT + "```" : ''} ${DETALLER_INPT !== '' ? "\nResumen del problema:\n```" + DETALLER_INPT + "```" : ''}`)
+            .setDescription(`El cliente <@${interaction.user.id}> esta solicitando atencion en <#${CHANNEL_CREATED.id}>\nDocumento del cliente:\n\`\`\`${DNI_CLIENTE}\`\`\`\n${MOTIVO_INPT !== '' ? "\nMotivo de consulta:\n```" + MOTIVO_INPT + "```" : ''} ${DETALLER_INPT !== '' ? "\nResumen del problema:\n```" + DETALLER_INPT + "```" : ''}`)
 
         const BTNS_EMBED_ANUNCIOS = new ActionRowBuilder().addComponents(
             ticketbtns(`${DNI_CLIENTE}_${CURRENT_ID_BD}_${CHANNEL_CREATED.id}`).catchTicket
