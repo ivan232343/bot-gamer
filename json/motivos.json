@@ -2,7 +2,7 @@
     "categoria": {
         "gamer": {
             "Label": "Latencias-PacketLoss",
-            "Descripcion": "Ping elevado o perdida de paquetes",
+            "Descripcion": "Ping elevado o pérdida de paquetes",
             "value": "gamer",
             "emoji": "🎮"
         },
@@ -14,7 +14,7 @@
         },
         "anchobanda": {
             "Label": "Ancho de banda",
-            "Descripcion": "No está llegando a lo contratado",
+            "Descripcion": "Velocidad de navegación menor a la contratada",
             "value": "anchobanda",
             "emoji": "🏴"
         },
@@ -26,7 +26,7 @@
         },
         "lentitud": {
             "Label": "Lentitud",
-            "Descripcion": "Tiempos de carga muy elevada en págs. o reproducción de contenido",
+            "Descripcion": "Tiempos de carga elevados en págs. o reproducción …",
             "value": "lentitud",
             "emoji": "🕑"
         },
