@@ -25,6 +25,8 @@ module.exports = {
         if (!DATA_RES.planPicked > 0) return await interaction.reply({ embeds: [staticsEmbeds.notGamer()], components: [new ActionRowBuilder(adsWinBtns().web, adsWinBtns().wsp)], ephemeral: true })
         const CHECK_GAMER = await sp_validate_gamer_to_init(DATA_RES)
         consoleLog("Se esta retornando este resultado", CHECK_GAMER.error ? CHECK_GAMER.error + CHECK_GAMER.f : CHECK_GAMER)
+
+
         if (!CHECK_GAMER.find) return await interaction.reply({ content: `Ups <@${interaction.user.id}>, No se pudo validar su identidad, si crees que se trata de un error intententelo nuevamente o de lo contrario no dude de reportarlo en <#1223357670975733963> para validar el inconveniente.`, ephemeral: true })
         const CHECK_PENDIENTE = await validarTicketPendiente(DATA_RES.doc)
         consoleLog("validar pendiente:", CHECK_PENDIENTE)
