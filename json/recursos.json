@@ -1,5 +1,7 @@
 {
     "ch_webhook": "https://discord.com/api/webhooks/1237160113777807501/1UM1hAq_pu1okA9x39nSeE2FPrQaV4BpdzBAtfbLArrqVcDmRw906fZRWcbh2q1AM1kF",
+    "CH_LOG_WH": "https://discord.com/api/webhooks/1249902499574583306/ac3DbR3MtjrnNqUqEwJCf5l2k34tWM0VYrZr2uuoKooU7k5LDM7hAWvuBYZ7uYhvvnBW",
+    "CH_FEEDBACK": "https://discord.com/api/webhooks/1250323191889399811/oaIU7zIc10grq547FPUcqOo3WNNhaDo7KuEJnW6n3wHPEztc_GM_sgb7bhiLT2aKGV6w",
     "images": {
         "card": "https://win-internet.com.pe/img/card/plan-gamer.webp"
     },
