@@ -11,15 +11,17 @@ const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = req
 const { categoria } = require('../../../json/motivos.json');
 const { toUTC } = require('../../../modules/utclocalconverter');
 const { sp_validate_tktpendiente } = require('../../../modules/peticionesbd');
+const { consoleLog } = require('../../../modules/necesarios');
 module.exports = {
     data: { name: 'motivo-problema-with-validate' },
     async execute(interaction) {
         const GET_DATA = interaction.customId.split("_")
-        const DATA_RES = { dni: GET_DATA[1], servicio: GET_DATA[3], categoriaPicked: categoria[interaction.values[0]].Label, tipoPlan: GET_DATA[4] }
+        const DATA_RES = { dni: GET_DATA[1], servicio: GET_DATA[3], categoriaPicked: categoria[interaction.values[0]].value }
         const CHECK_PENDIENTE = await sp_validate_tktpendiente(DATA_RES.dni)
+        consoleLog("Data Res:", DATA_RES)
         if (!CHECK_PENDIENTE.find) {
             const MODAL = new ModalBuilder()
-                .setCustomId(`modal-problema_${DATA_RES.dni}_${DATA_RES.categoriaPicked}_${DATA_RES.servicio}_${DATA_RES.tipoPlan}`)
+                .setCustomId(`modal-problema_${DATA_RES.dni}_${DATA_RES.categoriaPicked}_${DATA_RES.servicio}`)
                 .setTitle('¿Cómo te ayudamos?');
             const DETALLES_PROBLEMA = new TextInputBuilder()
                 .setCustomId('resumenProblema')
