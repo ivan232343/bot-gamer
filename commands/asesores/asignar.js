@@ -26,7 +26,6 @@ module.exports = {
             ReadMessageHistory: true
         })
         if (CLIENTE_ID.roles.cache.has(role.asesor)) {
-            await interaction.channel.permissionOverwrites.create(CLIENTE_ID, { UseApplicationCommands: true })
             await interaction.reply({ content: `${interaction.options.getUser('cliente').username} es asesor`, ephemeral: true })
             await interaction.channel.send({ content: `Ahora seras atendido por <@${interaction.options.getUser('cliente').id}>.` })
             consoleLog(`<@${interaction.user.id}> uso el comando asignar para <@${interaction.options.getUser('cliente').id}> en el canal <#${interaction.channel.id}>`)
