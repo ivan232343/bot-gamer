@@ -20,7 +20,7 @@ module.exports = {
     },
     async execute(interaction) {
         const GET_DATA = interaction.customId.split("_")
-        consoleLog(`${interaction.user} / validate-service / \`\`\`${GET_DATA.join("\n")}\`\`\``)
+        consoleLog(`${interaction.user} / validate-service / \`\`\`${GET_DATA.join("\n")}\`\`\` / ${interaction.values}`)
         const DATA_RES = { doc: GET_DATA[1], namecl: GET_DATA[2].replace(/-/g, " ").toUpperCase(), planPicked: interaction.values[0] }
         if (!DATA_RES.planPicked > 0) return await interaction.reply({ embeds: [staticsEmbeds.notGamer()], components: [new ActionRowBuilder(adsWinBtns().web, adsWinBtns().wsp)], ephemeral: true })
         const CHECK_GAMER = await sp_validate_gamer_to_init(DATA_RES)
@@ -42,7 +42,7 @@ module.exports = {
             })
             const SELECT_MOTIVO = new ActionRowBuilder().addComponents(
                 new StringSelectMenuBuilder()
-                    .setCustomId(`motivo-problema-with-validate_${DATA_RES.doc}_${DATA_RES.planPicked}_${CHECK_GAMER.f.TIPO_PLAN.replace(/\s/g, "-")}`)
+                    .setCustomId(`motivo-problema-with-validate_${DATA_RES.doc}_${DATA_RES.planPicked}_${CHECK_GAMER.f.TIPO_PLAN}`)
                     .setPlaceholder('Seleccione el motivo de consulta')
                     .addOptions(OPTION_MOTIVO)
             )
