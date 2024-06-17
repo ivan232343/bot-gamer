@@ -4,3 +4,4 @@ src/generate/chats/*/
 database/data.sql
 init-install.sh
 json_home/*
+json_/*
