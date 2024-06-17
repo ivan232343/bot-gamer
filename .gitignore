@@ -5,3 +5,4 @@ database/data.sql
 init-install.sh
 json_home/*
 json_/*
+database/*
