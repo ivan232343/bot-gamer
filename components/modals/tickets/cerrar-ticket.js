@@ -14,8 +14,6 @@ const { CHANNEL_BACKUP_CHAT } = require("../../../json/canales.json");
 const { toUTC } = require('../../../modules/utclocalconverter');
 const fs = require('fs');
 const path = require('path');
-const { ticketbtns, adsWinBtns } = require("../../../modules/builder");
-const { ActionRowBuilder } = require("discord.js");
 const { sp_close_ticket } = require("../../../modules/peticionesbd");
 const { consoleLog } = require("../../../modules/necesarios");
 module.exports = {
@@ -42,12 +40,33 @@ module.exports = {
                 }
                 const RUTA_ARCHIVO_GENERADO = path.join(OUT_DIR, ARCHIVO_GENERDO_LABEL);
                 fs.writeFileSync(RUTA_ARCHIVO_GENERADO, HTML_GENERATE, { flag: 'w' });
+
+                let time_create = CLOSE_PROCESS.data.time_create
+                let time_take = CLOSE_PROCESS.data.time_init
+                let time_close = CLOSE_PROCESS.data.time_close
+
+                let wait_time_miliseconds = Math.abs(time_create - time_take)
+                let atencion_time_miliseconds = Math.abs(time_close - time_take)
+
+                let time_wait = wait_time_miliseconds / 1000 <= 60 ? wait_time_miliseconds / 1000 + " segundos" : Math.ceil(wait_time_miliseconds / (1000 * 60)) + " minutos";
+                let time_atencion = Math.ceil(atencion_time_miliseconds / (1000 * 60)) <= 60 ? Math.ceil(atencion_time_miliseconds / (1000 * 60)) + " Minutos" : Math.ceil(atencion_time_miliseconds / (1000 * 60 * 60)) + " horas";
+
                 await CHANNEL_BACKUP.send({
-                    content: `Backup del canal ${CHANNEL_HERE.name} cerrado el dia ${(time.getUTCDate()).toString().padStart(2, '0')} del ${(time.getUTCMonth() + 1).toString().padStart(2, '0')} del año ${time.getFullYear()} a las ${(time.getUTCHours()).toString().padStart(2, '0')}:${(time.getUTCMinutes()).toString().padStart(2, '0')}:${(time.getUTCSeconds()).toString().padStart(2, '0')} `,
+                    content: `## ${CHANNEL_HERE.name} 
+                    - Fecha y hora de cierre \`${(time.getUTCDate()).toString().padStart(2, '0')} del ${(time.getUTCMonth() + 1).toString().padStart(2, '0')} del año ${time.getFullYear()} a las ${(time.getUTCHours()).toString().padStart(2, '0')}:${(time.getUTCMinutes()).toString().padStart(2, '0')}:${(time.getUTCSeconds()).toString().padStart(2, '0')}\`
+                    - Creado por <@${CLOSE_PROCESS.data.user_id}>
+                    - Atendido por <@${CLOSE_PROCESS.data.asesor_take}>
+                    - Cerrado por <@${CLOSE_PROCESS.data.asesor_close}>
+                    - Tiempo de espera: \`${time_wait}\`
+                    - Tiempo de atencion: \`${time_atencion}\`
+                    - Ticket asociado: \`${CLOSE_PROCESS.data.ticket_crm_assoc}\`
+                    - Motivo de consulta: \`${CLOSE_PROCESS.data.motivo}\`
+                    - Observaciones del cliente:\`\`\`${CLOSE_PROCESS.data.observaciones}\`\`\`
+                    `,
 
                 });
                 consoleLog(`El archivo se genero Correctamente en ${RUTA_ARCHIVO_GENERADO}`)
-                await interaction.channel.send({ content: `### Tu opinión es importante\nMe ayudaría conocer tu opinión sobre la atención que te acaba de brindar ${interaction.user}. Por favor, completa esta encuesta\n_**Este canal se cerrara automaticamente en 10 min.**_`, components: [new ActionRowBuilder().addComponents(adsWinBtns().sendEncuesta)] })
+                await interaction.channel.send({ content: `_**Este canal se cerrara automaticamente en 10 min.**_` })
 
                 const pinnedMessages = await interaction.channel.messages.fetchPinned();
                 const primerMensajeAnclado = pinnedMessages.first();
@@ -68,7 +87,7 @@ module.exports = {
                 await interaction.reply({ content: `Error al guardar el archivo`, ephemeral: true })
             }
         } else {
-            await interaction.reply({ content: `${interaction.user} -> ${close.msg}`, ephemeral: true })
+            await interaction.reply({ content: `${interaction.user} -> ${CLOSE_PROCESS.msg}`, ephemeral: true })
         }
     }
 }
