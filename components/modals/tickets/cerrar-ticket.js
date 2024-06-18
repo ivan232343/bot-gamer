@@ -16,6 +16,8 @@ const fs = require('fs');
 const path = require('path');
 const { sp_close_ticket } = require("../../../modules/peticionesbd");
 const { consoleLog } = require("../../../modules/necesarios");
+const { adsWinBtns } = require("../../../modules/builder");
+const { ActionRowBuilder } = require("discord.js");
 module.exports = {
     data: { name: 'cerrar-ticket' },
     async execute(interaction, client) {
@@ -66,7 +68,7 @@ module.exports = {
 
                 });
                 consoleLog(`El archivo se genero Correctamente en ${RUTA_ARCHIVO_GENERADO}`)
-                await interaction.channel.send({ content: `_**Este canal se cerrara automaticamente en 10 min.**_` })
+                await interaction.channel.send({ content: `### Tu opinión es importante\nMe ayudaría conocer tu opinión sobre la atención que te acaba de brindar ${interaction.user}. Por favor, completa esta encuesta\n_**Este canal se cerrara automaticamente en 10 min.**_`, components: [new ActionRowBuilder().addComponents(adsWinBtns().sendEncuesta)] })
 
                 const pinnedMessages = await interaction.channel.messages.fetchPinned();
                 const primerMensajeAnclado = pinnedMessages.first();
@@ -76,7 +78,7 @@ module.exports = {
                 consoleLog("Mensaje anclado:", mensajeAnclado)
                 await mensajeAnclado.edit({ components: [] });
 
-                return interaction.reply({ content: `El canal se cerrara en 10 min`, ephemeral: true })
+                await interaction.reply({ content: `El canal se cerrara en 10 min`, ephemeral: true })
                     .then(() => {
                         setTimeout(() => {
                             interaction.channel.delete();
