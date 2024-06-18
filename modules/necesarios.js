@@ -4,7 +4,7 @@ const webhook = new WebhookClient({ url: CH_LOG_WH });
 const { inspect } = require('util');
 module.exports = {
     consoleLog: async function (text, err) {
-        await webhook.send(`${text}\n${err ? "`\`\`\`" + inspect(err, { depth: 4, showHidden: true }) + "\`\`\`" : ""}`)
+        await webhook.send(`${text}\n${err ? "`\`\`\`" + inspect(err, { depth: 4, showHidden: true, maxArrayLength: 3, maxStringLength: 1800 }) + "\`\`\`" : ""}`)
     },
 
 }
