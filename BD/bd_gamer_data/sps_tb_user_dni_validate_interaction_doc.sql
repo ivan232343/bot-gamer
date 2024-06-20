@@ -24,12 +24,12 @@ BEGIN
 DECLARE registrogamerxdoc INT;
 DECLARE registrogamerxinteraction INT;
 SET registrogamerxdoc = (SELECT COUNT(doc) FROM tb_user_dni WHERE doc = document);
-SET registrogamerxinteraction = (SELECT COUNT(interactionID) FROM tb_user_dni WHERE tb_user_dni.interactionID = interaction);
+SET registrogamerxinteraction = (SELECT COUNT(user_id_discord) FROM tb_user_dni WHERE tb_user_dni.user_id_discord = interaction);
 if (registrogamerxdoc > 0) OR (registrogamerxinteraction > 0)
 then  SELECT TRUE AS "validate",registrogamerxdoc AS "ret_doc",registrogamerxinteraction AS "ret_interaction";
 ELSEif (registrogamerxdoc = 0) OR (registrogamerxinteraction = 0)
 then  SELECT FALSE AS "validate",registrogamerxdoc AS "ret_doc",registrogamerxinteraction AS "ret_interaction";
-ELSE SELECT "error" AS "validate",tb_user_dni.interactionID AS 'interaccion' FROM tb_user_dni WHERE tb_user_dni.doc = document ;
+ELSE SELECT "error" AS "validate",tb_user_dni.user_id_discord AS 'interaccion' FROM tb_user_dni WHERE tb_user_dni.user_doc = document ;
 END if;
 END//
 DELIMITER ;
