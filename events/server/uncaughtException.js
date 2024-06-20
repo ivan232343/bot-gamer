@@ -5,17 +5,18 @@
  * motivo: 
  * Si ocurre un error de tipeo se envia un mensaje al canal #errores-del-bot par anotificarlo
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 correccion de variables
 const { EmbedBuilder, WebhookClient } = require('discord.js');
-const { ch_webhook, url_utiles } = require("../../json/recursos.json")
+const { URL_UTILES } = require("../../json/recursos.json")
 const { inspect } = require('util');
-const webhook = new WebhookClient({ url: ch_webhook });
-
+const { WEB_HOOCKS } = require('../../configdiscord.json')
+const WH_CHANNEL_ERRORS = new WebhookClient({ url: WEB_HOOCKS.ch_errors });
 module.exports = {
     name: "uncaughtException",
     async execute(err, origin) {
-        const embed = new EmbedBuilder()
+        const EMBED = new EmbedBuilder()
             .setTitle("Uncaught Exception")
-            .setURL(`${url_utiles.nodejs_error}event-uncaughtException`)
+            .setURL(`${URL_UTILES.nodejs_error}event-uncaughtException`)
             .addFields({
                 name: "Error",
                 value: `\`\`\`${inspect(err, { depth: 0 }).slice(0, 1000)}\`\`\``
@@ -24,6 +25,6 @@ module.exports = {
                 value: `\`\`\`${inspect(origin, { depth: 0 }).slice(0, 1000)}\`\`\``
             })
             .setTimestamp()
-        return webhook.send({ embeds: [embed] })
+        return WH_CHANNEL_ERRORS.send({ embeds: [EMBED] })
     }
 }

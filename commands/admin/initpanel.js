@@ -6,7 +6,7 @@
  * comando que envia el panel de ticket como una forma de inicializarlos, este comando se usara cuando se realicen 
  * cambios en la estructura del generador de tickets o validador
  */
-
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se corrigeron las variables
 const { consoleLog } = require("../../modules/necesarios")
 const { SlashCommandBuilder, ActionRowBuilder } = require("discord.js");
 const { adsWinBtns } = require("../../modules/builder");
@@ -28,13 +28,13 @@ module.exports = {
         ),
     category: "admin",
     async execute(interaction) {
-        const init = interaction.options.getSubcommand();
-        consoleLog(`la opcion escogida es ${init}`)
-        const embeds = []
-        const componentes = [];
-        if (init === "atgamer") {
-            embeds.push(staticsEmbeds.CreateTicket)
-            componentes.push(
+        const PANEL_NAME = interaction.options.getSubcommand();
+        consoleLog(`la opcion escogida es ${PANEL_NAME}`)
+        const EMBED_PANEL = []
+        const COMPONENTES_PANEL = [];
+        if (PANEL_NAME === "atgamer") {
+            EMBED_PANEL.push(staticsEmbeds.CreateTicket)
+            COMPONENTES_PANEL.push(
                 new ActionRowBuilder().addComponents(
                     adsWinBtns().initTicketWithPrev,
                 ),
@@ -43,18 +43,18 @@ module.exports = {
                     adsWinBtns().wsp
                 ))
         }
-        else if (init === "feedback") {
-            embeds.push(staticsEmbeds.feedback)
-            componentes.push(new ActionRowBuilder().addComponents(adsWinBtns().sendfeed))
+        else if (PANEL_NAME === "feedback") {
+            EMBED_PANEL.push(staticsEmbeds.feedback)
+            COMPONENTES_PANEL.push(new ActionRowBuilder().addComponents(adsWinBtns().sendfeed))
 
         } else {
-            embeds.push(staticsEmbeds.validateUser)
-            componentes.push(new ActionRowBuilder().addComponents(adsWinBtns().validate))
+            EMBED_PANEL.push(staticsEmbeds.validateUser)
+            COMPONENTES_PANEL.push(new ActionRowBuilder().addComponents(adsWinBtns().validate))
         }
-        await interaction.channel.send({ embeds: embeds, components: componentes })
+        await interaction.channel.send({ embeds: EMBED_PANEL, components: COMPONENTES_PANEL })
             .then(() => {
                 interaction.reply({ content: "Enviado exitosamente", ephemeral: true })
-                consoleLog(`${interaction.user} uso el comando initpanel/${init} `)
+                consoleLog(`${interaction.user} uso el comando initpanel/${PANEL_NAME} `)
             })
     }
 }

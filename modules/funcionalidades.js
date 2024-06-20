@@ -1,6 +1,3 @@
-const { consoleLog } = require("./necesarios");
-const { sp_validate_tktpendiente } = require("./peticionesbd");
-
 /**
  * Nombre de usuario: Ivan Gabriel Pulache Chiroque
  * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
@@ -8,6 +5,11 @@ const { sp_validate_tktpendiente } = require("./peticionesbd");
  * motivo: 
  * Modulo de funcionalidades del proyecto
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se agrego la funcion validarTicketPendiente
+const { consoleLog } = require("./necesarios");
+const { sp_validate_tktpendiente } = require("./peticionesbd");
+const { toUTC } = require("./utclocalconverter");
+
 module.exports = {
     dividirArray: (array, tamanioGrupo) => {
         let resultado = [];
@@ -30,9 +32,9 @@ module.exports = {
     },
     validarTicketPendiente: async function (documento) {
         const CHECK_PENDIENTE = await sp_validate_tktpendiente(documento);
-        consoleLog("", CHECK_PENDIENTE)
-        let e = { msg: "No se encontraron resultados", find: false }
-        if (!CHECK_PENDIENTE.find) return e;
+        consoleLog("hay ticket pendiente:", CHECK_PENDIENTE)
+        let OBJ_FIND = { msg: "No se encontraron resultados", find: false }
+        if (!CHECK_PENDIENTE.find) return OBJ_FIND;
         const FECHA_APERTURA = toUTC(CHECK_PENDIENTE.f.time_create)
         const STR_APERTURA = `${(FECHA_APERTURA.getUTCDate()).toString().padStart(2, '0')}/${(FECHA_APERTURA.getUTCMonth() + 1).toString().padStart(2, '0')}/${FECHA_APERTURA.getFullYear()} ${(FECHA_APERTURA.getUTCHours()).toString().padStart(2, '0')}:${(FECHA_APERTURA.getUTCMinutes()).toString().padStart(2, '0')}:${(FECHA_APERTURA.getUTCSeconds()).toString().padStart(2, '0')}`
         const FECHA_ATENCION = CHECK_PENDIENTE.f.time_init !== null ? toUTC(CHECK_PENDIENTE.f.time_init) : ""

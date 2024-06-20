@@ -5,12 +5,13 @@
  * motivo: 
  * Con este boton se apertura un modal y se registra con el ID registro del crm 
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se corrigeron las variables
 const { PermissionFlagsBits, ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle } = require('discord.js');
-const { asesor } = require('../../../json/roles.json')
+const { ROLES } = require('../../../configdiscord.json')
 module.exports = {
     data: { name: 'close-ticket' },
     async execute(interaction, client) {
-        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator) && !interaction.member.roles.cache.has(asesor))
+        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator) && !interaction.member.roles.cache.has(ROLES.asesor))
             return interaction.reply({ content: `No tienes permisos necesarios para utilizar este boton`, ephemeral: true });
 
         const MODAL = new ModalBuilder()

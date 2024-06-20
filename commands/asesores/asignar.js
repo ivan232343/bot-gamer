@@ -5,8 +5,9 @@
  * motivo: 
  * Comando para asignar a un usuario dentro del canal de texto
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 correccion de variables
 const { SlashCommandBuilder } = require("discord.js");
-const role = require('../../json/roles.json');
+const { ROLES } = require('../../configdiscord.json');
 const { consoleLog } = require("../../modules/necesarios");
 module.exports = {
     data: new SlashCommandBuilder()
@@ -25,11 +26,11 @@ module.exports = {
             ViewChannel: true,
             ReadMessageHistory: true
         })
-        if (CLIENTE_ID.roles.cache.has(role.asesor)) {
+        if (CLIENTE_ID.roles.cache.has(ROLES.asesor)) {
             await interaction.reply({ content: `${interaction.options.getUser('cliente').username} es asesor`, ephemeral: true })
             await interaction.channel.send({ content: `Ahora seras atendido por <@${interaction.options.getUser('cliente').id}>.` })
             consoleLog(`<@${interaction.user.id}> uso el comando asignar para <@${interaction.options.getUser('cliente').id}> en el canal <#${interaction.channel.id}>`)
-        } else if (CLIENTE_ID.roles.cache.has(role.cliente)) {
+        } else if (CLIENTE_ID.roles.cache.has(ROLES.cliente)) {
             await interaction.reply({ content: `se agrego a <@${interaction.options.getUser('cliente').id}> al canal de texto`, ephemeral: true })
             await interaction.channel.send({ content: `Hola <@${interaction.options.getUser('cliente').id}>, se le agrego al chat para darle soporte.` })
             consoleLog(`<@${interaction.user.id}> uso el comando asignar para <@${interaction.options.getUser('cliente').id}> en el canal <#${interaction.channel.id}>`)

@@ -7,42 +7,32 @@
  * por lo que despues de seleccionar el motivo de consulta, se validara(por segunda vez) si ya hay una 
  * atencion en curso dependiendo a ello se estaria procediendo con el siguiente paso
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se optimizo codigo colocando una funcion en pasos redundantes/se realizo correcciones gramaticales, solicitados por experiencia
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js')
-const { categoria } = require('../../../json/motivos.json');
-const { toUTC } = require('../../../modules/utclocalconverter');
-const { sp_validate_tktpendiente } = require('../../../modules/peticionesbd');
+const { CATEGORIA } = require('../../../json/motivos.json');
 const { consoleLog } = require('../../../modules/necesarios');
+const { validarTicketPendiente } = require('../../../modules/funcionalidades');
 module.exports = {
     data: { name: 'motivo-problema-with-validate' },
     async execute(interaction) {
         const GET_DATA = interaction.customId.split("_")
-        const DATA_RES = { dni: GET_DATA[1], servicio: GET_DATA[3], categoriaPicked: categoria[interaction.values[0]].value }
-        const CHECK_PENDIENTE = await sp_validate_tktpendiente(DATA_RES.dni)
-        consoleLog("Data Res:", DATA_RES)
-        if (!CHECK_PENDIENTE.find) {
-            const MODAL = new ModalBuilder()
-                .setCustomId(`modal-problema_${DATA_RES.dni}_${DATA_RES.categoriaPicked}_${DATA_RES.servicio}`)
-                .setTitle('¿Cómo te ayudamos?');
-            const DETALLES_PROBLEMA = new TextInputBuilder()
-                .setCustomId('resumenProblema')
-                .setLabel("Escríbenos tu solicitud.")
-                .setMinLength(15)
-                .setMaxLength(450)
-                .setStyle(TextInputStyle.Paragraph);
+        const DATA_RES = { dni: GET_DATA[1], servicio: GET_DATA[3], categoriaPicked: CATEGORIA[interaction.values[0]].value }
+        const CHECK_PENDIENTE = await validarTicketPendiente(DATA_RES.dni)
+        consoleLog("validar pendiente:", CHECK_PENDIENTE)
+        if (CHECK_PENDIENTE.find) return await interaction.reply(CHECK_PENDIENTE.data)
+        const MODAL = new ModalBuilder()
+            .setCustomId(`modal-problema_${DATA_RES.dni}_${DATA_RES.categoriaPicked}_${DATA_RES.servicio}`)
+            .setTitle('¿Cómo te ayudamos?');
+        const DETALLES_PROBLEMA = new TextInputBuilder()
+            .setCustomId('resumenProblema')
+            .setLabel("Escríbenos tu solicitud.")
+            .setMinLength(15)
+            .setMaxLength(450)
+            .setStyle(TextInputStyle.Paragraph);
 
-            const PRIMERA_FILA = new ActionRowBuilder().addComponents(DETALLES_PROBLEMA);
-            MODAL.addComponents(PRIMERA_FILA);
-            await interaction.showModal(MODAL)
-        } else {
-            const FECHA_APERTURA = toUTC(CHECK_PENDIENTE.f.time_create)
-            const STR_APERTURA = `${(FECHA_APERTURA.getUTCDate()).toString().padStart(2, '0')}/${(FECHA_APERTURA.getUTCMonth() + 1).toString().padStart(2, '0')}/${FECHA_APERTURA.getFullYear()} ${(FECHA_APERTURA.getUTCHours()).toString().padStart(2, '0')}:${(FECHA_APERTURA.getUTCMinutes()).toString().padStart(2, '0')}:${(FECHA_APERTURA.getUTCSeconds()).toString().padStart(2, '0')}`
-            const FECHA_ATENCION = CHECK_PENDIENTE.f.time_init !== null ? toUTC(CHECK_PENDIENTE.f.time_init) : ""
-            const STR_CREADO = FECHA_ATENCION !== "" ? `${(FECHA_ATENCION.getUTCDate()).toString().padStart(2, '0')}/${(FECHA_ATENCION.getUTCMonth() + 1).toString().padStart(2, '0')}/${FECHA_ATENCION.getFullYear()} ${(FECHA_ATENCION.getUTCHours()).toString().padStart(2, '0')}:${(FECHA_ATENCION.getUTCMinutes()).toString().padStart(2, '0')}:${(FECHA_ATENCION.getUTCSeconds()).toString().padStart(2, '0')}` : ""
-            await interaction.reply({
-                content: `Se valida ticket pendiente en <#${CHECK_PENDIENTE.f.channel_id}> creado el  ${STR_APERTURA}\n${CHECK_PENDIENTE.f['adviser_i-id_init'] !== null ? `Siendo atendido por <@${CHECK_PENDIENTE.f['adviser_i-id_init']}> desde ${STR_CREADO} ` : ""}`,
-                ephemeral: true
-            })
+        const PRIMERA_FILA = new ActionRowBuilder().addComponents(DETALLES_PROBLEMA);
+        MODAL.addComponents(PRIMERA_FILA);
+        await interaction.showModal(MODAL)
 
-        }
     }
 }

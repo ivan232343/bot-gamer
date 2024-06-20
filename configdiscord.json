@@ -1,0 +1,30 @@
+{
+    "CHANNELS": {
+        "backup_chats": "1250300924107427874",
+        "guild_": "1250300923184681031",
+        "parenClients": "1250300923771617378",
+        "bienvenidas": {
+            "rules": "1250300923771617372",
+            "atencion": "1250300923771617376",
+            "activacion": "1250300923771617375"
+        }
+    },
+    "WEB_HOOCKS": {
+        "ch_errors": "https://discord.com/api/webhooks/1252468125597958328/HK9UWNVfrlrBg50r4OIy2Mn5cUCK3CSzhGXR4LKbBLgriQFj8GvLtZEdoKE_8HNuofVB",
+        "ch_log_wh": "https://discord.com/api/webhooks/1252468118098542632/Y_vzNepsnJHDaf7DzTAFcpmI0x2icdbQUdTZUjizxcOFIF-GwOwTr9BP8zJiPHUH2P8t",
+        "ch_feedback": "https://discord.com/api/webhooks/1253183095071309846/12YjJ09Rlxbjs-hnei7d8GP5h_1BY4toavpdb83YreiMlqUHd5m8biLgpa6kQp7XIyqM"
+    },
+    "ROLES": {
+        "asesor": "1250300923260178467",
+        "gamer": [
+            "1250300923260178466"
+        ],
+        "cliente": "1250300923260178466",
+        "initRoles": [
+            "1250300923234746469",
+            "1250300923234746465",
+            "1250300923205517378",
+            "1250300923184681040"
+        ]
+    }
+}

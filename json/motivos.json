@@ -1,5 +1,5 @@
 {
-    "categoria": {
+    "CATEGORIA": {
         "gamer": {
             "Label": "Latencias-PacketLoss",
             "Descripcion": "Ping elevado o pérdida de paquetes",
@@ -43,7 +43,7 @@
             "emoji": "⚙"
         }
     },
-    "planes": [
+    "PLANES": [
         {
             "label": "Nuevo Plan Gamer 100Mbps",
             "value": "100",

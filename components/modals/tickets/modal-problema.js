@@ -9,9 +9,8 @@
  */
 
 const { ActionRowBuilder, EmbedBuilder, ChannelType, PermissionsBitField } = require('discord.js');
-const { parenClients } = require("../../../json/canales.json");
-const { categoria } = require("../../../json/motivos.json");
-const { cliente } = require("../../../json/roles.json");
+const { CHANNELS, ROLES } = require("../../../configdiscord.json");
+const { CATEGORIA } = require("../../../json/motivos.json");
 const { ticketbtns } = require('../../../modules/builder');
 const { sp_init_ticket } = require('../../../modules/peticionesbd');
 const { consoleLog } = require('../../../modules/necesarios');
@@ -27,7 +26,7 @@ module.exports = {
         const CHANNEL_CREATED = await interaction.guild.channels.create({
             name: `ticket-${DNI_CLIENTE}-${interaction.user.username}`,
             type: ChannelType.GuildText,
-            parent: parenClients,
+            parent: CHANNELS.parenClients,
             permissionOverwrites: [{
                 id: interaction.guild.roles.everyone,
                 deny: [
@@ -44,27 +43,25 @@ module.exports = {
                 ]
             }]
         })
-        const INIT_TICKET = await sp_init_ticket({ channel: CHANNEL_CREATED.id, dni: DNI_CLIENTE, motivo: categoria[MOTIVO_INPT].Label, problema: DETALLER_INPT, interaction: interaction.user.id })
+        const INIT_TICKET = await sp_init_ticket({ channel: CHANNEL_CREATED.id, dni: DNI_CLIENTE, motivo: CATEGORIA[MOTIVO_INPT].Label, problema: DETALLER_INPT, interaction: interaction.user.id })
         consoleLog("Iniciando ticket para " + interaction.user, INIT_TICKET)
         if (!INIT_TICKET.execute) return await interaction.editReply({ content: `Ocurrio un problema al generar su ticket, por favor intentelo mas tarde`, ephemeral: true });
         const CHANNEL_SEND_TP = interaction.guild.channels.cache.find((ch) => ch.name === 'tickets-pendientes');
         const CURRENT_ID_BD = INIT_TICKET.data.current_insert
         const EMBED_CH_ATENCION = new EmbedBuilder()
             .setTitle(`Bienvenido a su ticket de atencion.`)
-            .setDescription(`<@${interaction.user.id}>, en instantes un asesor se pondra en contacto contigo para poder ayudarte con tu servicio  \nTipo de plan:\n\`\`\`${TIPO_PLAN}\`\`\`${typeof MOTIVO_INPT !== 'undefined' ? "\nMotivo de consulta:\n```" + categoria[MOTIVO_INPT].Label + "```" : ''} ${DETALLER_INPT !== '' ? "\nResumen del problema:\n```" + DETALLER_INPT + "```" : ''}`)
+            .setDescription(`<@${interaction.user.id}>, en instantes un asesor se pondra en contacto contigo para poder ayudarte con tu servicio  \nTipo de plan:\n\`\`\`${TIPO_PLAN}\`\`\`${typeof MOTIVO_INPT !== 'undefined' ? "\nMotivo de consulta:\n```" + CATEGORIA[MOTIVO_INPT].Label + "```" : ''} ${DETALLER_INPT !== '' ? "\nResumen del problema:\n```" + DETALLER_INPT + "```" : ''}`)
         const EMBED_CH_ANUNCIOS = new EmbedBuilder()
             .setTitle("Nuevo cliente solicitando atencion")
-            .setDescription(`El cliente <@${interaction.user.id}> esta solicitando atencion en <#${CHANNEL_CREATED.id}>\nDocumento del cliente:\n\`\`\`${DNI_CLIENTE}\`\`\`\n${MOTIVO_INPT !== '' ? "Motivo de consulta:\n```" + categoria[MOTIVO_INPT].Label + "```" : ''} ${DETALLER_INPT !== '' ? "\nResumen del problema:\n```" + DETALLER_INPT + "```" : ''}`)
+            .setDescription(`El cliente <@${interaction.user.id}> esta solicitando atencion en <#${CHANNEL_CREATED.id}>\nDocumento del cliente:\n\`\`\`${DNI_CLIENTE}\`\`\`\n${MOTIVO_INPT !== '' ? "Motivo de consulta:\n```" + CATEGORIA[MOTIVO_INPT].Label + "```" : ''} ${DETALLER_INPT !== '' ? "\nResumen del problema:\n```" + DETALLER_INPT + "```" : ''}`)
 
         const BTNS_EMBED_ANUNCIOS = new ActionRowBuilder().addComponents(
             ticketbtns(`${DNI_CLIENTE}_${CURRENT_ID_BD}_${CHANNEL_CREATED.id}`).catchTicket
         )
         const buttons = new ActionRowBuilder().addComponents(
-            // ticketbtns(interaction.user.id).lock,
-            // ticketbtns(interaction.user.id).unlock, 
             ticketbtns(CURRENT_ID_BD).close
         )
-        await interaction.member.roles.add(cliente);
+        await interaction.member.roles.add(ROLES.cliente);
         const MENSAJE_GENERATE = await CHANNEL_CREATED.send({ embeds: [EMBED_CH_ATENCION], components: [buttons] });
         MENSAJE_GENERATE.pin()
             .then(() => {

@@ -5,11 +5,12 @@
  * motivo: 
  * Si ocurre un error de promesas se envia un mensaje al canal #errores-del-bot par anotificarlo
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 correccion de variables
 const { EmbedBuilder, WebhookClient } = require('discord.js')
-const { ch_webhook, url_utiles } = require("../../json/recursos.json")
+const { url_utiles } = require("../../json/recursos.json")
 const { inspect } = require('util');
-const webhook = new WebhookClient({ url: ch_webhook });
-
+const { WEB_HOOCKS } = require("../../configdiscord.json")
+const WH_CHANNEL_ERRORS = new WebhookClient({ url: WEB_HOOCKS.ch_errors });
 module.exports = {
     name: "unhandledRejection",
     async execute(reason, promise) {
@@ -24,6 +25,6 @@ module.exports = {
                 value: `\`\`\`${inspect(promise, { depth: 0 }).slice(0, 1000)}\`\`\``
             })
             .setTimestamp()
-        return webhook.send({ embeds: [embed] })
+        return WH_CHANNEL_ERRORS.send({ embeds: [embed] })
     }
 } 

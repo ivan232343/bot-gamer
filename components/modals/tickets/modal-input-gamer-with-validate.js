@@ -6,15 +6,15 @@
  * Modal para stackear la info ingresada por el usuario y generar el select de los planes,
  * para posteriormente validar si realmente es el usuario o titular del servicio
  */
-
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se corrigeron las variables
 const { ActionRowBuilder, StringSelectMenuOptionBuilder, StringSelectMenuBuilder } = require('discord.js');
-const { planes } = require('../../../json/motivos.json');
+const { PLANES } = require('../../../json/motivos.json');
 module.exports = {
     data: { name: 'modal-input-gamer-with-validate' },
     async execute(interaction) {
         const DNI_CLIENTE = interaction.fields.getTextInputValue("dnicliente");
         const NOMBRE_CLIENTE = interaction.fields.getTextInputValue("namecliente");
-        const OPTIONS_SELECT = planes.map(el => {
+        const OPTIONS_SELECT = PLANES.map(el => {
             const CATEGORIA_TEMP = new StringSelectMenuOptionBuilder()
                 .setLabel(el.label)
                 .setValue(el.value)

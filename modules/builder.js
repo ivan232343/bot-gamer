@@ -5,12 +5,8 @@
  * motivo: 
  * Modulo donde se encuentra los botones para los embeds, un generador de select y un borrador de roles
  */
-const {
-    StringSelectMenuOptionBuilder,
-    ButtonBuilder,
-    ButtonStyle
-} = require("discord.js");
-const { url_utiles } = require('../json/recursos.json');
+const { StringSelectMenuOptionBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { URL_UTILES } = require('../json/recursos.json');
 const { consoleLog } = require("./necesarios");
 module.exports = {
     adsWinBtns: function (argT = "") {
@@ -29,12 +25,12 @@ module.exports = {
                 .setLabel('Ir a win.pe')
                 .setEmoji('🌐')
                 .setStyle(ButtonStyle.Link)
-                .setURL(url_utiles.web),
+                .setURL(URL_UTILES.web),
             wsp: new ButtonBuilder()
                 .setLabel("Whatsapp")
                 .setEmoji('📞')
                 .setStyle(ButtonStyle.Link)
-                .setURL(url_utiles.wsp),
+                .setURL(URL_UTILES.wsp),
             initTicket: new ButtonBuilder()
                 .setCustomId('create-ticket')
                 .setLabel('Con otro documento')
@@ -63,7 +59,7 @@ module.exports = {
                 .setLabel("Enviar feedback")
                 .setStyle(ButtonStyle.Primary),
             sendEncuesta: new ButtonBuilder()
-                .setURL("https://xc360.app/atenciontecd")
+                .setURL(URL_UTILES.encuesta)
                 .setLabel("Realizar encuesta")
                 .setStyle(ButtonStyle.Link)
         }
@@ -115,21 +111,21 @@ module.exports = {
         return categoriasBuild;
     },
     removeUserRoles: async ({ interaction }) => {
-        const roles = {
+        const ROLES = {
             noValidationRole: interaction.member.guild.roles.cache.find((r) => r.name === "Sin validar"),
             gamerWinRole: interaction.member.guild.roles.cache.find((r) => r.name === "Gamer Win"),
             regularRole: interaction.member.guild.roles.cache.find((r) => r.name === "Regular")
         }
         return new Promise((resolve) => {
-            Object.getOwnPropertyNames(roles).forEach(async ele => {
-                interaction.member.roles.remove(roles[ele])
+            Object.getOwnPropertyNames(ROLES).forEach(async ele => {
+                interaction.member.roles.remove(ROLES[ele])
                     .then(() => {
-                        consoleLog(`Se ha quitado el rol "${roles[ele].name}" a ${interaction.member.user.tag}.`);
+                        consoleLog(`Se ha quitado el rol "${ROLES[ele].name}" a ${interaction.member.user.tag}.`);
                     }).catch((error) => {
                         consoleLog(`Error al quitar el rol:`, error);
                     });
             })
-            resolve(roles)
+            resolve(ROLES)
         })
     }
 }

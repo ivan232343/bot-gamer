@@ -6,18 +6,16 @@
  * Valida si las preguntas de seguridad son las correctas, si en caso las son, entonces se 
  * estaria procediendo con la gestion de genera ticket 
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se optimizo codigo colocando una funcion en pasos redundantes/se realizo correcciones gramaticales, solicitados por experiencia
 const { ActionRowBuilder, StringSelectMenuOptionBuilder, EmbedBuilder, StringSelectMenuBuilder, AttachmentBuilder, channelLink } = require('discord.js')
-const { categoria } = require('../../../json/motivos.json');
-const { sp_validate_gamer_to_init, sp_validate_tktpendiente } = require('../../../modules/peticionesbd');
+const { CATEGORIA } = require('../../../json/motivos.json');
+const { sp_validate_gamer_to_init } = require('../../../modules/peticionesbd');
 const { adsWinBtns } = require('../../../modules/builder');
-const { toUTC } = require('../../../modules/utclocalconverter');
 const { consoleLog } = require('../../../modules/necesarios');
 const { staticsEmbeds } = require('../../../modules/embeds');
 const { validarTicketPendiente } = require('../../../modules/funcionalidades');
 module.exports = {
-    data: {
-        name: 'validate-service'
-    },
+    data: { name: 'validate-service' },
     async execute(interaction) {
         const GET_DATA = interaction.customId.split("_")
         consoleLog(`${interaction.user} / validate-service / \`\`\`${GET_DATA.join("\n")}\`\`\` / ${interaction.values}`)
@@ -25,19 +23,17 @@ module.exports = {
         if (!DATA_RES.planPicked > 0) return await interaction.reply({ embeds: [staticsEmbeds.notGamer()], components: [new ActionRowBuilder(adsWinBtns().web, adsWinBtns().wsp)], ephemeral: true })
         const CHECK_GAMER = await sp_validate_gamer_to_init(DATA_RES)
         consoleLog("Se esta retornando este resultado", CHECK_GAMER.error ? CHECK_GAMER.error + CHECK_GAMER.f : CHECK_GAMER)
-
-
         if (!CHECK_GAMER.find) return await interaction.reply({ content: `Ups <@${interaction.user.id}>, No se pudo validar su identidad, si crees que se trata de un error intententelo nuevamente o de lo contrario no dude de reportarlo en <#1223357670975733963> para validar el inconveniente.`, ephemeral: true })
         const CHECK_PENDIENTE = await validarTicketPendiente(DATA_RES.doc)
         consoleLog("validar pendiente:", CHECK_PENDIENTE)
         if (CHECK_PENDIENTE.find) return await interaction.reply(CHECK_PENDIENTE.data)
         if (CHECK_GAMER.f.validate) {
-            const OPTION_MOTIVO = Object.getOwnPropertyNames(categoria).map(e => {
+            const OPTION_MOTIVO = Object.getOwnPropertyNames(CATEGORIA).map(e => {
                 const CATEGORIA_TEMP = new StringSelectMenuOptionBuilder()
-                    .setDescription(categoria[e].Descripcion)
-                    .setLabel(categoria[e].Label)
-                    .setValue(categoria[e].value)
-                    .setEmoji(categoria[e].emoji)
+                    .setDescription(CATEGORIA[e].Descripcion)
+                    .setLabel(CATEGORIA[e].Label)
+                    .setValue(CATEGORIA[e].value)
+                    .setEmoji(CATEGORIA[e].emoji)
                 return CATEGORIA_TEMP
             })
             const SELECT_MOTIVO = new ActionRowBuilder().addComponents(

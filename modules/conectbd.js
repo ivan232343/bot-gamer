@@ -5,9 +5,10 @@
  * motivo: 
  * modulo conector para la base de datos *mysql*
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 correccion de variables / se añadio la funcion consoleLog()
 const { LOCAL_HOST, LOCAL_USER, LOCAL_PASSWORD, LOCAL_DB, LOCAL_PORT } = require('../config.json');
 const { REMOTE_HOST, REMOTE_USER, REMOTE_PASSWORD, REMOTE_DB, REMOTE_PORT } = require('../config.json');
-const mysql = require('mysql');
+const LIB_MYSQL = require('mysql');
 const { consoleLog } = require('./necesarios');
 const LOCAL_CREDENTIALS = {
     host: LOCAL_HOST,
@@ -26,7 +27,7 @@ const REMOTE_CREDENTIALS = {
 const myObject = {
     local: function (querybd) {
         return new Promise((resolve, reject) => {
-            const CONNECT_BD = mysql.createConnection(LOCAL_CREDENTIALS);
+            const CONNECT_BD = LIB_MYSQL.createConnection(LOCAL_CREDENTIALS);
             CONNECT_BD.connect((err) => {
                 if (err) reject(err);
                 consoleLog('Connected local!');
@@ -50,7 +51,7 @@ const myObject = {
     },
     remote: function (querybd) {
         return new Promise((resolve, reject) => {
-            const CONNECT_BD = mysql.createConnection(REMOTE_CREDENTIALS);
+            const CONNECT_BD = LIB_MYSQL.createConnection(REMOTE_CREDENTIALS);
             CONNECT_BD.connect((err) => {
                 if (err) reject(err);
                 consoleLog('Connected remote!');

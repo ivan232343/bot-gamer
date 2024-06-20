@@ -5,7 +5,7 @@
  * motivo: 
  * evento que gestiona que hara el bot al momento de iniciarse o prenderse
  */
-
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se añadio la funcion consoleLog() para gestionar errores y/o registros en el mismo discord
 const { Events, ActivityType } = require("discord.js");
 const { consoleLog } = require("../../modules/necesarios");
 module.exports = {

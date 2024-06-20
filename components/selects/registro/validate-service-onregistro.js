@@ -6,9 +6,10 @@
  * Valida si las preguntas de seguridad son las correctas, si en caso las son, entonces se 
  * estaria procediendo con finalizar el registro y que lo intente nuevamente
  */
-const { ActionRowBuilder, AttachmentBuilder } = require('discord.js')
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se removieron funciones que no se usan
+const { AttachmentBuilder } = require('discord.js')
 const { sp_validate_gamer_to_init, sp_register_interaction_doc } = require('../../../modules/peticionesbd');
-const { adsWinBtns, removeUserRoles } = require('../../../modules/builder');
+const { removeUserRoles } = require('../../../modules/builder');
 const { assignWinGamer, assignRegular } = require('../../../modules/embeds');
 const { consoleLog } = require('../../../modules/necesarios');
 module.exports = {

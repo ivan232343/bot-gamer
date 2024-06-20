@@ -5,8 +5,9 @@
  * motivo: 
  * Modulo donde se encuentra todos los Embed del proyecto
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se corrigeron las variables
 const { EmbedBuilder } = require("discord.js");
-const { bienvenidas } = require('../json/canales.json');
+const { CHANNELS } = require('../configdiscord.json');
 module.exports = {
     assignWinGamer: (query = { interaction }) =>
         new EmbedBuilder()
@@ -25,7 +26,7 @@ module.exports = {
     welcomeDiscordMember: (query = { interaction }) =>
         new EmbedBuilder()
             .setTitle("🎉 ¡Bienvenido/a winner! 🎉")
-            .setDescription(`¡Hola <@${query.interaction}>!\nBienvenid@ a WIN. Esperamos que disfrutes tu tiempo en nuestro servidor exclusivo para Winners con Planes Gamer.\nPara interactuar, sigue estos pasos:\n- Revisa las reglas y guías del servidor en <#${bienvenidas.rules}>\n- Regístrate en <#${bienvenidas.activacion}>\n_**¿Tienes inconvenientes con el servicio? Una vez registrad@, genera un ticket de atención en <#${bienvenidas.atencion}> y te ayudaremos lo más pronto posible**_`)
+            .setDescription(`¡Hola <@${query.interaction}>!\nBienvenid@ a WIN. Esperamos que disfrutes tu tiempo en nuestro servidor exclusivo para Winners con Planes Gamer.\nPara interactuar, sigue estos pasos:\n- Revisa las reglas y guías del servidor en <#${CHANNELS.bienvenidas.rules}>\n- Regístrate en <#${CHANNELS.bienvenidas.activacion}>\n_**¿Tienes inconvenientes con el servicio? Una vez registrad@, genera un ticket de atención en <#${CHANNELS.bienvenidas.atencion}> y te ayudaremos lo más pronto posible**_`)
             .setImage(`attachment://profile-image.png`)
             .setColor('Orange')
     ,

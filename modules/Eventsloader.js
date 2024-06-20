@@ -5,6 +5,7 @@
  * motivo: 
  * Modulo donde estan los cargadores de los eventos del proyecto
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 correccion de variables/se añadio la funcion consoleLog() para seguimiento
 const { loadFiles } = require('../modules/fileLoader');
 const { consoleLog } = require('./necesarios');
 module.exports = {
@@ -12,9 +13,9 @@ module.exports = {
         await client.commands.clear();
         const Files = await loadFiles("commands")
         Files.forEach(async (file) => {
-            const command = require(file);
-            if ("data" in command && "execute" in command) {
-                client.commands.set(command.data.name, command)
+            const COMMAND = require(file);
+            if ("data" in COMMAND && "execute" in COMMAND) {
+                client.commands.set(COMMAND.data.name, COMMAND)
             } else {
                 consoleLog(`[WARNING] The command at ${file} is missing a required "data" or "execute" property.`)
             }
@@ -22,30 +23,30 @@ module.exports = {
     },
     eventsLoader: async function (client) {
         await client.events.clear();
-        const FilesGuild = await loadFiles("events/guild");
-        const FilesServer = await loadFiles("events/server");
-        FilesGuild.forEach(async (file) => {
-            const event = require(file);
-            const execute = (...args) => event.execute(...args, client)
+        const FILES_GUILD = await loadFiles("events/guild");
+        const FILES_SERVER = await loadFiles("events/server");
+        FILES_GUILD.forEach(async (file) => {
+            const EVENT = require(file);
+            const execute = (...args) => EVENT.execute(...args, client)
             try {
-                if (event.once) {
-                    client.once(event.name, execute);
+                if (EVENT.once) {
+                    client.once(EVENT.name, execute);
                 } else {
-                    client.on(event.name, execute);
+                    client.on(EVENT.name, execute);
                 }
             } catch (error) {
                 consoleLog(`\`\`\`${inspect(error, { depth: 0 }).slice(0, 1000)}\`\`\``);
 
             }
         });
-        FilesServer.forEach(async (files) => {
-            const event = require(files);
+        FILES_SERVER.forEach(async (files) => {
+            const EVENT = require(files);
             try {
-                if (event.once) {
-                    process.once(event.name, (...args) => event.execute(...args));
+                if (EVENT.once) {
+                    process.once(EVENT.name, (...args) => EVENT.execute(...args));
                 } else {
                     // console.log('----', event.name, '----')
-                    process.on(event.name, (...args) => event.execute(...args));
+                    process.on(EVENT.name, (...args) => EVENT.execute(...args));
                 }
             } catch (error) {
                 await consoleLog(`\`\`\`${inspect(error, { depth: 0 }).slice(0, 1000)}\`\`\``);
@@ -56,28 +57,28 @@ module.exports = {
     },
     buttonLoader: async function (client) {
         await client.buttons.clear();
-        const Files = await loadFiles("components/Buttons");
-        Files.forEach((file) => {
-            const button = require(file);
-            client.buttons.set(button.data.name, button)
+        const FILES = await loadFiles("components/Buttons");
+        FILES.forEach((file) => {
+            const BUTTON = require(file);
+            client.buttons.set(BUTTON.data.name, BUTTON)
         })
         return await consoleLog("Button Loaded")
     },
     modalLoader: async function (client) {
         await client.modals.clear();
-        const Files = await loadFiles("components/modals");
-        Files.forEach((file) => {
-            const modal = require(file);
-            client.modals.set(modal.data.name, modal)
+        const FILES = await loadFiles("components/modals");
+        FILES.forEach((file) => {
+            const MODAL = require(file);
+            client.modals.set(MODAL.data.name, MODAL)
         })
         return await consoleLog("Modals Loaded")
     },
     selectLoader: async function (client) {
         await client.selects.clear();
-        const Files = await loadFiles("components/selects");
-        Files.forEach((file) => {
-            const select = require(file);
-            client.selects.set(select.data.name, select)
+        const FILES = await loadFiles("components/selects");
+        FILES.forEach((file) => {
+            const SELECT = require(file);
+            client.selects.set(SELECT.data.name, SELECT)
         })
         return await consoleLog("Selects Loaded")
     }

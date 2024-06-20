@@ -6,10 +6,12 @@
  * Envia un mensaje en forma de "embed" al canal #errores-del-bot indicando que 
  * error se presento para una mayor deteccion del problema
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se corrigeron las variables / se corrigio la url del webhook
 const { EmbedBuilder, WebhookClient } = require('discord.js');
 const { inspect } = require('util');
-const { ch_webhook, url_utiles } = require("../../json/recursos.json")
-const webhook = new WebhookClient({ url: ch_webhook });
+const { URL_UTILES } = require("../../json/recursos.json")
+const { WEB_HOOCKS } = require("../../configdiscord.json")
+const WH_CH_ERRORS = new WebhookClient({ url: WEB_HOOCKS.ch_errors });
 module.exports = {
     name: "error",
     async execute(err) {
@@ -17,9 +19,9 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setColor("Red")
             .setTitle("Discord API error")
-            .setURL(url_utiles.discordjs_error)
+            .setURL(URL_UTILES.discordjs_error)
             .setDescription(`\`\`\`${inspect(err, { depth: 0 }).slice(0, 1000)}\`\`\``)
             .setTimestamp();
-        return webhook.send({ embeds: [embed] })
+        return WH_CH_ERRORS.send({ embeds: [embed] })
     }
 }

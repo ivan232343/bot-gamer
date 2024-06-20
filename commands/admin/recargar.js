@@ -5,6 +5,7 @@
  * motivo: 
  * Comando que recarga el comando a escoger por si se realizan cambios
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se corrigeron las variables
 const { SlashCommandBuilder } = require("discord.js");
 const { consoleLog } = require("../../modules/necesarios");
 module.exports = {
@@ -30,8 +31,8 @@ module.exports = {
     ,
     category: "admin",
     async execute(interaction) {
-        const init = interaction.options.getSubcommand();
-        if (init === "componentes") {
+        const NAME_TO_RELOAD = interaction.options.getSubcommand();
+        if (NAME_TO_RELOAD === "componentes") {
             const { commandsLoader, buttonLoader, modalLoader, selectLoader } = require("../../modules/Eventsloader");
             await consoleLog("reiniciando componentes")
             await interaction.reply({ ephemeral: true, content: "reiniciando componentes, por favor revise el canal de logs" })
@@ -41,28 +42,28 @@ module.exports = {
             await selectLoader(interaction.client);
             return await consoleLog("Reinicio completo")
         } else {
-            const commandName = interaction.options
+            const COMMAND_NAME = interaction.options
                 .getString("command", true)
                 .toLowerCase();
-            const command = interaction.client.commands.get(commandName);
+            const COMMAND = interaction.client.commands.get(COMMAND_NAME);
 
-            if (!command) {
-                return interaction.reply(`There is no command with name \`${commandName}\`!`);
+            if (!COMMAND) {
+                return interaction.reply(`There is no command with name \`${COMMAND_NAME}\`!`);
             }
 
             delete require.cache[
-                require.resolve(`../${command.category}/${command.data.name}.js`)
+                require.resolve(`../${COMMAND.category}/${COMMAND.data.name}.js`)
             ];
 
             try {
-                interaction.client.commands.delete(command.data.name);
-                const newCommand = require(`../${command.category}/${command.data.name}.js`);
-                interaction.client.commands.set(newCommand.data.name, newCommand);
-                await interaction.reply(`Command \`${newCommand.data.name}\` was reloaded!`);
+                interaction.client.commands.delete(COMMAND.data.name);
+                const COMMAND_NEW = require(`../${COMMAND.category}/${COMMAND.data.name}.js`);
+                interaction.client.commands.set(COMMAND_NEW.data.name, COMMAND_NEW);
+                await interaction.reply(`Command \`${COMMAND_NEW.data.name}\` was reloaded!`);
             } catch (error) {
                 console.error(error);
                 await interaction.reply(
-                    `There was an error while reloading a command \`${command.data.name}\`:\n\`${error.message}\``
+                    `There was an error while reloading a command \`${COMMAND.data.name}\`:\n\`${error.message}\``
                 );
             }
         }

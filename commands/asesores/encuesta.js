@@ -1,3 +1,10 @@
+/**
+ * Nombre de usuario: Ivan Gabriel Pulache Chiroque
+ * Cod proyecto: PROY-0041-2024/EXP-WIN - Discord - Sprint2
+ * fecha: 19/06/2024
+ * motivo: 
+ * Envia la encuesta al canal 
+ */
 const { SlashCommandBuilder, ActionRowBuilder } = require("discord.js")
 const { adsWinBtns } = require("../../modules/builder")
 

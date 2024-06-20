@@ -7,7 +7,8 @@
  * del ticket con la fecha que fue tomada por el asesor, el interaction id del asesor,
  * y el estado de la atencion
  */
-const { asesor } = require('../../../json/roles.json');
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se corrigeron las variables
+const { ROLES } = require('../../../configdiscord.json');
 const { consoleLog } = require('../../../modules/necesarios');
 const { sp_update_ticket_atention } = require("../../../modules/peticionesbd");
 
@@ -19,7 +20,7 @@ module.exports = {
         const UPDATE_BD = await sp_update_ticket_atention({ interaction: DATA_INFO.interaction, currentid: DATA_INFO.currentID })
         const CHANNEL_DATA = client.channels.cache.get(DATA_INFO.idChannel)
         if (UPDATE_BD.execute) {
-            await CHANNEL_DATA.permissionOverwrites.create(asesor, {
+            await CHANNEL_DATA.permissionOverwrites.create(ROLES.asesor, {
                 SendMessages: false,
                 ViewChannel: false,
                 ReadMessageHistory: false

@@ -8,7 +8,7 @@
 const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
 const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits
 const { Message, GuildMember, User, ThreadMember } = Partials
-const { token } = require('./config.json');
+const { TOKEN } = require('./config.json');
 const { selectLoader, eventsLoader, commandsLoader, buttonLoader, modalLoader } = require("./modules/Eventsloader");
 
 const client = new Client({
@@ -26,6 +26,6 @@ buttonLoader(client);
 modalLoader(client);
 selectLoader(client);
 
-client.login(token);
+client.login(TOKEN);
 
 

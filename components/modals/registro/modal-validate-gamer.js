@@ -10,9 +10,10 @@
  * el DNI ingresado se procede con el registro, luego del registro se valida si el cliente tiene servicio 
  * gamer, y se le asigna el rol segun como corresponda, (no tiene gamer= regular, tiene gamer = gamer win)
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 correccion de variables / se añadio la funcion consoleLog
 const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
 const { sp_validate_interaction_doc } = require("../../../modules/peticionesbd");
-const { planes } = require('../../../json/motivos.json');
+const { PLANES } = require('../../../json/motivos.json');
 const { errorDuplicado } = require("../../../modules/embeds");
 const { consoleLog } = require("../../../modules/necesarios");
 
@@ -25,13 +26,12 @@ module.exports = {
         const DATA_SEND = { interaction: interaction.user.id, dni: DNI_CLIENTE }
         const VALIDAR_DUPLICADO = await sp_validate_interaction_doc(DATA_SEND);
         consoleLog(VALIDAR_DUPLICADO)
-        /*if () {return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: 1 })], ephemeral: true });*/
         if (VALIDAR_DUPLICADO.execute && VALIDAR_DUPLICADO.f.validate === 1 && VALIDAR_DUPLICADO.f.ret_doc > 0) return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: 1 })], ephemeral: true });
         const LAST_OPT = new StringSelectMenuOptionBuilder()
             .setLabel("No tengo planes gamer")
             .setValue("0")
             .setEmoji("❌")
-        const OPTIONS_SELECT = planes.map(el => {
+        const OPTIONS_SELECT = PLANES.map(el => {
             const CATEGORIA_TEMP = new StringSelectMenuOptionBuilder()
                 .setLabel(el.label)
                 .setValue(el.value)
