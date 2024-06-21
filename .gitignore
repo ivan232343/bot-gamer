@@ -6,3 +6,4 @@ init-install.sh
 json_home/*
 json_/*
 database/*
+init-install.sh
