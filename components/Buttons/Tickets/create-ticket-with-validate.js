@@ -6,6 +6,8 @@
  * Boton inicia un modal para comenzar con la creacion del canal para la atencion
  * solitando el nombre completo del titular y su dni como parte de la validacion
  */
+
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 21/06/2024 se corrigeron las variables
 const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js')
 module.exports = {
     data: { name: 'create-ticket-with-validate' },

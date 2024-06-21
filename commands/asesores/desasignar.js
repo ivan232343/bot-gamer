@@ -5,6 +5,7 @@
  * motivo: 
  * Comando para desasignar a un usuario dentro del canal de texto
  */
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 21/06/2024 se corrigeron las variables / se eliminaron los comentarios
 const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
@@ -20,7 +21,6 @@ module.exports = {
     ,
     category: "asesores",
     async execute(interaction) {
-        // const cliente = interaction.option.getUser("cliente")
         const CLIENTE_ID = interaction.guild.members.cache.get(interaction.options.getUser('cliente').id);
         await interaction.channel.permissionOverwrites.create(CLIENTE_ID, {
             SendMessages: false,
