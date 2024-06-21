@@ -25,7 +25,7 @@ const REMOTE_CREDENTIALS = {
     port: REMOTE_PORT
 }
 const myObject = {
-    local: function (querybd) {
+    LOCAL: function (querybd) {
         return new Promise((resolve, reject) => {
             const CONNECT_BD = LIB_MYSQL.createConnection(LOCAL_CREDENTIALS);
             CONNECT_BD.connect((err) => {
@@ -49,7 +49,7 @@ const myObject = {
             });
         })
     },
-    remote: function (querybd) {
+    REMOTE: function (querybd) {
         return new Promise((resolve, reject) => {
             const CONNECT_BD = LIB_MYSQL.createConnection(REMOTE_CREDENTIALS);
             CONNECT_BD.connect((err) => {

@@ -5,7 +5,7 @@
  * motivo: 
  * Comando para asignar a un usuario dentro del canal de texto
  */
-//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 correccion de variables
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 correccion de variables / se agrego la posibilidad que el comando sirva para asignar a otro asesor si en caso el asesor que estaba atendiendo se tendria que retirar
 const { SlashCommandBuilder } = require("discord.js");
 const { ROLES } = require('../../configdiscord.json');
 const { consoleLog } = require("../../modules/necesarios");

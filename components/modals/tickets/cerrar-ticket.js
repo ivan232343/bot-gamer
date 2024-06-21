@@ -13,21 +13,21 @@
 const TRANSCRIPTS_TO_HTML = require("discord-html-transcripts");
 const { CHANNELS } = require("../../../configdiscord.json");
 const { toUTC } = require('../../../modules/utclocalconverter');
-const fs = require('fs');
-const path = require('path');
-const { sp_close_ticket } = require("../../../modules/peticionesbd");
+const FS = require('fs');
+const PATH = require('path');
+const { spCerrarTicket } = require("../../../modules/peticionesbd");
 const { consoleLog } = require("../../../modules/necesarios");
 const { adsWinBtns } = require("../../../modules/builder");
 const { ActionRowBuilder } = require("discord.js");
 module.exports = {
     data: { name: 'cerrar-ticket' },
     async execute(interaction, client) {
-
+        await interaction.reply({ content: "Cerrando ticket...", ephemeral: true })
         const TICKET_CRM = interaction.fields.getTextInputValue("idregistro");
         const CURRENT_ID_BD = interaction.customId.split("_")[1]
 
-        if (!/[A-Z]{2}-[0-9]{7,9}/.test(TICKET_CRM)) return await interaction.reply({ content: "El ticket ingresado no cumple con la estructura AT-XXXXXXX", ephemeral: true })
-        const CLOSE_PROCESS = await sp_close_ticket({ interaction: interaction.user.id, cerrar: TICKET_CRM, id: CURRENT_ID_BD })
+        if (!/[A-Z]{2}-[0-9]{7,9}/.test(TICKET_CRM)) return await interaction.editReply({ content: "El ticket ingresado no cumple con la estructura AT-XXXXXXX", ephemeral: true })
+        const CLOSE_PROCESS = await spCerrarTicket({ interaction: interaction.user.id, cerrar: TICKET_CRM, id: CURRENT_ID_BD })
         consoleLog("cerrar ticket data", CLOSE_PROCESS)
         if (CLOSE_PROCESS.execute) {
             await interaction.channel.send({ content: `### Tu opinión es importante\nMe ayudaría conocer tu opinión sobre la atención que te acaba de brindar ${interaction.user}. Por favor, completa esta encuesta`, components: [new ActionRowBuilder().addComponents(adsWinBtns().sendEncuesta)] })
@@ -40,11 +40,11 @@ module.exports = {
             try {
                 const OUT_DIR = `src/generate/chats/${CLOSE_PROCESS.data.document}`;
                 const ARCHIVO_GENERDO_LABEL = `${TICKET_CRM}-${interaction.channel.id}-${(time.getUTCDate()).toString().padStart(2, '0')}-${(time.getUTCMonth() + 1).toString().padStart(2, '0')}-${time.getFullYear()}_${(time.getUTCHours()).toString().padStart(2, '0')}--${(time.getUTCMinutes()).toString().padStart(2, '0')}.html`; // Nombre del archivo HTML
-                if (!fs.existsSync(OUT_DIR)) {
-                    fs.mkdirSync(OUT_DIR);
+                if (!FS.existsSync(OUT_DIR)) {
+                    FS.mkdirSync(OUT_DIR);
                 }
-                const RUTA_ARCHIVO_GENERADO = path.join(OUT_DIR, ARCHIVO_GENERDO_LABEL);
-                fs.writeFileSync(RUTA_ARCHIVO_GENERADO, HTML_GENERATE, { flag: 'w' });
+                const RUTA_ARCHIVO_GENERADO = PATH.join(OUT_DIR, ARCHIVO_GENERDO_LABEL);
+                FS.writeFileSync(RUTA_ARCHIVO_GENERADO, HTML_GENERATE, { flag: 'w' });
                 console.log("llego aca, times")
                 const TIME_CREATE = CLOSE_PROCESS.data.time_create
                 const TIME_TAKE = CLOSE_PROCESS.data.time_init
@@ -81,7 +81,7 @@ module.exports = {
                     .edit({ components: [] })
                     .then(async () => {
                         console.log("llego aca, anclado")
-                        await interaction.reply({ content: `El canal se cerrara en 2 min`, ephemeral: true })
+                        await interaction.editReply({ content: `El canal se cerrara en 2 min`, ephemeral: true })
                             .then((msg) => {
                                 console.log("llego aca, borrado de canal empezando", msg)
                                 setTimeout(async () => {
@@ -91,10 +91,10 @@ module.exports = {
                     }).catch((err) => console.log(err));
             } catch (error) {
                 consoleLog('Error al guardar el archivo:', error);
-                await interaction.reply({ content: `Error al guardar el archivo`, ephemeral: true })
+                await interaction.editReply({ content: `Error al guardar el archivo`, ephemeral: true })
             }
         } else {
-            await interaction.reply({ content: `${interaction.user} -> ${CLOSE_PROCESS.msg}`, ephemeral: true })
+            await interaction.editReply({ content: `${interaction.user} -> ${CLOSE_PROCESS.msg}`, ephemeral: true })
         }
     }
 }

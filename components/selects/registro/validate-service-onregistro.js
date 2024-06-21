@@ -8,7 +8,7 @@
  */
 //Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se removieron funciones que no se usan
 const { AttachmentBuilder } = require('discord.js')
-const { sp_validate_gamer_to_init, sp_register_interaction_doc } = require('../../../modules/peticionesbd');
+const { spValidateGamer, spValidateInteraccionDocumento } = require('../../../modules/peticionesbd');
 const { removeUserRoles } = require('../../../modules/builder');
 const { assignWinGamer, assignRegular } = require('../../../modules/embeds');
 const { consoleLog } = require('../../../modules/necesarios');
@@ -19,14 +19,14 @@ module.exports = {
     async execute(interaction) {
         const GET_DATA = interaction.customId.split("_")
         const DATA_RES = { doc: GET_DATA[1], namecl: GET_DATA[2].replace(/-/g, " ").toUpperCase(), planPicked: interaction.values[0] }
-        const REGISTRAR_USUARIO = await sp_register_interaction_doc({ dni: DATA_RES.doc, interaction: interaction.user.id, nombre: DATA_RES.namecl })
+        const REGISTRAR_USUARIO = await spValidateInteraccionDocumento({ dni: DATA_RES.doc, interaction: interaction.user.id, nombre: DATA_RES.namecl })
         consoleLog("", DATA_RES)
         consoleLog("", REGISTRAR_USUARIO)
         if (!REGISTRAR_USUARIO.execute) return await interaction.reply({ content: "Ocurrió un error intentelo mas adelante", ephemeral: true }) && consoleLog(`${interaction.user} intento usar validate-service-onregistro data registrada:\nintput\n\`\`\`${DATA_RES.doc}\`\`\` / \`\`\`${DATA_RES.namecl}\`\`\` / \`\`\`${DATA_RES.planPicked}\`\`\``);
         await removeUserRoles({ interaction }).then(async roles => {
             await interaction.reply({ content: "Espere un momento...", ephemeral: true })
             if (DATA_RES.planPicked === "0") return await interaction.member.roles.add(roles.regularRole).then(async () => { consoleLog("se asigno correctamente a: " + interaction.user) }).catch(async (error) => { consoleLog("Error al agregar el rol a: " + interaction.user, error); await interaction.editReply({ content: "Ocurrio un error intentelo mas adelante", ephemeral: true }); }) && await interaction.editReply({ content: "", embeds: [assignRegular({ interaction: interaction.user.id })], ephemeral: true })
-            const CHECK_GAMER = await sp_validate_gamer_to_init(DATA_RES)
+            const CHECK_GAMER = await spValidateGamer(DATA_RES)
             consoleLog(CHECK_GAMER);
             setTimeout(async () => {
                 if (CHECK_GAMER.find && CHECK_GAMER.f.validate === 1) {

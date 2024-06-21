@@ -12,7 +12,7 @@ const { ActionRowBuilder, EmbedBuilder, ChannelType, PermissionsBitField } = req
 const { CHANNELS, ROLES } = require("../../../configdiscord.json");
 const { CATEGORIA } = require("../../../json/motivos.json");
 const { ticketbtns } = require('../../../modules/builder');
-const { sp_init_ticket } = require('../../../modules/peticionesbd');
+const { spIniciarTicket } = require('../../../modules/peticionesbd');
 const { consoleLog } = require('../../../modules/necesarios');
 
 module.exports = {
@@ -43,7 +43,7 @@ module.exports = {
                 ]
             }]
         })
-        const INIT_TICKET = await sp_init_ticket({ channel: CHANNEL_CREATED.id, dni: DNI_CLIENTE, motivo: CATEGORIA[MOTIVO_INPT].Label, problema: DETALLER_INPT, interaction: interaction.user.id })
+        const INIT_TICKET = await spIniciarTicket({ channel: CHANNEL_CREATED.id, dni: DNI_CLIENTE, motivo: CATEGORIA[MOTIVO_INPT].Label, problema: DETALLER_INPT, interaction: interaction.user.id })
         consoleLog("Iniciando ticket para " + interaction.user, INIT_TICKET)
         if (!INIT_TICKET.execute) return await interaction.editReply({ content: `Ocurrio un problema al generar su ticket, por favor intentelo mas tarde`, ephemeral: true });
         const CHANNEL_SEND_TP = interaction.guild.channels.cache.find((ch) => ch.name === 'tickets-pendientes');
@@ -62,7 +62,7 @@ module.exports = {
             ticketbtns(CURRENT_ID_BD).close
         )
         await interaction.member.roles.add(ROLES.cliente);
-        const MENSAJE_GENERATE = await CHANNEL_CREATED.send({ embeds: [EMBED_CH_ATENCION], components: [buttons] });
+        const MENSAJE_GENERATE = await CHANNEL_CREATED.send({ content: `<@&${ROLES.asesor}>`, embeds: [EMBED_CH_ATENCION], components: [buttons] });
         MENSAJE_GENERATE.pin()
             .then(() => {
                 consoleLog('Mensaje anclado con éxito.');

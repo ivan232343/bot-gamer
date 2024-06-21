@@ -7,7 +7,7 @@
  */
 //Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se agrego la funcion validarTicketPendiente
 const { consoleLog } = require("./necesarios");
-const { sp_validate_tktpendiente } = require("./peticionesbd");
+const { spValidateTicketPendiente } = require("./peticionesbd");
 const { toUTC } = require("./utclocalconverter");
 
 module.exports = {
@@ -20,21 +20,17 @@ module.exports = {
         return resultado;
     },
     toUTC: function (datetime) {
-        const date = new Date(datetime);
-        // Obtener la hora local
-        const localTime = date.getTime();
-        // Obtener la diferencia de tiempo en milisegundos
-        const offset = -5 * 60 * 60 * 1000;
-        // Calcular la hora UTC -5:00
-        const utcTime = localTime + offset;
-        // Crear una nueva fecha a partir de la hora UTC -5:00
-        return new Date(utcTime);
+        const DATE = new Date(datetime);
+        const LOCALTIME = DATE.getTime();
+        const OFFSET = -5 * 60 * 60 * 1000;
+        const UTCTIME = LOCALTIME + OFFSET;
+        return new Date(UTCTIME);
     },
     validarTicketPendiente: async function (documento) {
-        const CHECK_PENDIENTE = await sp_validate_tktpendiente(documento);
+        const CHECK_PENDIENTE = await spValidateTicketPendiente(documento);
         consoleLog("hay ticket pendiente:", CHECK_PENDIENTE)
-        let OBJ_FIND = { msg: "No se encontraron resultados", find: false }
-        if (!CHECK_PENDIENTE.find) return OBJ_FIND;
+        let objFind = { msg: "No se encontraron resultados", find: false }
+        if (!CHECK_PENDIENTE.find) return objFind;
         const FECHA_APERTURA = toUTC(CHECK_PENDIENTE.f.time_create)
         const STR_APERTURA = `${(FECHA_APERTURA.getUTCDate()).toString().padStart(2, '0')}/${(FECHA_APERTURA.getUTCMonth() + 1).toString().padStart(2, '0')}/${FECHA_APERTURA.getFullYear()} ${(FECHA_APERTURA.getUTCHours()).toString().padStart(2, '0')}:${(FECHA_APERTURA.getUTCMinutes()).toString().padStart(2, '0')}:${(FECHA_APERTURA.getUTCSeconds()).toString().padStart(2, '0')}`
         const FECHA_ATENCION = CHECK_PENDIENTE.f.time_init !== null ? toUTC(CHECK_PENDIENTE.f.time_init) : ""

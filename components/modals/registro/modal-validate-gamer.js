@@ -12,7 +12,7 @@
  */
 //Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 correccion de variables / se añadio la funcion consoleLog
 const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
-const { sp_validate_interaction_doc } = require("../../../modules/peticionesbd");
+const { spRegisterInteraccionDocumento } = require("../../../modules/peticionesbd");
 const { PLANES } = require('../../../json/motivos.json');
 const { errorDuplicado } = require("../../../modules/embeds");
 const { consoleLog } = require("../../../modules/necesarios");
@@ -24,7 +24,7 @@ module.exports = {
         const NOMBRE_CLIENTE = interaction.fields.getTextInputValue("namecliente");
         if (!/[0-9]/.test(DNI_CLIENTE)) return await interacion.reply({ content: "Tipo de dato invalido, pofavor intentelo nuevamente con numeros", ephemeral: true }).then(msg => { setTimeout(() => { msg.delete() }, 2500) })
         const DATA_SEND = { interaction: interaction.user.id, dni: DNI_CLIENTE }
-        const VALIDAR_DUPLICADO = await sp_validate_interaction_doc(DATA_SEND);
+        const VALIDAR_DUPLICADO = await spRegisterInteraccionDocumento(DATA_SEND);
         consoleLog(VALIDAR_DUPLICADO)
         if (VALIDAR_DUPLICADO.execute && VALIDAR_DUPLICADO.f.validate === 1 && VALIDAR_DUPLICADO.f.ret_doc > 0) return await interaction.reply({ content: ``, embeds: [errorDuplicado({ interaction: interaction.user.id, mode: 1 })], ephemeral: true });
         const LAST_OPT = new StringSelectMenuOptionBuilder()

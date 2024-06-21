@@ -7,6 +7,7 @@
  */
 const { StringSelectMenuOptionBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const { URL_UTILES } = require('../json/recursos.json');
+const { CATEGORIA } = require("../json/motivos.json")
 const { consoleLog } = require("./necesarios");
 module.exports = {
     adsWinBtns: function (argT = "") {
@@ -100,13 +101,13 @@ module.exports = {
     },
     SelectMotivo: function () {
         let categoriasBuild = [];
-        Object.getOwnPropertyNames(categoria).forEach(e => {
-            const tempCategoria = new StringSelectMenuOptionBuilder()
-                .setDescription(categoria[e].Descripcion)
-                .setLabel(categoria[e].Label)
-                .setValue(categoria[e].value)
-                .setEmoji(categoria[e].emoji)
-            return tempCategoria
+        Object.getOwnPropertyNames(CATEGORIA).forEach(e => {
+            const TEMP_CATEGORIA = new StringSelectMenuOptionBuilder()
+                .setDescription(CATEGORIA[e].Descripcion)
+                .setLabel(CATEGORIA[e].Label)
+                .setValue(CATEGORIA[e].value)
+                .setEmoji(CATEGORIA[e].emoji)
+            return TEMP_CATEGORIA
         })
         return categoriasBuild;
     },

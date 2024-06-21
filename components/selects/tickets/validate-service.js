@@ -9,7 +9,7 @@
 //Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se optimizo codigo colocando una funcion en pasos redundantes/se realizo correcciones gramaticales, solicitados por experiencia
 const { ActionRowBuilder, StringSelectMenuOptionBuilder, EmbedBuilder, StringSelectMenuBuilder, AttachmentBuilder, channelLink } = require('discord.js')
 const { CATEGORIA } = require('../../../json/motivos.json');
-const { sp_validate_gamer_to_init } = require('../../../modules/peticionesbd');
+const { spValidateGamer } = require('../../../modules/peticionesbd');
 const { adsWinBtns } = require('../../../modules/builder');
 const { consoleLog } = require('../../../modules/necesarios');
 const { staticsEmbeds } = require('../../../modules/embeds');
@@ -21,7 +21,7 @@ module.exports = {
         consoleLog(`${interaction.user} / validate-service / \`\`\`${GET_DATA.join("\n")}\`\`\` / ${interaction.values}`)
         const DATA_RES = { doc: GET_DATA[1], namecl: GET_DATA[2].replace(/-/g, " ").toUpperCase(), planPicked: interaction.values[0] }
         if (!DATA_RES.planPicked > 0) return await interaction.reply({ embeds: [staticsEmbeds.notGamer()], components: [new ActionRowBuilder(adsWinBtns().web, adsWinBtns().wsp)], ephemeral: true })
-        const CHECK_GAMER = await sp_validate_gamer_to_init(DATA_RES)
+        const CHECK_GAMER = await spValidateGamer(DATA_RES)
         consoleLog("Se esta retornando este resultado", CHECK_GAMER.error ? CHECK_GAMER.error + CHECK_GAMER.f : CHECK_GAMER)
         if (!CHECK_GAMER.find) return await interaction.reply({ content: `Ups <@${interaction.user.id}>, No se pudo validar su identidad, si crees que se trata de un error intententelo nuevamente o de lo contrario no dude de reportarlo en <#1223357670975733963> para validar el inconveniente.`, ephemeral: true })
         const CHECK_PENDIENTE = await validarTicketPendiente(DATA_RES.doc)
@@ -51,7 +51,6 @@ module.exports = {
             const BUTTONS_EMB = new ActionRowBuilder().addComponents(
                 adsWinBtns().web,
                 adsWinBtns().wsp,
-                // adsWinBtns().upgrade
             );
             const ATTCHMT = new AttachmentBuilder('src/img/eseciales/wingamer.jpg')
             const EMBED_NGAMER = new EmbedBuilder()

@@ -11,8 +11,8 @@ const { consoleLog } = require('./necesarios');
 module.exports = {
     commandsLoader: async function (client) {
         await client.commands.clear();
-        const Files = await loadFiles("commands")
-        Files.forEach(async (file) => {
+        const FILES = await loadFiles("commands")
+        FILES.forEach(async (file) => {
             const COMMAND = require(file);
             if ("data" in COMMAND && "execute" in COMMAND) {
                 client.commands.set(COMMAND.data.name, COMMAND)

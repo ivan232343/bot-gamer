@@ -3,7 +3,7 @@
  * Cod proyecto: proy-0035-2024-exp-win-revision-implementacion-discord-para-plan-gamer
  * fecha: 15/05/2024
  * motivo: 
- * Archivo raiz  
+ * archivo raiz donde se inician los componentes para la utilizacion del bot, como los mensajes de bienvenida, los comandos, botones, modals, selects, etc
  */
 const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
 const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits

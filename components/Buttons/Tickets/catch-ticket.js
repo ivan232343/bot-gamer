@@ -10,14 +10,14 @@
 //Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se corrigeron las variables
 const { ROLES } = require('../../../configdiscord.json');
 const { consoleLog } = require('../../../modules/necesarios');
-const { sp_update_ticket_atention } = require("../../../modules/peticionesbd");
+const { spUpdateAtencionTicket } = require("../../../modules/peticionesbd");
 
 module.exports = {
     data: { name: 'catch-ticket' },
     async execute(interaction, client) {
         const CUSTOM_ID = interaction.customId.split("_")
         const DATA_INFO = { dni: CUSTOM_ID[1], currentID: CUSTOM_ID[2], idChannel: CUSTOM_ID[3], interaction: interaction.user.id };
-        const UPDATE_BD = await sp_update_ticket_atention({ interaction: DATA_INFO.interaction, currentid: DATA_INFO.currentID })
+        const UPDATE_BD = await spUpdateAtencionTicket({ interaction: DATA_INFO.interaction, currentid: DATA_INFO.currentID })
         const CHANNEL_DATA = client.channels.cache.get(DATA_INFO.idChannel)
         if (UPDATE_BD.execute) {
             await CHANNEL_DATA.permissionOverwrites.create(ROLES.asesor, {
