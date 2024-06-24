@@ -25,7 +25,7 @@ module.exports = {
         if (!REGISTRAR_USUARIO.execute) return await interaction.reply({ content: "Ocurrió un error intentelo mas adelante", ephemeral: true }) && consoleLog(`${interaction.user} intento usar validate-service-onregistro data registrada:\nintput\n\`\`\`${DATA_RES.doc}\`\`\` / \`\`\`${DATA_RES.namecl}\`\`\` / \`\`\`${DATA_RES.planPicked}\`\`\``);
         await removeUserRoles({ interaction }).then(async roles => {
             await interaction.reply({ content: "Espere un momento...", ephemeral: true })
-            if (DATA_RES.planPicked === "0") return await interaction.member.roles.add(roles.regularRole).then(async () => { consoleLog("se asigno correctamente a: " + interaction.user) }).catch(async (error) => { consoleLog("Error al agregar el rol a: " + interaction.user, error); await interaction.editReply({ content: "Ocurrio un error intentelo mas adelante", ephemeral: true }); }) && await interaction.editReply({ content: "", embeds: [assignRegular({ interaction: interaction.user.id })], ephemeral: true })
+            if (DATA_RES.planPicked === "0") return await interaction.member.roles.add(roles.regularRole).then(async () => { consoleLog("se asigno correctamente a: " + interaction.user) && await interaction.editReply({ content: "", embeds: [assignRegular({ interaction: interaction.user.id })], ephemeral: true }) }).catch(async (error) => { consoleLog("Error al agregar el rol a: " + interaction.user, error); await interaction.editReply({ content: "Ocurrio un error intentelo mas adelante", ephemeral: true }); })
             const CHECK_GAMER = await spValidateGamer(DATA_RES)
             consoleLog(CHECK_GAMER);
             setTimeout(async () => {
