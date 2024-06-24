@@ -8,7 +8,7 @@
  */
 //Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se removieron funciones que no se usan / se actualizo a la normalizacion
 const { AttachmentBuilder } = require('discord.js')
-const { spValidateGamer, spValidateInteraccionDocumento } = require('../../../modules/peticionesbd');
+const { spValidateGamer, spRegisterInteraccionDocumento } = require('../../../modules/peticionesbd');
 const { removeUserRoles } = require('../../../modules/builder');
 const { assignWinGamer, assignRegular } = require('../../../modules/embeds');
 const { consoleLog } = require('../../../modules/necesarios');
@@ -19,7 +19,7 @@ module.exports = {
     async execute(interaction) {
         const GET_DATA = interaction.customId.split("_")
         const DATA_RES = { doc: GET_DATA[1], namecl: GET_DATA[2].replace(/-/g, " ").toUpperCase(), planPicked: interaction.values[0] }
-        const REGISTRAR_USUARIO = await spValidateInteraccionDocumento({ dni: DATA_RES.doc, interaction: interaction.user.id, nombre: DATA_RES.namecl })
+        const REGISTRAR_USUARIO = await spRegisterInteraccionDocumento({ dni: DATA_RES.doc, interaction: interaction.user.id, nombre: DATA_RES.namecl })
         consoleLog("", DATA_RES)
         consoleLog("", REGISTRAR_USUARIO)
         if (!REGISTRAR_USUARIO.execute) return await interaction.reply({ content: "Ocurrió un error intentelo mas adelante", ephemeral: true }) && consoleLog(`${interaction.user} intento usar validate-service-onregistro data registrada:\nintput\n\`\`\`${DATA_RES.doc}\`\`\` / \`\`\`${DATA_RES.namecl}\`\`\` / \`\`\`${DATA_RES.planPicked}\`\`\``);
