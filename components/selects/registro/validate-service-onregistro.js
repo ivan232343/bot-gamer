@@ -6,7 +6,7 @@
  * Valida si las preguntas de seguridad son las correctas, si en caso las son, entonces se 
  * estaria procediendo con finalizar el registro y que lo intente nuevamente
  */
-//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se removieron funciones que no se usan
+//Ivan Gabriel Pulache Chiroque - PROY-0041-2024EXP-WIN Discord - Sprint2 - 19/06/2024 se removieron funciones que no se usan / se actualizo a la normalizacion
 const { AttachmentBuilder } = require('discord.js')
 const { spValidateGamer, spValidateInteraccionDocumento } = require('../../../modules/peticionesbd');
 const { removeUserRoles } = require('../../../modules/builder');
