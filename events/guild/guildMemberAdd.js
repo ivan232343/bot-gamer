@@ -19,7 +19,7 @@ module.exports = {
     async execute(member) {
         try {
             const ROLE = member.guild.roles.cache.find((r) => r.name === "Sin validar");
-            ROLES.forEach(async (e) => {
+            ROLES.initRoles.forEach(async (e) => {
                 const ROLE = member.guild.roles.cache.get(e)
                 await member.roles.add(e).then(() => {
                     consoleLog(`Se asigno el rol "${ROLE.name}" a ${member.user.tag}.`);
@@ -59,7 +59,7 @@ module.exports = {
                 const { body } = await request(member.user.displayAvatarURL({ extension: 'jpg' }));
                 const avatar = await Canvas.loadImage(await body.arrayBuffer());
 
-                context.drawImage(avatar, CANVA.width / 1.5585, CANVA.height / 4.135, 260, 260);
+                CANVAS_CONTEXT.drawImage(avatar, CANVA.width / 1.5585, CANVA.height / 4.135, 260, 260);
 
                 const attachment = new AttachmentBuilder(await CANVA.encode('png'), { name: 'profile-image.png' });
                 CHANNEL_WELCOME.send({
