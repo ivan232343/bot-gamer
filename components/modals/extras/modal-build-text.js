@@ -12,8 +12,8 @@ module.exports = {
         const TEXT_TO_SEND = interaction.fields.getTextInputValue("buildertexttosend");
         await interaction.channel.send({
             content: TEXT_TO_SEND
-        }).then(() => {
-            interaction.reply({ content: "Enviado exitosamente", ephemeral: true })
+        }).then(async () => {
+            await interaction.reply({ content: "Enviado exitosamente", ephemeral: true })
         })
     }
 }
